@@ -1,4 +1,6 @@
 package com.pfaraco.quiz.server.domain.topic;
+import java.util.ArrayList;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -10,9 +12,10 @@ import javax.persistence.Table;
 @Table(name = "TOPICS")
 public class Topic {	
 	
-	private String id;
+	private long id;
 	private String name;
 	private String description;
+
 	
 	public Topic() {
 		
@@ -24,17 +27,17 @@ public class Topic {
 		this.description = description;
 	}
 	
-	public Topic(String id, String name, String description) {
+	public Topic(long id, String name, String description) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
 	
-	public String getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -49,5 +52,31 @@ public class Topic {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	
+	
+	
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        return result;
+    }
+ 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof Topic))
+            return false;
+        Topic other = (Topic) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
+ 
 	
 }
