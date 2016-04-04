@@ -7,19 +7,49 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>quizForTeacher</name>
 	<url>http://maven.apache.org</url>
+
 	<properties>
+		<junit-version>4.12</junit-version>
+		<easymock-version>3.4</easymock-version>
 		<java-version>1.8</java-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<springframework.version>4.2.0.RELEASE</springframework.version>
+		<springframework.version>4.2.5.RELEASE</springframework.version>
 		<jackson.version>2.5.3</jackson.version>
+		<mysql-version>5.1.6</mysql-version>
+		<hibernate.version>4.3.6.Final</hibernate.version>
+
+		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+		<jstl.version>1.2</jstl.version>
+		<hibernate.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.dialect>
+		<jdbc.url>jdbc:mysql://localhost:3306/quiz_for_teacher</jdbc.url>
+		<jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
+		<jdbc.username>root</jdbc.username>
+		<jdbc.password></jdbc.password>
+		<jdbc.format_sql>false</jdbc.format_sql>
+		<jdbc.show_sql>true</jdbc.show_sql>
+		<jdbc.hbm2ddl.auto>create</jdbc.hbm2ddl.auto>
+
 	</properties>
 
 	<dependencies>
+
+		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
+			<version>${junit-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>${easymock-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${springframework.version}</version>
 		</dependency>
 
 		<!-- Spring 4 dependencies -->
@@ -43,45 +73,70 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+
+
+		<!-- servlet -->
+
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
+			<version>${javax.servlet-api.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>${jstl.version}</version>
 		</dependency>
 
+
+		<!-- MySQL -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-version}</version>
+		</dependency>
 
 		<!-- Hibernate -->
 
 		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.1.9.Final</version>
-			<scope>runtime</scope>
+			<version>4.3.8.Final</version>
 		</dependency>
 	</dependencies>
 
-	<build>
-		<finalName>quizForTeacher</finalName>
 
+
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+
+		<finalName>quizForTeacher</finalName>
 		<plugins>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
 				</configuration>
 			</plugin>
 
@@ -101,8 +156,8 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-				    <url>http://localhost:8080/manager/text</url>		
-				    <path>/quizForTeacher</path>
+					<url>http://localhost:8080/manager/text</url>
+					<path>/quizForTeacher</path>
 					<username>admin</username>
 					<password>admin</password>
 					<update>true</update>
