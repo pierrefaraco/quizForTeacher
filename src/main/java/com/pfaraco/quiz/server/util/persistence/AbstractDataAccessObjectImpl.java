@@ -1,0 +1,56 @@
+package com.pfaraco.quiz.server.util.persistence;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
+import com.pfaraco.quiz.server.domain.user.User;
+
+public class AbstractDataAccessObjectImpl <E,K>  implements AbstractDataAccessObject <E,K> {
+	@PersistenceContext
+	protected EntityManager em;
+    protected EntityTransaction _tx;
+    private Class <E> entityClass;
+    public EntityManager getEm() {
+		return em;
+	}
+
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
+
+	public void setEntityClass(Class<E> entityClass) {
+	        this.entityClass = entityClass;
+	   }
+	
+	
+	@Override
+	public void save(E entity) {
+		em.persist(entity);// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(E entity) {
+
+		
+	}
+
+	@Override
+	public void delete(E entity) {
+		em.remove(entity);
+		
+	}
+
+
+	@Override
+	public E find(K id) {		
+		return em.find(entityClass , id);
+	}
+
+	
+}
