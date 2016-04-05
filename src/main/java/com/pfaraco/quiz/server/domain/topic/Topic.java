@@ -17,11 +17,9 @@ import javax.persistence.Table;
 import com.pfaraco.quiz.server.domain.user.User;
 
 @Entity
-
 @NamedQueries({
 	@NamedQuery(name = "findAllTopics", query="select o from Topic o"),
 	//@NamedQuery(name = "findTopicsByUser", query="select o from Topic WHERE o.user.id = :userid "),
-    @NamedQuery(name = "findTopic", query="select o from Topic o WHERE o.id = :id")
 })
 
 @Table(name = "topics")
