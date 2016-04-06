@@ -7,9 +7,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import com.pfaraco.quiz.server.domain.DomainObject;
 import com.pfaraco.quiz.server.domain.user.User;
 
-public class AbstractDataAccessObjectImpl <E,K>  implements AbstractDataAccessObject <E,K> {
+public abstract class AbstractDataAccessObjectImpl <E,K>  implements AbstractDataAccessObject <E,K> {
 	@PersistenceContext
 	protected EntityManager em;
     protected EntityTransaction _tx;
@@ -36,8 +37,7 @@ public class AbstractDataAccessObjectImpl <E,K>  implements AbstractDataAccessOb
 
 	@Override
 	public void update(E entity) {
-
-		
+		  em.merge(entity);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.pfaraco.quiz.server.domain.topic;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -18,6 +19,13 @@ import com.pfaraco.quiz.server.util.persistence.AbstractDataAccessObjectImpl;
 public class TopicDaoImpl extends AbstractDataAccessObjectImpl <Topic,Long>  implements	TopicDao {
 	
 
+	@PostConstruct
+	public void setEntityClass()
+	{
+		super.setEntityClass(Topic.class);	
+	}
+	
+	@Override
 	public List<Topic> findAll() {
 		return em.createNamedQuery("findAllTopics").getResultList();
 	}

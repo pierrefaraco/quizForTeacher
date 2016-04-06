@@ -1,19 +1,18 @@
 package com.pfaraco.quiz.server.domain.topic;
 import java.io.Serializable;
-import java.util.ArrayList;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.pfaraco.quiz.server.domain.DomainObject;
 import com.pfaraco.quiz.server.domain.user.User;
 
 @Entity
@@ -22,9 +21,11 @@ import com.pfaraco.quiz.server.domain.user.User;
 	//@NamedQuery(name = "findTopicsByUser", query="select o from Topic WHERE o.user.id = :userid "),
 })
 
+
 @Table(name = "topics")
-public class Topic  implements  Serializable {	
+public class Topic  extends DomainObject  implements  Serializable {	
 	@Id
+	@GeneratedValue
 	@Column(name="id")
 	private long id;
 	@Column(name="name", nullable = false, length = 40)
@@ -40,10 +41,11 @@ public class Topic  implements  Serializable {
 		
 	}
 	
-	public Topic(String name, String description) {
+	public Topic(String name, String description ,User user) {
 		super();
 		this.name = name;
 		this.description = description;
+		this.user = user ;
 	}
 	
 	public Topic(long id, String name, String description,User user) {

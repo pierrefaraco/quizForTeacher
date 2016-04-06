@@ -9,21 +9,26 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.pfaraco.quiz.server.domain.DomainObject;
 import com.pfaraco.quiz.server.domain.topic.Topic;
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "findAllUsers", query="select o from User o")
+	@NamedQuery(name = "findAllUsers", query="select o from User o"),
+	@NamedQuery(name = "findUsersByEmailAndPassword", query="select o from User o where o.email = :email and o.password = :password  ")
 })
 
 @Table(name = "users")
-public class User implements  Serializable{
+public class User extends DomainObject implements  Serializable{
 	@Id
+	@GeneratedValue
 	@Column(name="id")
 	private long id;
 	@Column(name="firstName", nullable = false, length = 40)
@@ -36,8 +41,6 @@ public class User implements  Serializable{
 	private String email;
 	@Column(name="presentation")
 	private String presentation;
-	@Column(name="login", nullable = false, length = 40)
-	private String login;
 	@Column(name="password", nullable = false, length = 40)
 	private String password;
 	@Column(name="account_type", nullable = false, length = 1)
@@ -47,10 +50,24 @@ public class User implements  Serializable{
 	public User(){
 	}
 	
+	
+	public User(String firstName, String lastName, Date birthDay,
+			String email, String presentation,  String password,
+			int accountType) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthDay = birthDay;
+		this.email = email;
+		this.presentation = presentation;
+		this.password = password;
+		this.accountType = accountType;
+	
+	}
 
 	public User(long id, String firstName, String lastName, Date birthDay,
-			String email, String presentation, String login, String password,
-			int accountType) {
+			String email, String presentation , String password,
+			int accountType) {	
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -58,10 +75,8 @@ public class User implements  Serializable{
 		this.birthDay = birthDay;
 		this.email = email;
 		this.presentation = presentation;
-		this.login = login;
 		this.password = password;
 		this.accountType = accountType;
-	
 	}
 
 
@@ -101,12 +116,7 @@ public class User implements  Serializable{
 	public void setPresentation(String presentation) {
 		this.presentation = presentation;
 	}
-	public String getLogin() {
-		return login;
-	}
-	public void setLogin(String login) {
-		this.login = login;
-	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -134,7 +144,6 @@ public class User implements  Serializable{
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result
 				+ ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
 		result = prime * result
@@ -176,11 +185,6 @@ public class User implements  Serializable{
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (login == null) {
-			if (other.login != null)
-				return false;
-		} else if (!login.equals(other.login))
-			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -193,6 +197,10 @@ public class User implements  Serializable{
 			return false;
 		return true;
 	}
+
+
+	
+
 
 	
 }
