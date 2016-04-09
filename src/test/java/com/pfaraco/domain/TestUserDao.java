@@ -8,31 +8,39 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+
+import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.pfaraco.quiz.server.config.PersistenceJPAConfig;
+import com.pfaraco.quiz.server.domain.questions.QuestionDaoImpl;
+import com.pfaraco.quiz.server.domain.topic.TopicDaoImpl;
 import com.pfaraco.quiz.server.domain.user.User;
 import com.pfaraco.quiz.server.domain.user.UserDao;
 import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { PersistenceJPAConfig.class,UserDaoImpl.class })
+@ContextConfiguration(classes = { PersistenceJPAConfig.class,
+		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })
 
 @Transactional
-public class TestUserDao {
+@Rollback(false)
+public class TestUserDao  extends TestCase{
 	@Autowired
 	UserDao userDao;
 	
 	@Test
 	public void testAutoId() {	
-		User user = createRandomUser();	
-		User user2 = createRandomUser();	
+		User user = EntitiesCreator.createRandomUser();	
+		User user2 = EntitiesCreator.createRandomUser();	
 		userDao.save(user);
 		userDao.save(user2);
 		assertNotNull(user .getId());
@@ -41,18 +49,18 @@ public class TestUserDao {
 	}
 		
 	@Test
-	public void testCreateUser() {	
+	public void testSaveUser() {	
 		int usersCount = userDao.findAll().size();		
-		int t = 5;
+		int t = 5000;
 		for (int i = 0;i<t;i++)
-			userDao.save(createRandomUser());		
+			userDao.save(EntitiesCreator.createRandomUser());		
 		assertEquals(" the 3 users haven't been registered ", usersCount + t ,userDao.findAll().size());					
 	}
 	
 	@Test
 	public void testDeleteUser() {	
 		int usersCount = userDao.findAll().size();			
-		User user = createRandomUser();
+		User user = EntitiesCreator.createRandomUser();
 		userDao.delete(user);
 		assertEquals(" no user should be registered  ", usersCount   ,userDao.findAll().size());
 		userDao.save(user);	
@@ -64,15 +72,15 @@ public class TestUserDao {
 	@Test
 	public void testUpdateUser() {	
 		int usersCount = userDao.findAll().size();		
-		User user = createRandomUser();		
+		User user = EntitiesCreator.createRandomUser();		
 		userDao.save(user);
 		long id= user.getId();
 		assertEquals(" the user hasn't been registered ", usersCount + 1 ,userDao.findAll().size());
-		User user2 = createRandomUser();
+		User user2 = EntitiesCreator.createRandomUser();
 		user2.setId(id);
 		userDao.update(user2);
 		assertEquals(" the user hasn't been merged ", usersCount + 1 ,userDao.findAll().size());
-		User user3 = createRandomUser();
+		User user3 = EntitiesCreator.createRandomUser();
 		userDao.update(user3);
 		assertEquals(" the user has been merged ", usersCount + 2 ,userDao.findAll().size());
 		
@@ -82,7 +90,7 @@ public class TestUserDao {
 	@Test
 	public void testFindUserById() {	
 		int usersCount = userDao.findAll().size();	
-		User user1 = createRandomUser();	
+		User user1 = EntitiesCreator.createRandomUser();	
 		userDao.save(user1);
 		long id= user1.getId();
 		assertEquals(" the user hasn't been registered ", usersCount + 1 ,userDao.findAll().size());
@@ -96,7 +104,7 @@ public class TestUserDao {
 		int t = 1000;
 		List <User> users  = new ArrayList();
 		for (int i = 0;i<t;i++){
-			User user = createRandomUser();
+			User user = EntitiesCreator.createRandomUser();
 			users.add(user);
 			userDao.save(user);
 		}	
@@ -109,7 +117,7 @@ public class TestUserDao {
 	
 	@Test
 	public void testFindByEmailAndPassword(){
-		User user = createRandomUser();	
+		User user = EntitiesCreator.createRandomUser();	
 		String email = user.getEmail();
 		String password = user.getPassword();
 		System.out.println(email + " " + password);
@@ -118,30 +126,6 @@ public class TestUserDao {
 		assertEquals(userDao.findUserByMailAndPassword(email, password).getPassword(), password);	
 	}
 	
-		
-	public static  User  createRandomUser(){
-		return createUser(
-					(int)(Math.random()* 10000 )+ "prenom",
-					(int)(Math.random()* 10000) + "nom",
-					"04-02-1981",
-					(int)(Math.random()* 10000) + "nom@"+	(int)(Math.random() * 10000) + ".com" ,
-					(int)(Math.random()* 10000) + " comentaire ",					
-					(int)(Math.random()* 10000) + "password", 
-					+(int)(Math.random() * 3));	
-	}
-	
-	private  static User createUser(String firstName,String lastName,String date,String email,String commentary,
-		String password, int  accountType){
-			
-		Date dateFormat = null;
-		try {
-			dateFormat = new SimpleDateFormat("dd-MM-yyyy").parse(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-			
-		return  new User( firstName,lastName,dateFormat,email,commentary,
-				 password, accountType);
-	}
+
 
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pfaraco.quiz.server.domain.topic.Topic;
 import com.pfaraco.quiz.server.domain.topic.TopicDao;
 import com.pfaraco.quiz.server.domain.topic.TopicDaoImpl;
+import com.pfaraco.quiz.server.domain.topic.TopicDto;
 import com.pfaraco.quiz.server.domain.user.User;
 
 @Service("topicService")
@@ -28,16 +29,18 @@ public class TopicServiceImpl implements  TopicService{
 	    }
 	 
 	@Override
-	public Topic findById(long id) {
-		  
-	        return  topicDao.find(id);
+	public TopicDto findById(long id) {
+			Topic topic = topicDao.find(id);
+			if (topic!=null)
+				return new TopicDto(topic);
+			return null;
 	}
 
 	@Override
-	public Topic findByName(String name) {
+	public TopicDto findByName(String name) {
 		   for(Topic topic : topics){
 	            if(topic.getName().equalsIgnoreCase(name)){
-	                return topic;
+	                //return topic;
 	            }
 	        }
 	        return null;
@@ -50,9 +53,9 @@ public class TopicServiceImpl implements  TopicService{
 	}
 
 	@Override
-	public void updateTopic(Topic topic) {
-		   int index = topics.indexOf(topic);
-	       topics.set(index, topic);
+	public void updateTopic(TopicDto topic) {
+		   //int index = topics.indexOf(topic);
+	      // topics.set(index, topic);
 		
 	}
 
@@ -67,9 +70,13 @@ public class TopicServiceImpl implements  TopicService{
 	}
 
 	@Override
-	public java.util.List<Topic> findAllTopics() {
-		return topicDao.findAll();
-		//return topicDao.findByUser(user);
+	public java.util.List<TopicDto> findAllTopics() {
+		List<Topic> topics = topicDao.findAll();
+		List<TopicDto> topicsDto = new ArrayList<TopicDto>();
+		for (Topic topic :topics){
+			topicsDto.add(new TopicDto(topic));
+		}
+		return topicsDto ;
 	}
 
 	@Override

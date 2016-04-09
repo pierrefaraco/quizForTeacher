@@ -13,40 +13,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
  
+
 import com.pfaraco.quiz.server.domain.topic.Topic;
+import com.pfaraco.quiz.server.domain.topic.TopicDto;
 import com.pfaraco.quiz.server.service.topic.TopicService;
 
 @RestController
 public class topicRestWebService {
 	
 	 @Autowired
-	 TopicService topicService;
-	
+	 TopicService topicService;	
 	
 	  //-------------------Retrieve All Topics--------------------------------------------------------
     
     @RequestMapping(value = "/topic/", method = RequestMethod.GET)
-    public ResponseEntity<List<Topic>> listAllTopics() {
-        List<Topic> topics = topicService.findAllTopics();
+    public ResponseEntity<List<TopicDto>> listAllTopics() {
+        List<TopicDto> topics = topicService.findAllTopics();
         if( topics.isEmpty()){
-        	System.out.println("User with id  not found");
-            return new ResponseEntity<List<Topic>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+        	System.out.println("Topic with id  not found");
+            return new ResponseEntity<List<TopicDto>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
-        return new ResponseEntity<List<Topic>>( topics, HttpStatus.OK);
+        return new ResponseEntity<List<TopicDto>>( topics, HttpStatus.OK);
     }
     
     
     //-------------------Retrieve Single Topic--------------------------------------------------------
     
     @RequestMapping(value = "/topic/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Topic> getUser(@PathVariable("id") long id) {
+    public ResponseEntity<TopicDto> getUser(@PathVariable("id") long id) {
         System.out.println("Fetching topic with id " + id);
-        Topic topic = topicService.findById(id);
+        TopicDto topic = topicService.findById(id);
         if (topic  == null) {
             System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<Topic>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<TopicDto>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Topic>(topic, HttpStatus.OK);
+        return new ResponseEntity<TopicDto>(topic, HttpStatus.OK);
     }
     
     //-------------------Create a Topic--------------------------------------------------------
@@ -72,14 +73,14 @@ public class topicRestWebService {
     //------------------- Update a Topic --------------------------------------------------------
       
     @RequestMapping(value = "/topic/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Topic> updateTopic(@PathVariable("id") long id, @RequestBody Topic topic) {
+    public ResponseEntity<TopicDto> updateTopic(@PathVariable("id") long id, @RequestBody Topic topic) {
         System.out.println("Updating User " + id);
           
-        Topic currentTopic = topicService.findById(id);
+        TopicDto currentTopic = topicService.findById(id);
           
         if (currentTopic==null) {
             System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<Topic>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<TopicDto>(HttpStatus.NOT_FOUND);
         }
   
         currentTopic.setName(topic.getName());
@@ -87,7 +88,7 @@ public class topicRestWebService {
  
           
         topicService.updateTopic(currentTopic);
-        return new ResponseEntity<Topic>(currentTopic, HttpStatus.OK);
+        return new ResponseEntity<TopicDto>(currentTopic, HttpStatus.OK);
     }
     
     
@@ -97,7 +98,7 @@ public class topicRestWebService {
    public ResponseEntity<Topic> deleteUser(@PathVariable("id") long id) {
        System.out.println("Fetching & Deleting User with id " + id);
  
-       Topic topic = topicService.findById(id);
+       TopicDto topic = topicService.findById(id);
        if (topic== null) {
            System.out.println("Unable to delete. User with id " + id + " not found");
            return new ResponseEntity<Topic>(HttpStatus.NOT_FOUND);

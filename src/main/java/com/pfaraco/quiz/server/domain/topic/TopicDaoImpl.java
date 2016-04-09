@@ -30,14 +30,11 @@ public class TopicDaoImpl extends AbstractDataAccessObjectImpl <Topic,Long>  imp
 		return em.createNamedQuery("findAllTopics").getResultList();
 	}
 
-
-
 	@Override
 	public List<Topic> findByUser(User user) {
-		// Query query = em.createNamedQuery("findTopicsByUser");;
-		// query.setParameter("user", user);
-		return null;// query .getResultList();
-
+		Query query = em.createNamedQuery("findTopicsByUser");;
+		query.setParameter("userid", user.getId());
+		return query .getResultList();
 	}
 
 }

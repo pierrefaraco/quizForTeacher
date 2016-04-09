@@ -22,7 +22,7 @@ public class PersistenceJPAConfig{
    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
       LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
       em.setDataSource(dataSource());  
-      em.setPackagesToScan(new String[] { "com.pfaraco.quiz.server.domain.topic","com.pfaraco.quiz.server.domain.user" });
+      em.setPackagesToScan(new String[] { "com.pfaraco.quiz.server.domain" });
       JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
       em.setJpaVendorAdapter(vendorAdapter);
       em.setJpaProperties(additionalProperties()); 
@@ -54,7 +54,7 @@ public class PersistenceJPAConfig{
  
    Properties additionalProperties() {
       Properties properties = new Properties();
-     properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+     properties.setProperty("hibernate.hbm2ddl.auto", "create");//create-drop
      properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
      return properties;
    }

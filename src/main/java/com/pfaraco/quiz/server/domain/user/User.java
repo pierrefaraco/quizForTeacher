@@ -46,10 +46,8 @@ public class User extends DomainObject implements  Serializable{
 	@Column(name="account_type", nullable = false, length = 1)
 	private int accountType;	
 
-	
 	public User(){
 	}
-	
 	
 	public User(String firstName, String lastName, Date birthDay,
 			String email, String presentation,  String password,
@@ -78,7 +76,6 @@ public class User extends DomainObject implements  Serializable{
 		this.password = password;
 		this.accountType = accountType;
 	}
-
 
 	public long getId() {
 		return id;
@@ -130,7 +127,6 @@ public class User extends DomainObject implements  Serializable{
 		this.accountType = account_type;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -150,7 +146,6 @@ public class User extends DomainObject implements  Serializable{
 				+ ((presentation == null) ? 0 : presentation.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -196,11 +191,5 @@ public class User extends DomainObject implements  Serializable{
 		} else if (!presentation.equals(other.presentation))
 			return false;
 		return true;
-	}
-
-
-	
-
-
-	
+	}	
 }

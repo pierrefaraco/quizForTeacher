@@ -1,4 +1,5 @@
 package com.pfaraco.quiz.server.domain.topic;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -12,13 +13,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pfaraco.quiz.server.domain.DomainObject;
 import com.pfaraco.quiz.server.domain.user.User;
 
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "findAllTopics", query="select o from Topic o"),
-	//@NamedQuery(name = "findTopicsByUser", query="select o from Topic WHERE o.user.id = :userid "),
+	@NamedQuery(name = "findTopicsByUser", query="select o from Topic o WHERE o.user.id = :userid "),
 })
 
 
@@ -32,10 +34,10 @@ public class Topic  extends DomainObject  implements  Serializable {
 	private String name;
 	@Column(name="description")
 	private String description;
-	@ManyToOne(fetch =FetchType.EAGER)
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@ManyToOne(fetch =FetchType.LAZY)
 	@JoinColumn(name ="user_id", nullable = false)
 	private User user;
-
 	
 	public Topic() {
 		
@@ -75,9 +77,6 @@ public class Topic  extends DomainObject  implements  Serializable {
 		this.description = description;
 	}
 
-	
-	
-	
     public User getUser() {
 		return user;
 	}
