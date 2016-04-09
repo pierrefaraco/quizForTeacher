@@ -37,7 +37,8 @@ public class AppTest
     	final TestSuite suite = new TestSuite();
       /*suite.addTest( new TestSuite(AppTest.class));      
     	suite.addTest( new TestSuite(TestUserDao.class)); 
-    	suite.addTest( new TestSuite(TestTopicDao.class)); */
+    	suite.addTest( new TestSuite(TestTopicDao.class)); 
+    	suite.addTest( new TestSuite(TestQuestionDao.class)); */
         return suite;
     }
 

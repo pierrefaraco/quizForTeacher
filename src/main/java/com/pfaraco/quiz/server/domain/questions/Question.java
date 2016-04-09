@@ -1,7 +1,11 @@
 package com.pfaraco.quiz.server.domain.questions;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
+
+
 
 
 
@@ -14,11 +18,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import quizForTeacher.Sequence;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pfaraco.quiz.server.domain.DomainObject;
@@ -49,14 +56,13 @@ public class Question extends DomainObject implements  Serializable{
 	@ElementCollection
 	private List <String>  answers;	
 	@Column(name="points", nullable = false )
-	private int points;
+	private int potopicints;
 	@Column(name="position", nullable = false )
 	private int position;
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@ManyToOne(fetch =FetchType.LAZY)
 	@JoinColumn(name ="topic_id", nullable = false)
 	private Topic topic;
-	
+
 	public Question(String question,List<String> propositions,
 			List<String> answers, int points, int position, Topic topic) {
 		super();
