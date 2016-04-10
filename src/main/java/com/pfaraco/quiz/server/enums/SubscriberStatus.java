@@ -1,5 +1,5 @@
 package com.pfaraco.quiz.server.enums;
 
-public enum SuscriberStatus {
+public enum SubscriberStatus {
 	WAITING_ANSWER , ACCEPTED , DENIED , CONNECTED
  }

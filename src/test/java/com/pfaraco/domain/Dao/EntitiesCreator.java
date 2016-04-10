@@ -1,4 +1,4 @@
-package com.pfaraco.domain;
+package com.pfaraco.domain.Dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,18 +13,23 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import junit.framework.TestCase;
+
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.pfaraco.quiz.server.config.PersistenceJPAConfig;
+import com.pfaraco.quiz.server.domain.cours.Cours;
 import com.pfaraco.quiz.server.domain.questions.Question;
 import com.pfaraco.quiz.server.domain.questions.QuestionDao;
 import com.pfaraco.quiz.server.domain.questions.QuestionDaoImpl;
 import com.pfaraco.quiz.server.domain.sequence.Sequence;
+import com.pfaraco.quiz.server.domain.sessionquiz.SessionQuiz;
 import com.pfaraco.quiz.server.domain.topic.Topic;
 import com.pfaraco.quiz.server.domain.topic.TopicDao;
 import com.pfaraco.quiz.server.domain.topic.TopicDaoImpl;
@@ -32,13 +37,18 @@ import com.pfaraco.quiz.server.domain.user.User;
 import com.pfaraco.quiz.server.domain.user.UserDao;
 import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
 import com.pfaraco.quiz.server.enums.AccountType;
+import com.pfaraco.quiz.server.enums.SessionStatus;
+import com.pfaraco.quiz.server.enums.SubscriberStatus;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })
 
 @Transactional
-public class EntitiesCreator {
-	
+public class EntitiesCreator extends TestCase {
+	@Test
+	public void test(){
+		assertTrue(true);		
+	}
 
 	public static User createRandomUser() {
 		return createUser((int) (Math.random() * 10000) + "prenom",
@@ -49,8 +59,18 @@ public class EntitiesCreator {
 				(int) (Math.random() * 10000) + "password",
 				AccountType.PROFESSOR);
 	}
+	
+	public static User createRandomUser(AccountType accountType) {
+		return createUser((int) (Math.random() * 10000) + "prenom",
+				(int) (Math.random() * 10000) + "nom", "04-02-1981",
+				(int) (Math.random() * 10000) + "nom@"
+						+ (int) (Math.random() * 10000) + ".com",
+				(int) (Math.random() * 10000) + " comentaire ",
+				(int) (Math.random() * 10000) + "password",
+				accountType);
+	}
 
-	private static User createUser(String firstName, String lastName,
+	public static User createUser(String firstName, String lastName,
 			String date, String email, String commentary, String password,
 			AccountType accountType) {
 
@@ -71,7 +91,7 @@ public class EntitiesCreator {
 				(int) (Math.random() * 10000) + "description", user);
 	}
 
-	private static Topic createTopic(String topicName, String description,
+	public static Topic createTopic(String topicName, String description,
 			User user) {
 		return new Topic(topicName, description, user);
 	}
@@ -105,7 +125,7 @@ public class EntitiesCreator {
 				topic);
 	}
 
-	private static Question createQuestion(String question,List <String> propositions, List <String> answers,int points,int timeToAnswer,int position, Topic topic)
+	public static Question createQuestion(String question,List <String> propositions, List <String> answers,int points,int timeToAnswer,int position, Topic topic)
 		{
 		return new Question(question, propositions, answers, points,timeToAnswer, position, topic);
 		}
@@ -116,8 +136,47 @@ public class EntitiesCreator {
 				(int) (Math.random() * 10000) + "description", user,questions);
 	}
 	
-	private static Sequence createSequence(String sequencecName, String description,
+	public static Sequence createSequence(String sequencecName, String description,
 			User user,Map <Integer,Question> questions) {
 		return new Sequence( sequencecName, description , user,questions);
+	}
+	
+	public static Map <User,SubscriberStatus>  createMapOfSubscribers(int size ,UserDao userDao){
+		Map <User,SubscriberStatus>  subscribers = new HashMap<User,SubscriberStatus> ();
+		for (int i =0;i<size;i++){
+			 User auditor = createRandomUser(AccountType.AUDITOR);
+			 userDao.save(auditor);
+			 subscribers.put(auditor, SubscriberStatus.WAITING_ANSWER);				
+		}
+		
+		return subscribers ;	
+	}
+	
+	
+	public static Cours createRandomCours(Boolean active, User user,Map <User,SubscriberStatus> subscribers){
+		
+		return createCours((int) (Math.random() * 10000) + "nameCours", 
+				(int) (Math.random() * 10000) + "descitptionCours", 
+				active,
+					user,subscribers);
+	}
+	
+	public static Cours createCours(String name, String  description,boolean active,User user,Map <User,SubscriberStatus> subscribers){
+		return new Cours(name, description, active, user, subscribers);
+	}
+	
+	public static SessionQuiz createRandomSessionQuiz(SessionStatus status,Cours cours,Sequence sequence ){
+		Date dateFormat = null;
+		try {
+			dateFormat = new SimpleDateFormat("dd-MM-yyyy").parse("04-02-1981");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return createSessionQuiz(status,dateFormat,null,cours,sequence);				
+	}
+
+	public static SessionQuiz createSessionQuiz(SessionStatus status,Date startDate,Date endDate , Cours cours ,Sequence sequence ){
+	
+		return new SessionQuiz(status, startDate, endDate, cours, sequence);
 	}
 }

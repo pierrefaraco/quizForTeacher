@@ -1,4 +1,4 @@
-package com.pfaraco.domain;
+package com.pfaraco.domain.Dao;
 
 import static org.junit.Assert.*;
 
@@ -51,7 +51,7 @@ public class TestUserDao  extends TestCase{
 	@Test
 	public void testSaveUser() {	
 		int usersCount = userDao.findAll().size();		
-		int t = 5000;
+		int t = 10;
 		for (int i = 0;i<t;i++)
 			userDao.save(EntitiesCreator.createRandomUser());		
 		assertEquals(" the 3 users haven't been registered ", usersCount + t ,userDao.findAll().size());					
@@ -101,7 +101,7 @@ public class TestUserDao  extends TestCase{
 	
 	@Test
 	public void testFindAll() {		
-		int t = 1000;
+		int t = 4;
 		List <User> users  = new ArrayList();
 		for (int i = 0;i<t;i++){
 			User user = EntitiesCreator.createRandomUser();

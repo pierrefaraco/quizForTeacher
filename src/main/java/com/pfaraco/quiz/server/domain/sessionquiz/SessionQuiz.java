@@ -16,10 +16,16 @@ import javax.persistence.Table;
 
 import com.pfaraco.quiz.server.domain.DomainObject;
 import com.pfaraco.quiz.server.domain.cours.Cours;
+import com.pfaraco.quiz.server.domain.sequence.Sequence;
 import com.pfaraco.quiz.server.enums.SessionStatus;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "findAllSessions", query="select o from SessionQuiz o"),
+	@NamedQuery(name = "findSessionsByProfessor", query="select o from SessionQuiz o  WHERE o.cours.user.id = :userid "),
+	@NamedQuery(name = "findSessionsByCours", query="select o from SessionQuiz o WHERE o.cours.id = :coursid "),
+	@NamedQuery(name = "findSessionsByAuditor", query="select o from SessionQuiz o  WHERE  :user in o.cours.subscribers "),
+	@NamedQuery(name = "findSessionsByAuditorAndCours", query="select o from SessionQuiz o  WHERE  :user in o.cours.subscribers "
+			+ "and o.cours.id = :coursid"),
 })
 
 
@@ -38,29 +44,33 @@ public class SessionQuiz extends DomainObject  implements  Serializable {
 	@ManyToOne(fetch =FetchType.LAZY)
 	@JoinColumn(name ="cours_id", nullable = false)
 	Cours cours;
+	@ManyToOne(fetch =FetchType.LAZY)
+	@JoinColumn(name ="sequence_id", nullable = false)
+	Sequence sequence;
 		
 	public SessionQuiz(long id, SessionStatus status, Date startDate,
-			Date endDate, Cours cours) {
+			Date endDate, Cours cours,Sequence sequence) {
 		super();
 		this.id = id;
 		this.status = status;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.cours = cours;
+		this.sequence = sequence;
 	}
 
 	public SessionQuiz(SessionStatus status, Date startDate, Date endDate,
-			Cours cours) {
+			Cours cours,Sequence sequence) {
 		super();
 		this.status = status;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.cours = cours;
+		this.sequence = sequence;
 	}
 
 	public SessionQuiz() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public SessionStatus getStatus() {
@@ -95,6 +105,14 @@ public class SessionQuiz extends DomainObject  implements  Serializable {
 		this.cours = cours;
 	}
 
+	public Sequence getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(Sequence sequence) {
+		this.sequence = sequence;
+	}
+
 	@Override
 	public long getId() {
 		// TODO Auto-generated method stub
@@ -114,6 +132,8 @@ public class SessionQuiz extends DomainObject  implements  Serializable {
 		result = prime * result + ((cours == null) ? 0 : cours.hashCode());
 		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result
+				+ ((sequence == null) ? 0 : sequence.hashCode());
 		result = prime * result
 				+ ((startDate == null) ? 0 : startDate.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
@@ -141,6 +161,11 @@ public class SessionQuiz extends DomainObject  implements  Serializable {
 			return false;
 		if (id != other.id)
 			return false;
+		if (sequence == null) {
+			if (other.sequence != null)
+				return false;
+		} else if (!sequence.equals(other.sequence))
+			return false;
 		if (startDate == null) {
 			if (other.startDate != null)
 				return false;
@@ -151,6 +176,5 @@ public class SessionQuiz extends DomainObject  implements  Serializable {
 		return true;
 	}
 
-	
-	
+
 }

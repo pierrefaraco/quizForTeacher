@@ -1,4 +1,4 @@
-package com.pfaraco.domain;
+package com.pfaraco.domain.Dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
+
+import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +39,7 @@ import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
 		SequenceDaoImpl.class })
 @Transactional(rollbackOn = Exception.class)
 @Rollback(false)
-public class TestSequenceDao {
+public class TestSequenceDao  extends TestCase {
 	@Autowired
 	TopicDao topicDao;
 	@Autowired

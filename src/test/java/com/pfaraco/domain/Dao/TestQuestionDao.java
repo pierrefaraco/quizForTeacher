@@ -1,24 +1,16 @@
-package com.pfaraco.domain;
+package com.pfaraco.domain.Dao;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.junit.After;
+import junit.framework.TestCase;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-
-
-
-
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.pfaraco.quiz.server.config.PersistenceJPAConfig;
 import com.pfaraco.quiz.server.domain.questions.Question;
@@ -38,7 +30,7 @@ import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
 
 @Transactional(rollbackOn = Exception.class)
 @Rollback(false)
-public class TestQuestionDao {
+public class TestQuestionDao  extends TestCase {
 	
 	
 	@Autowired

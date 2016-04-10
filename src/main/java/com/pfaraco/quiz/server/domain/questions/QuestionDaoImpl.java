@@ -13,8 +13,7 @@ import com.pfaraco.quiz.server.domain.user.User;
 import com.pfaraco.quiz.server.util.persistence.AbstractDataAccessObjectImpl;
 
 @Repository("questionDao")
-public class QuestionDaoImpl extends
-		AbstractDataAccessObjectImpl<Question, Long> implements QuestionDao {
+public class QuestionDaoImpl extends AbstractDataAccessObjectImpl <Question, Long> implements QuestionDao {
 
 	@PostConstruct
 	public void setEntityClass() {
@@ -24,7 +23,6 @@ public class QuestionDaoImpl extends
 	@Override
 	public List<Question> findByTopic(Topic topic) {
 		Query query = em.createNamedQuery("findQuestionsByTopic");
-		;
 		query.setParameter("userid", topic.getId());
 		return query.getResultList();
 	}

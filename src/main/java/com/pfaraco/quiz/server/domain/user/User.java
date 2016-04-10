@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.pfaraco.quiz.server.domain.DomainObject;
@@ -26,7 +27,7 @@ import com.pfaraco.quiz.server.enums.AccountType;
 	@NamedQuery(name = "findUsersByEmailAndPassword", query="select o from User o where o.email = :email and o.password = :password  ")
 })
 
-@Table(name = "users")
+@Table(name = "users" )
 public class User extends DomainObject implements  Serializable{
 	@Id
 	@GeneratedValue
@@ -119,12 +120,15 @@ public class User extends DomainObject implements  Serializable{
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public AccountType getAccountType() {
 		return accountType;
 	}
+	
 	public void setAccountType(AccountType account_type) {
 		this.accountType = account_type;
 	}
