@@ -45,7 +45,7 @@ import com.pfaraco.quiz.server.util.persistence.AbstractDataAccessObject;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class, TopicDaoImpl.class, QuestionDaoImpl.class })
-@Transactional
+@Transactional(rollbackOn = Exception.class)
 @Rollback(false)
 public class TestTopicDao extends TestCase {
 

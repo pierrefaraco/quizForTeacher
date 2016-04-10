@@ -1,20 +1,36 @@
-package quizForTeacher;
+package com.pfaraco.quiz.server.domain.sequence;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.ArrayList;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.pfaraco.quiz.server.domain.DomainObject;
 import com.pfaraco.quiz.server.domain.questions.Question;
 import com.pfaraco.quiz.server.domain.user.User;
 
-public class Sequence {
+@Entity
+@NamedQueries({
+	@NamedQuery(name = "findAllSequences", query="select o from Sequence o"),
+	@NamedQuery(name = "findSequencesByUser", query="select o from Sequence o WHERE o.user.id = :userid "),
+})
+
+
+@Table(name = "sequences")
+public class Sequence extends DomainObject  implements  Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name="id")
@@ -26,11 +42,35 @@ public class Sequence {
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@ManyToOne(fetch =FetchType.LAZY)
 	@JoinColumn(name ="user_id", nullable =   false)
-	@ElementCollection
-	ArrayList <Question> questions;
-	
-	
 	private User user;
+	@ManyToMany
+	@JoinColumn(name ="sequence_id", nullable =   false)
+	Map <Integer,Question> questions;
+	
+	
+	public Sequence(long id, String name, String description, User user,
+			Map<Integer, Question> questions) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.user = user;
+		this.questions = questions;
+	}
+
+	public Sequence(String name, String description, User user,
+			Map<Integer, Question> questions) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.user = user;
+		this.questions = questions;
+	}
+	
+	public Sequence(){
+		super();
+	}
+	
 	public long getId() {
 		return id;
 	}
@@ -57,13 +97,13 @@ public class Sequence {
 	}
 	
 	
-	
-	public ArrayList<Question> getQuestions() {
+	public Map <Integer,Question> getQuestions() {
 		return questions;
 	}
-	public void setQuestions(ArrayList<Question> questions) {
+	public void setQuestions(Map <Integer,Question> questions) {
 		this.questions = questions;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -103,7 +143,4 @@ public class Sequence {
 			return false;
 		return true;
 	}
-	
-	
-	
 }

@@ -10,7 +10,6 @@ import java.util.List;
 
 
 
-
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -24,9 +23,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import quizForTeacher.Sequence;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pfaraco.quiz.server.domain.DomainObject;
 import com.pfaraco.quiz.server.domain.topic.Topic;
@@ -40,10 +36,6 @@ import com.pfaraco.quiz.server.domain.topic.Topic;
 
 @Table(name = "questions")
 public class Question extends DomainObject implements  Serializable{
-	
-
-
-
 
 	@Id
 	@GeneratedValue
@@ -56,7 +48,9 @@ public class Question extends DomainObject implements  Serializable{
 	@ElementCollection
 	private List <String>  answers;	
 	@Column(name="points", nullable = false )
-	private int potopicints;
+	private int points;
+	@Column(name="time_to_answer", nullable = false )
+	private int timeToAnswer;
 	@Column(name="position", nullable = false )
 	private int position;
 	@ManyToOne(fetch =FetchType.LAZY)
@@ -64,7 +58,7 @@ public class Question extends DomainObject implements  Serializable{
 	private Topic topic;
 
 	public Question(String question,List<String> propositions,
-			List<String> answers, int points, int position, Topic topic) {
+			List<String> answers, int points,int timeToAnswer ,int position, Topic topic) {
 		super();
 		this.question = question;
 		this.propositions = propositions;
@@ -72,10 +66,11 @@ public class Question extends DomainObject implements  Serializable{
 		this.points = points;
 		this.position = position;
 		this.topic = topic;
+		this.timeToAnswer =timeToAnswer;
 	}
 
 	public Question(long id, String question, List<String> propositions,
-			List<String> answers, int points, int position, Topic topic) {
+			List<String> answers, int points,int timeToAnswer, int position, Topic topic) {
 		super();
 		this.id = id;
 		this.question = question;
@@ -84,7 +79,14 @@ public class Question extends DomainObject implements  Serializable{
 		this.points = points;
 		this.position = position;
 		this.topic = topic;
+		this.timeToAnswer =timeToAnswer;
 	}
+	
+		
+	public Question() {
+		super();
+	}
+
 	@Override
 	public long getId() {
 		return id;

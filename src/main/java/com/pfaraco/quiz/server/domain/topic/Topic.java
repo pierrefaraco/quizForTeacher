@@ -34,13 +34,13 @@ public class Topic  extends DomainObject  implements  Serializable {
 	private String name;
 	@Column(name="description")
 	private String description;
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	//@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@ManyToOne(fetch =FetchType.LAZY)
 	@JoinColumn(name ="user_id", nullable = false)
 	private User user;
 	
 	public Topic() {
-		
+		super();
 	}
 	
 	public Topic(String name, String description ,User user) {

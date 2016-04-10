@@ -31,7 +31,7 @@ import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })
 
-@Transactional
+@Transactional(rollbackOn = Exception.class)
 @Rollback(false)
 public class TestUserDao  extends TestCase{
 	@Autowired

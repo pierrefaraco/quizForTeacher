@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,12 +24,14 @@ import com.pfaraco.quiz.server.config.PersistenceJPAConfig;
 import com.pfaraco.quiz.server.domain.questions.Question;
 import com.pfaraco.quiz.server.domain.questions.QuestionDao;
 import com.pfaraco.quiz.server.domain.questions.QuestionDaoImpl;
+import com.pfaraco.quiz.server.domain.sequence.Sequence;
 import com.pfaraco.quiz.server.domain.topic.Topic;
 import com.pfaraco.quiz.server.domain.topic.TopicDao;
 import com.pfaraco.quiz.server.domain.topic.TopicDaoImpl;
 import com.pfaraco.quiz.server.domain.user.User;
 import com.pfaraco.quiz.server.domain.user.UserDao;
 import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
+import com.pfaraco.quiz.server.enums.AccountType;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })
@@ -43,12 +47,12 @@ public class EntitiesCreator {
 						+ (int) (Math.random() * 10000) + ".com",
 				(int) (Math.random() * 10000) + " comentaire ",
 				(int) (Math.random() * 10000) + "password",
-				+(int) (Math.random() * 3));
+				AccountType.PROFESSOR);
 	}
 
 	private static User createUser(String firstName, String lastName,
 			String date, String email, String commentary, String password,
-			int accountType) {
+			AccountType accountType) {
 
 		Date dateFormat = null;
 		try {
@@ -72,6 +76,17 @@ public class EntitiesCreator {
 		return new Topic(topicName, description, user);
 	}
 	
+	
+	public static Map<Integer, Question> createListOfQuestions(QuestionDao questionDao,int number , Topic topic){
+		Map<Integer, Question> questions = new HashMap<Integer, Question>();
+		for (int i = 0; i < number; i++) {
+			questions.put(i, createRandomQuestion(topic));
+			questionDao.save(questions.get(i));
+		}
+		return questions;
+	}
+	
+	
 	public static Question createRandomQuestion(Topic topic) {
 		List<String> propositions = new ArrayList<String>();
 		List<String> answers = new ArrayList<String>();
@@ -85,12 +100,24 @@ public class EntitiesCreator {
 				propositions,
 				answers,
 				(int) (Math.random() * 10),
+				(int) (Math.random() * 60),
 				(int) (Math.random() * 100),
 				topic);
 	}
 
-	private static Question createQuestion(String question,List <String> propositions, List <String> answers,int points,int position, Topic topic)
+	private static Question createQuestion(String question,List <String> propositions, List <String> answers,int points,int timeToAnswer,int position, Topic topic)
 		{
-		return new Question(question, propositions, answers, points, position, topic);
+		return new Question(question, propositions, answers, points,timeToAnswer, position, topic);
 		}
+	
+	public static Sequence createRandomSequence(User user,Map<Integer, Question> questions) {
+
+		return createSequence((int) (Math.random() * 10000) + "name",
+				(int) (Math.random() * 10000) + "description", user,questions);
+	}
+	
+	private static Sequence createSequence(String sequencecName, String description,
+			User user,Map <Integer,Question> questions) {
+		return new Sequence( sequencecName, description , user,questions);
+	}
 }

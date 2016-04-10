@@ -46,10 +46,9 @@ public abstract class AbstractDataAccessObjectImpl <E,K>  implements AbstractDat
 		
 	}
 
-
 	@Override
-	public E find(K id) {		
-		return em.find(entityClass , id);
+	public E find(K id) {				
+			return em.find(entityClass , id);
 	}
 
 	

@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import com.pfaraco.quiz.server.domain.DomainObject;
 import com.pfaraco.quiz.server.domain.topic.Topic;
+import com.pfaraco.quiz.server.enums.AccountType;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "findAllUsers", query="select o from User o"),
@@ -44,14 +45,15 @@ public class User extends DomainObject implements  Serializable{
 	@Column(name="password", nullable = false, length = 40)
 	private String password;
 	@Column(name="account_type", nullable = false, length = 1)
-	private int accountType;	
+	private AccountType accountType;	
 
 	public User(){
+		super();
 	}
 	
 	public User(String firstName, String lastName, Date birthDay,
 			String email, String presentation,  String password,
-			int accountType) {
+			AccountType accountType) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -65,7 +67,7 @@ public class User extends DomainObject implements  Serializable{
 
 	public User(long id, String firstName, String lastName, Date birthDay,
 			String email, String presentation , String password,
-			int accountType) {	
+			AccountType accountType) {	
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -120,10 +122,10 @@ public class User extends DomainObject implements  Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getAccountType() {
+	public AccountType getAccountType() {
 		return accountType;
 	}
-	public void setAccountType(int account_type) {
+	public void setAccountType(AccountType account_type) {
 		this.accountType = account_type;
 	}
 
@@ -131,7 +133,8 @@ public class User extends DomainObject implements  Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + accountType;
+		result = prime * result
+				+ ((accountType == null) ? 0 : accountType.hashCode());
 		result = prime * result
 				+ ((birthDay == null) ? 0 : birthDay.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
@@ -191,5 +194,8 @@ public class User extends DomainObject implements  Serializable{
 		} else if (!presentation.equals(other.presentation))
 			return false;
 		return true;
-	}	
+	}
+
+
+	
 }

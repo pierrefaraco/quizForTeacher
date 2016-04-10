@@ -2,6 +2,7 @@ package com.pfaraco.quiz.server.domain.questions;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -15,7 +16,7 @@ import com.pfaraco.quiz.server.util.persistence.AbstractDataAccessObjectImpl;
 public class QuestionDaoImpl extends
 		AbstractDataAccessObjectImpl<Question, Long> implements QuestionDao {
 
-	@Override
+	@PostConstruct
 	public void setEntityClass() {
 		super.setEntityClass(Question.class);
 	}

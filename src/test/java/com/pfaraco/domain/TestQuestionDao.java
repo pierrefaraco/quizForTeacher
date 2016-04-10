@@ -36,7 +36,7 @@ import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })
 
-@Transactional
+@Transactional(rollbackOn = Exception.class)
 @Rollback(false)
 public class TestQuestionDao {
 	
@@ -74,35 +74,10 @@ public class TestQuestionDao {
 		Topic topic = EntitiesCreator.createRandomTopic(user);	
 		topicDao.save(topic);
 		int questionCount = questionDao.findAll().size();		
-		int t = 5000;
+		int t = 50;
 		for (int i = 0;i<t;i++)
 			questionDao.save(EntitiesCreator.createRandomQuestion(topic));		
-		assertEquals( questionCount + t ,questionDao.findAll().size());
-		
-		List <Question> questions=  questionDao.findAll();
-		for (Question q:questions)
-			{
-			System.out.println("###################################################################################################");
-			System.out.println("id : " + q.getId());
-			System.out.println("point : " + q.getPoints());
-			System.out.println("pos: " + q.getPosition());
-			System.out.println("question : " + q.getQuestion());
-			List <String>props = q.getPropositions();
-			List <String>answers = q.getAnswers();
-			for (String p:props)
-				System.out.println("	*"+p);
-			for (String a:answers)
-				System.out.println("	*"+a);
-			
-			if(topic!=null){
-				System.out.println("topic: " + q.getTopic().getName());
-				System.out.println("topic: " + q.getTopic().getDescription());
-				}
-			else{
-				System.out.println("lazy mode");	
-				}
-			}
-		
+		assertEquals( questionCount + t ,questionDao.findAll().size());				
 	}
 
 	

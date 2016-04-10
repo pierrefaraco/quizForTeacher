@@ -35,16 +35,17 @@ public class AppTest
     public static Test suite()
     {
     	final TestSuite suite = new TestSuite();
-      /*suite.addTest( new TestSuite(AppTest.class));      
+     /*
+       	suite.addTest( new TestSuite(AppTest.class));      
     	suite.addTest( new TestSuite(TestUserDao.class)); 
     	suite.addTest( new TestSuite(TestTopicDao.class)); 
-    	suite.addTest( new TestSuite(TestQuestionDao.class)); */
+    	suite.addTest( new TestSuite(TestQuestionDao.class)); 
+    	suite.addTest( new TestSuite(TestSequenceDao.class));
+    //*/
         return suite;
     }
 
-    /**
-     * Rigourous Test :-)
-     */
+
     public void testApp()
     {
         assertTrue( true );
