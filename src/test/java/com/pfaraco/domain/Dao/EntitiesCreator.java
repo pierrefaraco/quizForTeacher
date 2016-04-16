@@ -28,6 +28,7 @@ import com.pfaraco.quiz.server.domain.cours.Cours;
 import com.pfaraco.quiz.server.domain.questions.Question;
 import com.pfaraco.quiz.server.domain.questions.QuestionDao;
 import com.pfaraco.quiz.server.domain.questions.QuestionDaoImpl;
+import com.pfaraco.quiz.server.domain.result.Result;
 import com.pfaraco.quiz.server.domain.sequence.Sequence;
 import com.pfaraco.quiz.server.domain.sessionquiz.SessionQuiz;
 import com.pfaraco.quiz.server.domain.topic.Topic;
@@ -74,14 +75,8 @@ public class EntitiesCreator extends TestCase {
 			String date, String email, String commentary, String password,
 			AccountType accountType) {
 
-		Date dateFormat = null;
-		try {
-			dateFormat = new SimpleDateFormat("dd-MM-yyyy").parse(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 
-		return new User(firstName, lastName, dateFormat, email, commentary,
+		return new User(firstName, lastName, createRandomDate(), email, commentary,
 				password, accountType);
 	}
 	
@@ -166,17 +161,51 @@ public class EntitiesCreator extends TestCase {
 	}
 	
 	public static SessionQuiz createRandomSessionQuiz(SessionStatus status,Cours cours,Sequence sequence ){
+	
+		return createSessionQuiz(status,createRandomDate(),null,cours,sequence);				
+	}
+
+	public static SessionQuiz createSessionQuiz(SessionStatus status,Date startDate,Date endDate , Cours cours ,Sequence sequence ){
+	
+		return new SessionQuiz(status, startDate, endDate, cours, sequence);
+	}
+	
+	public static Result createRandomResult(User auditor ,SessionQuiz sessionQuiz ){
+		
+		List<String> goodAnswers= new ArrayList<String> ();
+		List<String> answers= new ArrayList<String> ();
+		
+		for (int i= 0 ; i<(int) (Math.random() * 10);i++){			
+			goodAnswers.add(	i +") "+  (Math.random()*10000000));
+		}
+		for (int i= 0 ; i<(int) (Math.random() * 5);i++){			
+			answers.add(	i +") "+  (Math.random()*10000000));
+		}	
+		
+		return createResult((int) (Math.random() * 10)
+					, (float)(Math.random()*10), 
+						auditor, 
+						sessionQuiz, 
+						"Quel est le "+  (Math.random()*10000000)+" du "+ (Math.random()*10000000) + "?", 
+						goodAnswers,
+						answers,
+						createRandomDate());
+	}
+	
+	
+	public static Result createResult(int point, float answerTime ,User auditor ,SessionQuiz sessionQuiz,String question,List<String>goodAnswers, List<String>answers,Date date ){
+		
+		return new Result(point, answerTime, auditor, sessionQuiz, question, goodAnswers, answers, date);
+	}
+	
+	
+	private static Date createRandomDate(){
 		Date dateFormat = null;
 		try {
 			dateFormat = new SimpleDateFormat("dd-MM-yyyy").parse("04-02-1981");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return createSessionQuiz(status,dateFormat,null,cours,sequence);				
-	}
-
-	public static SessionQuiz createSessionQuiz(SessionStatus status,Date startDate,Date endDate , Cours cours ,Sequence sequence ){
-	
-		return new SessionQuiz(status, startDate, endDate, cours, sequence);
+		return  dateFormat 	;	
 	}
 }

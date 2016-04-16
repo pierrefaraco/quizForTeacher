@@ -28,10 +28,10 @@ import com.pfaraco.quiz.server.domain.user.User;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "findAllResults", query="select o from Result o"),
-//	@NamedQuery(name = "findResultsByUserForACours", query="select o from Result o WHERE o.user.id = :userid and o.session.cours.id = :coursid"),
-//	@NamedQuery(name = "findResultsByCours", query="select o from Result o WHERE o.session.cours.id  = :coursid"),
-//	@NamedQuery(name = "findResultsByUserForASession", query="select o from Result o WHERE o.user.id = :userid and o.session.id = :sessionid"),
-//	@NamedQuery(name = "findResultsByUser", query="select o from Result o WHERE o.session.id  = :sessionid"),
+	@NamedQuery(name = "findResultsForASession", query="select o from Result o where o.sessionQuiz.id = :sessionId"),
+	@NamedQuery(name = "findResultsForACours", query="select o from Result o where o.sessionQuiz.cours.id = :coursId"),
+	@NamedQuery(name = "findResultsByUserForASession", query="select o from Result o where o.sessionQuiz.id = :sessionId and auditor.id = :auditorId"),
+	@NamedQuery(name = "findResultsByUserForACours", query="select o from Result o where o.sessionQuiz.cours.id = :coursId and auditor.id = :auditorId")
 })
 
 @Table(name = "results")
@@ -40,28 +40,29 @@ public class Result extends DomainObject  implements  Serializable {
 	@GeneratedValue
 	@Column(name="id")
 	private long id;
-	@Column(name="point")
-	int point;
 	@Column(name="answer_time")
 	float answerTime;
 	@ManyToOne(fetch =FetchType.LAZY)
 	@JoinColumn(name ="user_id", nullable = false)
 	User auditor;
 	@ManyToOne(fetch =FetchType.LAZY)
-	@JoinColumn(name ="cours_id", nullable = false)
+	@JoinColumn(name ="sessionQuiz_id", nullable = false)
 	SessionQuiz sessionQuiz;
-	@ManyToOne(fetch =FetchType.LAZY)
-	@JoinColumn(name ="question_id", nullable = false)
-	Question question;
+	@Column(name="question")
+	String question;
+	@ElementCollection
+	List<String> goodAnswers;
 	@ElementCollection
 	List<String> answers;
+	@Column(name="point")
+	int point;
 	@Column(name="date")
 	Date date;
 	
 	
 	
 	public Result(long id, int point, float answerTime, User auditor,
-			SessionQuiz sessionQuiz, Question question, List<String> answer, Date date) {
+			SessionQuiz sessionQuiz, String  question, List<String> answer, List<String> goodAnswers, List<String> answers, Date date) {
 		super();
 		this.id = id;
 		this.point = point;
@@ -69,21 +70,59 @@ public class Result extends DomainObject  implements  Serializable {
 		this.auditor = auditor;
 		this.sessionQuiz = sessionQuiz;
 		this.question = question;
-		this.answers = answer;
+		this.answers = answers;
+		this.goodAnswers = goodAnswers;
 		this.date = date;
 	}
 	
 	
 	
+	public SessionQuiz getSessionQuiz() {
+		return sessionQuiz;
+	}
+
+
+
+	public void setSessionQuiz(SessionQuiz sessionQuiz) {
+		this.sessionQuiz = sessionQuiz;
+	}
+
+
+
+	public List<String> getGoodAnswers() {
+		return goodAnswers;
+	}
+
+
+
+	public void setGoodAnswers(List<String> goodAnswers) {
+		this.goodAnswers = goodAnswers;
+	}
+
+
+
+	public List<String> getAnswers() {
+		return answers;
+	}
+
+
+
+	public void setAnswers(List<String> answers) {
+		this.answers = answers;
+	}
+
+
+
 	public Result(int point, float answerTime, User auditor, SessionQuiz sessionQuiz,
-			Question question, List<String> answer, Date date) {
+			String question,List<String> goodAnswers, List<String> answers, Date date) {
 		super();
 		this.point = point;
 		this.answerTime = answerTime;
 		this.auditor = auditor;
 		this.sessionQuiz = sessionQuiz;
 		this.question = question;
-		this.answers = answer;
+		this.goodAnswers = goodAnswers;
+		this.answers = answers;
 		this.date = date;
 	}
 
@@ -122,10 +161,10 @@ public class Result extends DomainObject  implements  Serializable {
 		this.auditor = auditor;
 	}
 
-	public Question getQuestion() {
+	public String getQuestion() {
 		return question;
 	}
-	public void setQuestion(Question question) {
+	public void setQuestion( String question) {
 		this.question = question;
 	}
 	public List<String> getAnswer() {
@@ -140,7 +179,6 @@ public class Result extends DomainObject  implements  Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
 
 	public SessionQuiz getSession() {
 		return sessionQuiz;
@@ -157,15 +195,18 @@ public class Result extends DomainObject  implements  Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
 		result = prime * result + Float.floatToIntBits(answerTime);
+		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
 		result = prime * result + ((auditor == null) ? 0 : auditor.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result
+				+ ((goodAnswers == null) ? 0 : goodAnswers.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + point;
 		result = prime * result
 				+ ((question == null) ? 0 : question.hashCode());
-		result = prime * result + ((sessionQuiz == null) ? 0 : sessionQuiz.hashCode());
+		result = prime * result
+				+ ((sessionQuiz == null) ? 0 : sessionQuiz.hashCode());
 		return result;
 	}
 
@@ -180,13 +221,13 @@ public class Result extends DomainObject  implements  Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Result other = (Result) obj;
+		if (Float.floatToIntBits(answerTime) != Float
+				.floatToIntBits(other.answerTime))
+			return false;
 		if (answers == null) {
 			if (other.answers != null)
 				return false;
 		} else if (!answers.equals(other.answers))
-			return false;
-		if (Float.floatToIntBits(answerTime) != Float
-				.floatToIntBits(other.answerTime))
 			return false;
 		if (auditor == null) {
 			if (other.auditor != null)
@@ -197,6 +238,11 @@ public class Result extends DomainObject  implements  Serializable {
 			if (other.date != null)
 				return false;
 		} else if (!date.equals(other.date))
+			return false;
+		if (goodAnswers == null) {
+			if (other.goodAnswers != null)
+				return false;
+		} else if (!goodAnswers.equals(other.goodAnswers))
 			return false;
 		if (id != other.id)
 			return false;
@@ -214,7 +260,7 @@ public class Result extends DomainObject  implements  Serializable {
 			return false;
 		return true;
 	}
-	
+
 	
 	
 }

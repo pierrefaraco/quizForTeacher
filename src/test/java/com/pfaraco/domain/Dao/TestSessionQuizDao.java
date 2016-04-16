@@ -36,8 +36,8 @@ import com.pfaraco.quiz.server.enums.SessionStatus;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
-		CoursDaoImpl.class,SessionQuizDaoImpl.class ,UserDaoImpl.class, TopicDaoImpl.class, QuestionDaoImpl.class,
-		SequenceDaoImpl.class})
+		CoursDaoImpl.class, SessionQuizDaoImpl.class, UserDaoImpl.class,
+		TopicDaoImpl.class, QuestionDaoImpl.class, SequenceDaoImpl.class })
 @Transactional(rollbackOn = Exception.class)
 @Rollback(false)
 public class TestSessionQuizDao extends TestCase {
@@ -55,49 +55,54 @@ public class TestSessionQuizDao extends TestCase {
 	SequenceDao sequenceDao;
 
 	@Test
-	public void testAutoId() {		
-		User user = EntitiesCreator.createRandomUser(AccountType.PROFESSOR);;
+	public void testAutoId() {
+		User user = EntitiesCreator.createRandomUser(AccountType.PROFESSOR);
 		userDao.save(user);
 		Cours cours = EntitiesCreator.createRandomCours(true, user, null);
-		coursDao.save(cours);	
+		coursDao.save(cours);
 		Sequence sequence = EntitiesCreator.createRandomSequence(user, null);
 		sequenceDao.save(sequence);
-		SessionQuiz sessionQuiz1 = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);	
-		SessionQuiz sessionQuiz2 = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);
-		sessionQuizDao.save( sessionQuiz1);
-		sessionQuizDao.save( sessionQuiz2);
-		
-		assertNotNull( sessionQuiz1 .getId());
-		assertNotNull( sessionQuiz2 .getId());
-		assertTrue(sessionQuiz1 .getId()!= sessionQuiz2 .getId());	
+		SessionQuiz sessionQuiz1 = EntitiesCreator.createRandomSessionQuiz(
+				SessionStatus.RUNNING, cours, sequence);
+		SessionQuiz sessionQuiz2 = EntitiesCreator.createRandomSessionQuiz(
+				SessionStatus.RUNNING, cours, sequence);
+		sessionQuizDao.save(sessionQuiz1);
+		sessionQuizDao.save(sessionQuiz2);
+
+		assertNotNull(sessionQuiz1.getId());
+		assertNotNull(sessionQuiz2.getId());
+		assertTrue(sessionQuiz1.getId() != sessionQuiz2.getId());
 	}
-	
 
 	@Test
-	public void testChangeState() {	
+	public void testChangeState() {
 		int countSession = sessionQuizDao.findAll().size();
-		
-		User user = EntitiesCreator.createRandomUser(AccountType.PROFESSOR);;
+
+		User user = EntitiesCreator.createRandomUser(AccountType.PROFESSOR);
+		;
 		userDao.save(user);
 		Cours cours = EntitiesCreator.createRandomCours(true, user, null);
-		coursDao.save(cours);	
+		coursDao.save(cours);
 		Topic topic = EntitiesCreator.createRandomTopic(user);
 		topicDao.save(topic);
-		Sequence sequence = EntitiesCreator.createRandomSequence(user, EntitiesCreator.createListOfQuestions(questionDao,10, topic));
+		Sequence sequence = EntitiesCreator.createRandomSequence(user,
+				EntitiesCreator.createListOfQuestions(questionDao, 10, topic));
 		sequenceDao.save(sequence);
-		SessionQuiz sessionQuiz1 = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);	
-		sessionQuizDao.save( sessionQuiz1);
-		
-		assertEquals(sessionQuizDao.find(sessionQuiz1.getId()).getStatus(),SessionStatus.RUNNING);
-		
+		SessionQuiz sessionQuiz1 = EntitiesCreator.createRandomSessionQuiz(
+				SessionStatus.RUNNING, cours, sequence);
+		sessionQuizDao.save(sessionQuiz1);
+
+		assertEquals(sessionQuizDao.find(sessionQuiz1.getId()).getStatus(),
+				SessionStatus.RUNNING);
+
 		SessionQuiz sessionQuiz2 = sessionQuizDao.find(sessionQuiz1.getId());
 		sessionQuiz2.setStatus(SessionStatus.NOT_RUNNING);
-		
-		assertEquals(countSession+1,sessionQuizDao.findAll().size());
-		assertEquals(sessionQuizDao.find(sessionQuiz1.getId()).getStatus(),SessionStatus.NOT_RUNNING);
-			
+
+		assertEquals(countSession + 1, sessionQuizDao.findAll().size());
+		assertEquals(sessionQuizDao.find(sessionQuiz1.getId()).getStatus(),
+				SessionStatus.NOT_RUNNING);
+
 	}
-	
 
 	@Test
 	public void testSequenceContain() {
@@ -106,17 +111,23 @@ public class TestSessionQuizDao extends TestCase {
 		int questionCount = 35;
 		User user = EntitiesCreator.createRandomUser(AccountType.PROFESSOR);
 		userDao.save(user);
-		Cours cours = EntitiesCreator.createRandomCours(true, user, EntitiesCreator.createMapOfSubscribers( suscriberCount , userDao));
-		coursDao.save(cours);	
+		Cours cours = EntitiesCreator
+				.createRandomCours(true, user, EntitiesCreator
+						.createMapOfSubscribers(suscriberCount, userDao));
+		coursDao.save(cours);
 		Topic topic = EntitiesCreator.createRandomTopic(user);
 		topicDao.save(topic);
-		Sequence sequence = EntitiesCreator.createRandomSequence(user, EntitiesCreator.createListOfQuestions(questionDao,questionCount , topic));
+		Sequence sequence = EntitiesCreator.createRandomSequence(user,
+				EntitiesCreator.createListOfQuestions(questionDao,
+						questionCount, topic));
 		sequenceDao.save(sequence);
-		SessionQuiz sessionQuiz1 = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);	
-		sessionQuizDao.save( sessionQuiz1);
-				
-		
-		assertEquals(suscriberCount,sessionQuizDao.find(sessionQuiz1.getId()).getCours().getSubscribers().size());
-		assertEquals(questionCount,sessionQuizDao.find(sessionQuiz1.getId()).getSequence().getQuestions().size());
+		SessionQuiz sessionQuiz1 = EntitiesCreator.createRandomSessionQuiz(
+				SessionStatus.RUNNING, cours, sequence);
+		sessionQuizDao.save(sessionQuiz1);
+
+		assertEquals(suscriberCount, sessionQuizDao.find(sessionQuiz1.getId())
+				.getCours().getSubscribers().size());
+		assertEquals(questionCount, sessionQuizDao.find(sessionQuiz1.getId())
+				.getSequence().getQuestions().size());
 	}
 }
