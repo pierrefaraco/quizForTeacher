@@ -10,6 +10,9 @@ import java.util.List;
 
 
 
+
+
+
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -23,9 +26,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pfaraco.quiz.server.domain.DomainObject;
 import com.pfaraco.quiz.server.domain.topic.Topic;
+import com.pfaraco.quiz.server.enums.AccountType;
+import com.pfaraco.quiz.server.enums.QuestionType;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "findAllQuestions", query="select o from Question o"),
@@ -53,12 +59,14 @@ public class Question extends DomainObject implements  Serializable{
 	private int timeToAnswer;
 	@Column(name="position", nullable = false )
 	private int position;
+	@Column(name="question_type", nullable = false, length = 1)
+	private QuestionType questionType;	
 	@ManyToOne(fetch =FetchType.LAZY)
 	@JoinColumn(name ="topic_id", nullable = false)
 	private Topic topic;
 
 	public Question(String question,List<String> propositions,
-			List<String> answers, int points,int timeToAnswer ,int position, Topic topic) {
+			List<String> answers, int points,int timeToAnswer ,int position,QuestionType questionType, Topic topic) {
 		super();
 		this.question = question;
 		this.propositions = propositions;
@@ -67,10 +75,11 @@ public class Question extends DomainObject implements  Serializable{
 		this.position = position;
 		this.topic = topic;
 		this.timeToAnswer =timeToAnswer;
+		this.questionType =questionType;
 	}
 
 	public Question(long id, String question, List<String> propositions,
-			List<String> answers, int points,int timeToAnswer, int position, Topic topic) {
+			List<String> answers, int points,int timeToAnswer, int position,QuestionType questionType, Topic topic) {
 		super();
 		this.id = id;
 		this.question = question;
@@ -80,6 +89,7 @@ public class Question extends DomainObject implements  Serializable{
 		this.position = position;
 		this.topic = topic;
 		this.timeToAnswer =timeToAnswer;
+		this.questionType =questionType;
 	}
 	
 		
@@ -146,6 +156,22 @@ public class Question extends DomainObject implements  Serializable{
 		this.topic = topic;
 	}
 
+	public int getTimeToAnswer() {
+		return timeToAnswer;
+	}
+
+	public void setTimeToAnswer(int timeToAnswer) {
+		this.timeToAnswer = timeToAnswer;
+	}
+
+	public QuestionType getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(QuestionType questionType) {
+		this.questionType = questionType;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -158,6 +184,9 @@ public class Question extends DomainObject implements  Serializable{
 				+ ((propositions == null) ? 0 : propositions.hashCode());
 		result = prime * result
 				+ ((question == null) ? 0 : question.hashCode());
+		result = prime * result
+				+ ((questionType == null) ? 0 : questionType.hashCode());
+		result = prime * result + timeToAnswer;
 		result = prime * result + ((topic == null) ? 0 : topic.hashCode());
 		return result;
 	}
@@ -192,6 +221,10 @@ public class Question extends DomainObject implements  Serializable{
 				return false;
 		} else if (!question.equals(other.question))
 			return false;
+		if (questionType != other.questionType)
+			return false;
+		if (timeToAnswer != other.timeToAnswer)
+			return false;
 		if (topic == null) {
 			if (other.topic != null)
 				return false;
@@ -200,6 +233,7 @@ public class Question extends DomainObject implements  Serializable{
 		return true;
 	}
 
+	
 
 
 }

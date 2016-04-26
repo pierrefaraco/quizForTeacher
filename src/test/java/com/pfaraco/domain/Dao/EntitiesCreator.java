@@ -38,6 +38,7 @@ import com.pfaraco.quiz.server.domain.user.User;
 import com.pfaraco.quiz.server.domain.user.UserDao;
 import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
 import com.pfaraco.quiz.server.enums.AccountType;
+import com.pfaraco.quiz.server.enums.QuestionType;
 import com.pfaraco.quiz.server.enums.SessionStatus;
 import com.pfaraco.quiz.server.enums.SubscriberStatus;
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -95,14 +96,14 @@ public class EntitiesCreator extends TestCase {
 	public static Map<Integer, Question> createListOfQuestions(QuestionDao questionDao,int number , Topic topic){
 		Map<Integer, Question> questions = new HashMap<Integer, Question>();
 		for (int i = 0; i < number; i++) {
-			questions.put(i, createRandomQuestion(topic));
+			questions.put(i, createRandomQuestion(topic,QuestionType.QUIZ));
 			questionDao.save(questions.get(i));
 		}
 		return questions;
 	}
 	
 	
-	public static Question createRandomQuestion(Topic topic) {
+	public static Question createRandomQuestion(Topic topic, QuestionType questionType) {
 		List<String> propositions = new ArrayList<String>();
 		List<String> answers = new ArrayList<String>();
 		for (int i=0;i<(int) (Math.random() * 10);i++){
@@ -117,12 +118,14 @@ public class EntitiesCreator extends TestCase {
 				(int) (Math.random() * 10),
 				(int) (Math.random() * 60),
 				(int) (Math.random() * 100),
+				questionType,
 				topic);
 	}
 
-	public static Question createQuestion(String question,List <String> propositions, List <String> answers,int points,int timeToAnswer,int position, Topic topic)
+	public static Question createQuestion(String question,List <String> propositions, List <String> answers,int points,
+			int timeToAnswer,int position, QuestionType questionType,Topic topic)
 		{
-		return new Question(question, propositions, answers, points,timeToAnswer, position, topic);
+		return new Question(question, propositions, answers, points,timeToAnswer, position,questionType, topic);
 		}
 	
 	public static Sequence createRandomSequence(User user,Map<Integer, Question> questions) {

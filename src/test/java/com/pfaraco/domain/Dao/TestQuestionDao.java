@@ -22,6 +22,7 @@ import com.pfaraco.quiz.server.domain.topic.TopicDaoImpl;
 import com.pfaraco.quiz.server.domain.user.User;
 import com.pfaraco.quiz.server.domain.user.UserDao;
 import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
+import com.pfaraco.quiz.server.enums.QuestionType;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,8 +49,8 @@ public class TestQuestionDao  extends TestCase {
 		Topic topic2 = EntitiesCreator.createRandomTopic(user);	
 		topicDao.save(topic);
 		topicDao.save(topic2);
-		Question question1  = EntitiesCreator.createRandomQuestion(topic);
-		Question question2  = EntitiesCreator.createRandomQuestion(topic2);
+		Question question1  = EntitiesCreator.createRandomQuestion(topic,QuestionType.QUIZ);
+		Question question2  = EntitiesCreator.createRandomQuestion(topic2,QuestionType.QUIZ);
 
 		questionDao.save(question1);
 		questionDao.save(question2);
@@ -68,7 +69,7 @@ public class TestQuestionDao  extends TestCase {
 		int questionCount = questionDao.findAll().size();		
 		int t = 50;
 		for (int i = 0;i<t;i++)
-			questionDao.save(EntitiesCreator.createRandomQuestion(topic));		
+			questionDao.save(EntitiesCreator.createRandomQuestion(topic,QuestionType.QUIZ));		
 		assertEquals( questionCount + t ,questionDao.findAll().size());				
 	}
 
