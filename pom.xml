@@ -1,23 +1,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.pfaraco</groupId>
+	<groupId>com.cnam</groupId>
 	<artifactId>quizForTeacher</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>quizForTeacher</name>
 	<url>http://maven.apache.org</url>
 
+	
+	<!-- =================================================================== -->
+    <!-- Properties                                                             -->
+    <!-- =================================================================== -->
+	
 	<properties>
 		<junit-version>4.12</junit-version>
 		<easymock-version>3.4</easymock-version>
 		<java-version>1.8</java-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
 		<springframework.version>4.2.5.RELEASE</springframework.version>
+		<springframework.session.version>1.2.0.RELEASE</springframework.session.version>
+		
 		<jackson.version>2.5.3</jackson.version>
 		<mysql-version>5.1.6</mysql-version>
+	
 		<hibernate.version>4.3.6.Final</hibernate.version>
-
 		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
 		<jstl.version>1.2</jstl.version>
 		<hibernate.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.dialect>
@@ -31,6 +39,10 @@
 
 	</properties>
 
+	<!-- =================================================================== -->
+    <!-- Dependencies                                                               -->
+    <!-- =================================================================== -->
+	
 	<dependencies>
 
 		<!-- Test -->
@@ -78,6 +90,13 @@
 			<version>${springframework.version}</version>
 		</dependency>
 
+	  	<dependency>
+                <groupId>org.springframework.session</groupId>
+                <artifactId>spring-session-data-redis</artifactId>
+                <version>${springframework.session.version}</version>
+                <type>pom</type>
+        </dependency>
+		
 
 		<!-- servlet -->
 
@@ -115,7 +134,9 @@
 		</dependency>
 	</dependencies>
 
-
+    <!-- =================================================================== -->
+    <!-- Plugins                                                               -->
+    <!-- =================================================================== -->
 
 
 	<build>
@@ -125,12 +146,8 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
-
-
 		<finalName>quizForTeacher</finalName>
 		<plugins>
-
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -139,7 +156,6 @@
 					<target>${java-version}</target>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -150,7 +166,6 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -163,9 +178,6 @@
 					<update>true</update>
 				</configuration>
 			</plugin>
-
 		</plugins>
-
 	</build>
-
 </project>

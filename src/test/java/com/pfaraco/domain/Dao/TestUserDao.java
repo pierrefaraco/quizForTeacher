@@ -20,12 +20,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.pfaraco.quiz.server.config.PersistenceJPAConfig;
-import com.pfaraco.quiz.server.domain.questions.QuestionDaoImpl;
-import com.pfaraco.quiz.server.domain.topic.TopicDaoImpl;
-import com.pfaraco.quiz.server.domain.user.User;
-import com.pfaraco.quiz.server.domain.user.UserDao;
-import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
+import com.cnam.quiz.common.config.PersistenceJPAConfig;
+import com.cnam.quiz.server.domain.questions.QuestionDaoImpl;
+import com.cnam.quiz.server.domain.topic.TopicDaoImpl;
+import com.cnam.quiz.server.domain.user.User;
+import com.cnam.quiz.server.domain.user.UserDao;
+import com.cnam.quiz.server.domain.user.UserDaoImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,

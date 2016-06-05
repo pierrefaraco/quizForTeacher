@@ -23,24 +23,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.pfaraco.quiz.server.config.PersistenceJPAConfig;
-import com.pfaraco.quiz.server.domain.cours.Cours;
-import com.pfaraco.quiz.server.domain.questions.Question;
-import com.pfaraco.quiz.server.domain.questions.QuestionDao;
-import com.pfaraco.quiz.server.domain.questions.QuestionDaoImpl;
-import com.pfaraco.quiz.server.domain.result.Result;
-import com.pfaraco.quiz.server.domain.sequence.Sequence;
-import com.pfaraco.quiz.server.domain.sessionquiz.SessionQuiz;
-import com.pfaraco.quiz.server.domain.topic.Topic;
-import com.pfaraco.quiz.server.domain.topic.TopicDao;
-import com.pfaraco.quiz.server.domain.topic.TopicDaoImpl;
-import com.pfaraco.quiz.server.domain.user.User;
-import com.pfaraco.quiz.server.domain.user.UserDao;
-import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
-import com.pfaraco.quiz.server.enums.AccountType;
-import com.pfaraco.quiz.server.enums.QuestionType;
-import com.pfaraco.quiz.server.enums.SessionStatus;
-import com.pfaraco.quiz.server.enums.SubscriberStatus;
+import com.cnam.quiz.common.config.PersistenceJPAConfig;
+import com.cnam.quiz.common.enums.AccountType;
+import com.cnam.quiz.common.enums.QuestionType;
+import com.cnam.quiz.common.enums.SessionStatus;
+import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.server.domain.cours.Cours;
+import com.cnam.quiz.server.domain.questions.Question;
+import com.cnam.quiz.server.domain.questions.QuestionDao;
+import com.cnam.quiz.server.domain.questions.QuestionDaoImpl;
+import com.cnam.quiz.server.domain.result.Result;
+import com.cnam.quiz.server.domain.sequence.Sequence;
+import com.cnam.quiz.server.domain.sessionquiz.SessionQuiz;
+import com.cnam.quiz.server.domain.topic.Topic;
+import com.cnam.quiz.server.domain.topic.TopicDao;
+import com.cnam.quiz.server.domain.topic.TopicDaoImpl;
+import com.cnam.quiz.server.domain.user.User;
+import com.cnam.quiz.server.domain.user.UserDao;
+import com.cnam.quiz.server.domain.user.UserDaoImpl;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })

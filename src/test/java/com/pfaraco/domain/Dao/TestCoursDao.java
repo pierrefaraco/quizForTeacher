@@ -15,21 +15,21 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.pfaraco.quiz.server.config.PersistenceJPAConfig;
-import com.pfaraco.quiz.server.domain.cours.Cours;
-import com.pfaraco.quiz.server.domain.cours.CoursDao;
-import com.pfaraco.quiz.server.domain.cours.CoursDaoImpl;
-import com.pfaraco.quiz.server.domain.user.User;
-import com.pfaraco.quiz.server.domain.user.UserDao;
-import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
-import com.pfaraco.quiz.server.enums.AccountType;
-import com.pfaraco.quiz.server.enums.SubscriberStatus;
+import com.cnam.quiz.common.config.PersistenceJPAConfig;
+import com.cnam.quiz.common.enums.AccountType;
+import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.server.domain.cours.Cours;
+import com.cnam.quiz.server.domain.cours.CoursDao;
+import com.cnam.quiz.server.domain.cours.CoursDaoImpl;
+import com.cnam.quiz.server.domain.user.User;
+import com.cnam.quiz.server.domain.user.UserDao;
+import com.cnam.quiz.server.domain.user.UserDaoImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class, CoursDaoImpl.class })
 @Transactional(rollbackOn = Exception.class)
-@Rollback(false)
+@Rollback(true)
 public class TestCoursDao extends TestCase  {
 	@Autowired
 	UserDao userDao;

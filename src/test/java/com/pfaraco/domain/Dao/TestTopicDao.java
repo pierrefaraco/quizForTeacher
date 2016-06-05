@@ -29,18 +29,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pfaraco.App;
-import com.pfaraco.quiz.server.config.MVCConfig;
-import com.pfaraco.quiz.server.config.PersistenceJPAConfig;
-import com.pfaraco.quiz.server.domain.questions.QuestionDaoImpl;
-import com.pfaraco.quiz.server.domain.topic.Topic;
-import com.pfaraco.quiz.server.domain.topic.TopicDao;
-import com.pfaraco.quiz.server.domain.topic.TopicDaoImpl;
-import com.pfaraco.quiz.server.domain.user.User;
-import com.pfaraco.quiz.server.domain.user.UserDao;
-import com.pfaraco.quiz.server.domain.user.UserDaoImpl;
-import com.pfaraco.quiz.server.service.topic.TopicService;
-import com.pfaraco.quiz.server.util.persistence.AbstractDataAccessObject;
+import com.cnam.quiz.common.config.App;
+import com.cnam.quiz.common.config.MVCConfig;
+import com.cnam.quiz.common.config.PersistenceJPAConfig;
+import com.cnam.quiz.server.domain.questions.QuestionDaoImpl;
+import com.cnam.quiz.server.domain.topic.Topic;
+import com.cnam.quiz.server.domain.topic.TopicDao;
+import com.cnam.quiz.server.domain.topic.TopicDaoImpl;
+import com.cnam.quiz.server.domain.user.User;
+import com.cnam.quiz.server.domain.user.UserDao;
+import com.cnam.quiz.server.domain.user.UserDaoImpl;
+import com.cnam.quiz.server.service.topic.TopicService;
+import com.cnam.quiz.server.util.persistence.AbstractDataAccessObject;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
