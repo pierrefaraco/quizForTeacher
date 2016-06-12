@@ -8,23 +8,23 @@
 	<name>quizForTeacher</name>
 	<url>http://maven.apache.org</url>
 
-	
+
 	<!-- =================================================================== -->
-    <!-- Properties                                                             -->
-    <!-- =================================================================== -->
-	
+	<!-- Properties -->
+	<!-- =================================================================== -->
+
 	<properties>
 		<junit-version>4.12</junit-version>
 		<easymock-version>3.4</easymock-version>
 		<java-version>1.8</java-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<springframework.version>4.2.5.RELEASE</springframework.version>
 		<springframework.session.version>1.2.0.RELEASE</springframework.session.version>
-		
+		<springframework.security>4.1.0.RELEASE</springframework.security>
 		<jackson.version>2.5.3</jackson.version>
 		<mysql-version>5.1.6</mysql-version>
-	
+
 		<hibernate.version>4.3.6.Final</hibernate.version>
 		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
 		<jstl.version>1.2</jstl.version>
@@ -40,9 +40,9 @@
 	</properties>
 
 	<!-- =================================================================== -->
-    <!-- Dependencies                                                               -->
-    <!-- =================================================================== -->
-	
+	<!-- Dependencies -->
+	<!-- =================================================================== -->
+
 	<dependencies>
 
 		<!-- Test -->
@@ -90,13 +90,24 @@
 			<version>${springframework.version}</version>
 		</dependency>
 
-	  	<dependency>
-                <groupId>org.springframework.session</groupId>
-                <artifactId>spring-session-data-redis</artifactId>
-                <version>${springframework.session.version}</version>
-                <type>pom</type>
-        </dependency>
-		
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+			<version>${springframework.session.version}</version>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${springframework.security}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${springframework.security}</version>
+		</dependency>
 
 		<!-- servlet -->
 
@@ -112,7 +123,12 @@
 			<version>${jstl.version}</version>
 		</dependency>
 
-
+ 		<dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        
 		<!-- MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -134,9 +150,9 @@
 		</dependency>
 	</dependencies>
 
-    <!-- =================================================================== -->
-    <!-- Plugins                                                               -->
-    <!-- =================================================================== -->
+	<!-- =================================================================== -->
+	<!-- Plugins -->
+	<!-- =================================================================== -->
 
 
 	<build>

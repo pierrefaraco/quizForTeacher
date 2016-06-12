@@ -33,15 +33,15 @@ public class UserRestWebService {
 	            return new ResponseEntity<UserDto>(HttpStatus.NOT_FOUND);
 	        }
 	        HttpHeaders headers = new HttpHeaders();       
-	        headers.add("Set-Cookie", "connected=" + "yes");
-	        headers.add("Set-Cookie", "userId=" + userDto.getId() );
-	        headers.add("Set-Cookie", "accountType=" + userDto.getAccountType());
-	        headers.add("Set-Cookie", "tocken=" +"#$"+ (int)(Math.random()*100000000)+"$#");
+	        //headers.add("Set-Cookie", "connected=" + "yes");
+	        //headers.add("Set-Cookie", "userId=" + userDto.getId() );
+	        //headers.add("Set-Cookie", "accountType=" + userDto.getAccountType());
+	        //headers.add("Set-Cookie", "tocken=" +"#$"+ (int)(Math.random()*100000000)+"$#");
 	        return new ResponseEntity<UserDto>(userDto,headers, HttpStatus.OK);
 	    }
 	 
 	 
-	 @RequestMapping(value = "/user/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	 @RequestMapping(value = "signin/user/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<UserDto> createAccount (@RequestBody UserDto userDto,  UriComponentsBuilder ucBuilder) {	        
 	    	System.out.println("Creating User " + userDto.getFirstName());	  
 	    	userService.createAccount(userDto);  

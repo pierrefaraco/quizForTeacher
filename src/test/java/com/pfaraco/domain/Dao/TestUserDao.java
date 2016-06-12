@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.cnam.quiz.common.config.PersistenceJPAConfig;
+import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.server.domain.questions.QuestionDaoImpl;
 import com.cnam.quiz.server.domain.topic.TopicDaoImpl;
 import com.cnam.quiz.server.domain.user.User;
@@ -55,6 +56,18 @@ public class TestUserDao  extends TestCase{
 		for (int i = 0;i<t;i++)
 			userDao.save(EntitiesCreator.createRandomUser());		
 		assertEquals(" the 3 users haven't been registered ", usersCount + t ,userDao.findAll().size());					
+	}
+	
+	@Test
+	public void testSavePierre() {	
+		User user =new User();
+		user.setAccountType(AccountType.AUDITOR);	
+		user.setEmail("pierre.faraco@gmail.com");
+		user.setPassword("55261981");
+		user.setFirstName("pierre");
+		user.setLastName("Faraco");
+		userDao.save(user);		
+						
 	}
 	
 	@Test

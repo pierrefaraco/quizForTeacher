@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
  
+
 
 
 
@@ -26,10 +28,14 @@ public class topicRestWebService {
 	
 	 @Autowired
 	 TopicService topicService;	
+	 
+
 	
 	  //-------------------Retrieve All Topics--------------------------------------------------------
     
     @RequestMapping(value = "/topic/", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('admin')")
+    
     public ResponseEntity<List<TopicDto>> listAllTopics() {
         List<TopicDto> topics = topicService.findAllTopics();
         if( topics.isEmpty()){

@@ -25,6 +25,7 @@ import com.cnam.quiz.server.domain.topic.Topic;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "findAllUsers", query="select o from User o"),
+	@NamedQuery(name = "findUsersByEmail", query="select o from User o where o.email = :email"),
 	@NamedQuery(name = "findUsersByEmailAndPassword", query="select o from User o where o.email = :email and o.password = :password  ")
 })
 
