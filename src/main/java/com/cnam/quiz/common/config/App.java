@@ -40,7 +40,7 @@ public class App extends AbstractAnnotationConfigDispatcherServletInitializer {
     protected Filter[] getServletFilters() {
         Filter [] singleton = { new CORSFilter() };
         return singleton;
-   
+
     }
- //*/
-} //*/
+
+} 

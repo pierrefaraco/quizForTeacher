@@ -1,0 +1,44 @@
+body {
+  padding-top: 10px;
+}
+[class*="col-"], footer {
+ /*  background-color: lightblue;
+  border: 1px black;*/
+
+  line-height: 40px;
+  text-align: center;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1600px) {
+  .container {
+    width: 1280px;
+  }
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #eee;
+}

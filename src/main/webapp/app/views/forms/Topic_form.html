@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- Form topic-->
+
+<h6>topic</h6> 
+<div class="btn-group-vertical">
+
+        <script type="text/ng-template" id="myModalContent.html">
+                    <div class="modal-header">
+                    <h3 class="modal-title">Topic form</h3>
+                    </div>
+                    <div class="modal-body">
+                    <div class="row">
+                    <div class="form-group">
+                    <label class="col-lg-3 control-label" for="textinput">Topic name</label>  
+                    <div class="col-lg-9">
+                    <input id="textinput" ng-model="name" name="textinput" type="text" placeholder="Topic name" class="form-control input-md" required="">
+
+                    </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <!-- Textarea -->
+                    <div class="form-group">
+                    <label class="col-lg-3 control-label" for="textarea">Description</label>
+                    <div class="col-lg-9">                     
+                    <textarea ng-model="description" class="form-control"  id="textarea"  name="textarea">Enter here a description</textarea>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" ng-click="validate()">OK</button>
+                    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+                    </div>
+        </script>
+        <button type="button" class="btn btn-primary pull-right" ng-click="open()">Create topic</button>
+        <button type="button" class="btn btn-primary pull-right" ng-click="open('edit',null)">Edit topic</button>
+        <button type="button" class="btn btn-primary pull-right" ng-click="remove()">Delete topic</button>  
+
+</div> 
+ 

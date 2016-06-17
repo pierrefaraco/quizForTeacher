@@ -1,0 +1,87 @@
+<!DOCTYPE html  >
+<html  ><!-- ng-strict-di -->
+
+	<script src="js/jquery.js"></script>
+	<script src="js/angular.min.js"></script>
+        <script src="js/angular-route.js"></script>
+        <script src="js/angular-resource.js"></script>
+        <script src="js/angular-cookies.min.js"></script>
+	<script src="js/ui-bootstrap.min.js"></script>
+      
+     
+        <script src="app/main.js"></script>
+        <script src="app/constants.js"></script>
+        <script src="app/routage/route.js"></script>
+        <script src="app/services/userService.js"></script>
+        <script src="app/services/sessionService.js"></script>
+        <script src="app/controller/homeCtrl.js"></script>
+	<script src="app/controller/questionsCtrl.js"></script>
+        <script src="app/controller/profilCtrl.js"></script>
+
+<head>   
+  <title> Main page </title>
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="shortcut icon" href="">
+</head>
+
+<body ng-app="quizApp" ng-strict-di>
+
+  <div class="container" >
+
+
+
+    <!-- Header -->
+
+    <header class="row">
+      <div class="col-lg-12">
+        No quiz sesion
+      </div>
+    </header>
+
+    <!-- Menu navigation -->
+
+    <div class="row">
+      <div class="col-lg-12">
+        <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">Quizipepo</a>
+            </div>
+            <ul class="nav navbar-nav">
+              <li><a href="#/">Home</a></li>
+              <li><a href="#">Courses management</a></li>
+              <li class="active"><a href="#/QuestionsUI">Questions management</a></li> 
+              <li><a href="#">Quiz session management</a></li> 
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#/ProfilUI"><span class="glyphicon glyphicon-user"></span>Profil</a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+
+    <!--  main container -->
+
+      <div ng-view>
+        <!--
+           This DIV loads templates depending upon route.
+       -->
+      </div>
+
+    <!-- footer -->
+
+    <footer class="row">
+      <div class="col-lg-12">
+        A GLG-204 Project developped by Pierre faraco
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
+
+
