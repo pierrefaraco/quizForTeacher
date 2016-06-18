@@ -21,23 +21,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.server.domain.topic.Topic;
-import com.cnam.quiz.server.service.topic.TopicService;
+import com.cnam.quiz.server.service.topic.QuizService;
 
 @RestController
-public class topicRestWebService {
+public class quizRestWebService {
 	
 	 @Autowired
-	 TopicService topicService;	
-	 
-
-	
+	 QuizService quizService;	
+	 	
 	  //-------------------Retrieve All Topics--------------------------------------------------------
     
-    @RequestMapping(value = "/topic/", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('admin')")
-    
+    @RequestMapping(value = "/topic/", method = RequestMethod.GET)    
     public ResponseEntity<List<TopicDto>> listAllTopics() {
-        List<TopicDto> topics = topicService.findAllTopics();
+        List<TopicDto> topics = quizService.findAllTopics();
         if( topics.isEmpty()){
             return new ResponseEntity<List<TopicDto>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
@@ -50,7 +46,7 @@ public class topicRestWebService {
     @RequestMapping(value = "/topic/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TopicDto> getUser(@PathVariable("id") long id) {
         System.out.println("Fetching topic with id " + id);
-        TopicDto topic = topicService.findById(id);
+        TopicDto topic = quizService.findById(id);
         if (topic  == null) {
             System.out.println("User with id " + id + " not found");
             return new ResponseEntity<TopicDto>(HttpStatus.NOT_FOUND);
@@ -85,7 +81,7 @@ public class topicRestWebService {
     public ResponseEntity<TopicDto> updateTopic(@PathVariable("id") long id, @RequestBody Topic topic) {
         System.out.println("Updating User " + id);
           
-        TopicDto currentTopic = topicService.findById(id);
+        TopicDto currentTopic = quizService.findById(id);
           
         if (currentTopic==null) {
             System.out.println("User with id " + id + " not found");
@@ -96,7 +92,7 @@ public class topicRestWebService {
         currentTopic.setDescription(topic.getDescription());
  
           
-        topicService.updateTopic(currentTopic);
+        quizService.updateTopic(currentTopic);
         return new ResponseEntity<TopicDto>(currentTopic, HttpStatus.OK);
     }
     
@@ -107,13 +103,13 @@ public class topicRestWebService {
    public ResponseEntity<Topic> deleteUser(@PathVariable("id") long id) {
        System.out.println("Fetching & Deleting User with id " + id);
  
-       TopicDto topic = topicService.findById(id);
+       TopicDto topic = quizService.findById(id);
        if (topic== null) {
            System.out.println("Unable to delete. User with id " + id + " not found");
            return new ResponseEntity<Topic>(HttpStatus.NOT_FOUND);
        }
  
-       topicService.deleteTopicById(id);
+       quizService.deleteTopicById(id);
        return new ResponseEntity<Topic>(HttpStatus.NO_CONTENT);
    }
    
@@ -123,7 +119,7 @@ public class topicRestWebService {
    public ResponseEntity<Topic> deleteAllUsers() {
        System.out.println("Deleting All Users");
  
-       topicService.deleteAllTopics();
+       quizService.deleteAllTopics();
        return new ResponseEntity<Topic>(HttpStatus.NO_CONTENT);
    }
  

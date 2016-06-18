@@ -6,6 +6,9 @@ quizApp.config(["$routeProvider",function($routeProvider){
                 templateUrl:"app/views/Home.html"
             })
             .when("/CoursUI",{
+                templateUrl:"app/views/Cours.html"
+            }) 
+             .when("/SuscribersUI",{
                 templateUrl:"app/views/Home.html"
             })
             .when("/UsersUI",{

@@ -39,7 +39,7 @@ import com.cnam.quiz.server.domain.topic.TopicDaoImpl;
 import com.cnam.quiz.server.domain.user.User;
 import com.cnam.quiz.server.domain.user.UserDao;
 import com.cnam.quiz.server.domain.user.UserDaoImpl;
-import com.cnam.quiz.server.service.topic.TopicService;
+import com.cnam.quiz.server.service.topic.QuizService;
 import com.cnam.quiz.server.util.persistence.AbstractDataAccessObject;
 
 @RunWith(SpringJUnit4ClassRunner.class)

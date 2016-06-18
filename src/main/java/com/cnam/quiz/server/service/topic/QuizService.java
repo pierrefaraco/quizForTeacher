@@ -5,7 +5,7 @@ import java.util.List;
 import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.server.domain.topic.Topic;
 
-public interface TopicService {
+public interface QuizService {
 	
 	   	TopicDto findById(long id);
 	     

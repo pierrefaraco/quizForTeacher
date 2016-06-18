@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto findUser(long id) {
 		User user = userDao.find(id);
-		return userToDto(user);
+		return userToUserDto(user);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	private UserDto userToDto(User user) {
+	public UserDto userToUserDto(User user) {
 		UserDto userDto = new UserDto();
 		userDto.setId(user.getId());
 		userDto.setEmail(user.getEmail());
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
 		return userDto;
 	}
 
-	private User dtoToUser(User userDto) {
+	public User userDtoToUser(User userDto) {
 		User user = new User();
 		user.setAccountType(userDto.getAccountType());
 		user.setEmail(userDto.getEmail());

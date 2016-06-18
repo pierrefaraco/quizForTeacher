@@ -15,9 +15,9 @@ import com.cnam.quiz.server.domain.topic.TopicDao;
 import com.cnam.quiz.server.domain.topic.TopicDaoImpl;
 import com.cnam.quiz.server.domain.user.User;
 
-@Service("topicService")
+@Service("quizService")
 @Transactional
-public class TopicServiceImpl implements  TopicService{
+public class QuizServiceImpl implements  QuizService{
 	 private static List<Topic> topics;
 	 private static final AtomicLong counter = new AtomicLong();  
 	 
