@@ -16,9 +16,8 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 
 
- //Cette classe lasse qui initialise l'application
+ //Cette classe initialise l'application
 public class App extends AbstractAnnotationConfigDispatcherServletInitializer {
-
 	
     @Override
     protected Class<?>[] getRootConfigClasses() {

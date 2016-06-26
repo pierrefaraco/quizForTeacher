@@ -1,6 +1,8 @@
 package com.pfaraco.domain.Dao;
 
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import junit.framework.TestCase;
@@ -13,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.cnam.quiz.common.config.PersistenceJPAConfig;
+import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.QuestionType;
 import com.cnam.quiz.server.domain.questions.Question;
 import com.cnam.quiz.server.domain.questions.QuestionDao;
@@ -60,6 +63,7 @@ public class TestQuestionDao  extends TestCase {
 		assertTrue(question1 .getId()!= question2 .getId());
 						
 	}
+	
 	@Test
 	public void testSaveQuestion() {	
 		User user = EntitiesCreator.createRandomUser();
@@ -70,8 +74,27 @@ public class TestQuestionDao  extends TestCase {
 		int t = 50;
 		for (int i = 0;i<t;i++)
 			questionDao.save(EntitiesCreator.createRandomQuestion(topic,QuestionType.QUIZ));		
-		assertEquals( questionCount + t ,questionDao.findAll().size());				
+		assertEquals( questionCount + t ,questionDao.findAll().size());			
+		List<Question> g = questionDao.findAll();
+		for (Question question : g )
+			assertEquals(topic.getId() , question.getTopic().getId());			
+		
 	}
+	
+	@Test
+	public void findQuestionsByTopic() {	
+		User user = EntitiesCreator.createRandomUser();
+		user.setAccountType(AccountType.PROFESSOR);
+		userDao.save(user);	
+		Topic topic = EntitiesCreator.createRandomTopic(user);	
+		topicDao.save(topic);
+		for (int i = 0;i <10 ;i++)
+			questionDao.save(EntitiesCreator.createRandomQuestion(topic,QuestionType.QUIZ));	
+				
+		int questionCount = questionDao.findQuestionsByTopic(topic).size();				
+		assertEquals( questionCount , 10);				
+	}
+
 
 	
 }

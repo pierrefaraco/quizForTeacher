@@ -20,10 +20,12 @@ import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.cnam.quiz.common.config.PersistenceJPAConfig;
+import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.QuestionType;
 import com.cnam.quiz.common.enums.SessionStatus;
@@ -45,7 +47,8 @@ import com.cnam.quiz.server.domain.user.UserDaoImpl;
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })
 
-@Transactional
+@Transactional(rollbackOn = Exception.class)
+@Rollback(false)
 public class EntitiesCreator extends TestCase {
 	@Test
 	public void test(){
@@ -99,6 +102,24 @@ public class EntitiesCreator extends TestCase {
 			questions.put(i, createRandomQuestion(topic,QuestionType.QUIZ));
 			questionDao.save(questions.get(i));
 		}
+		return questions;
+	}
+	
+	// Pour chaque élément de la collection topics  : Crée un nombre de questions ( value Integer ) associé au Topic (key  topic)
+	public static Map<Integer, Question> createListOfQuestions(QuestionDao questionDao, Map <Topic, Integer>  topics){
+		
+		Map<Integer, Question> questions = new HashMap<Integer, Question>();
+		int c=0;
+		for (Map.Entry <Topic, Integer>  e :  topics.entrySet()) {
+			Topic topic = e.getKey();
+			int t = e.getValue();
+			for (int i = 0; i < t; i++) {
+				Question question = createRandomQuestion(topic,QuestionType.QUIZ);
+				questions.put(c++,question );
+				questionDao.save( question );
+			}
+		
+		}	
 		return questions;
 	}
 	

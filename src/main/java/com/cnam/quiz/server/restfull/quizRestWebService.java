@@ -21,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.server.domain.topic.Topic;
-import com.cnam.quiz.server.service.topic.QuizService;
+import com.cnam.quiz.server.service.quiz.QuizService;
 
 @RestController
 public class quizRestWebService {
@@ -29,6 +29,27 @@ public class quizRestWebService {
 	 @Autowired
 	 QuizService quizService;	
 	 	
+	 
+	 
+	    //-------------------Create a Topic--------------------------------------------------------
+	    
+	    @RequestMapping(value = "/topic/", method = RequestMethod.POST)
+	    public ResponseEntity<Void> createUser(@RequestBody TopicDto topic,  UriComponentsBuilder ucBuilder) {
+	        
+	    	System.out.println("Creating Topic " + topic.getName());
+	    	/*
+	        if (quizService.isTopicExist(topic)){
+	            System.out.println("A topic with name " + topic.getName() + " already exist");
+	            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+	            
+	        }
+	  */
+	    	//quizService.saveTopic(topic);
+
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setLocation(ucBuilder.path("/topic/{id}").buildAndExpand(topic.getId()).toUri());
+	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	    }
 	  //-------------------Retrieve All Topics--------------------------------------------------------
     
     @RequestMapping(value = "/topic/", method = RequestMethod.GET)    
@@ -46,7 +67,7 @@ public class quizRestWebService {
     @RequestMapping(value = "/topic/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TopicDto> getUser(@PathVariable("id") long id) {
         System.out.println("Fetching topic with id " + id);
-        TopicDto topic = quizService.findById(id);
+        TopicDto topic = quizService.findTopic(id);
         if (topic  == null) {
             System.out.println("User with id " + id + " not found");
             return new ResponseEntity<TopicDto>(HttpStatus.NOT_FOUND);
@@ -54,25 +75,7 @@ public class quizRestWebService {
         return new ResponseEntity<TopicDto>(topic, HttpStatus.OK);
     }
     
-    //-------------------Create a Topic--------------------------------------------------------
-    
-    @RequestMapping(value = "/topic/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody TopicDto topic,  UriComponentsBuilder ucBuilder) {
-        
-    	System.out.println("Creating User " + topic.getName());
-  /*
-        if (topicService.isTopicExist(topic)){
-            System.out.println("A topic with name " + topic.getName() + " already exist");
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-            
-        }
-  
-        topicService.saveTopic(topic);
-  */
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/topic/{id}").buildAndExpand(topic.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-    }
+
     
     
     //------------------- Update a Topic --------------------------------------------------------
@@ -81,7 +84,7 @@ public class quizRestWebService {
     public ResponseEntity<TopicDto> updateTopic(@PathVariable("id") long id, @RequestBody Topic topic) {
         System.out.println("Updating User " + id);
           
-        TopicDto currentTopic = quizService.findById(id);
+        TopicDto currentTopic = quizService.findTopic(id);
           
         if (currentTopic==null) {
             System.out.println("User with id " + id + " not found");
@@ -103,13 +106,13 @@ public class quizRestWebService {
    public ResponseEntity<Topic> deleteUser(@PathVariable("id") long id) {
        System.out.println("Fetching & Deleting User with id " + id);
  
-       TopicDto topic = quizService.findById(id);
+       TopicDto topic = quizService.findTopic(id);
        if (topic== null) {
            System.out.println("Unable to delete. User with id " + id + " not found");
            return new ResponseEntity<Topic>(HttpStatus.NOT_FOUND);
        }
  
-       quizService.deleteTopicById(id);
+       quizService.deleteTopic(id);
        return new ResponseEntity<Topic>(HttpStatus.NO_CONTENT);
    }
    
@@ -119,7 +122,7 @@ public class quizRestWebService {
    public ResponseEntity<Topic> deleteAllUsers() {
        System.out.println("Deleting All Users");
  
-       quizService.deleteAllTopics();
+
        return new ResponseEntity<Topic>(HttpStatus.NO_CONTENT);
    }
  

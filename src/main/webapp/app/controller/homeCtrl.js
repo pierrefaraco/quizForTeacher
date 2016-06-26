@@ -2,19 +2,19 @@
 quizApp.controller('homeCtrl',
 		[
 				"$scope",
-				"userService",
+				"restService",
+                                "$location",
 				"$cookies",
 				"AuthSharedService",
-				function($scope, userService, $cookies, AuthSharedService) {
-					var loginRestService = userService.getLoginRest();
-
-					$scope.connected = $cookies.get("testCookies");
-
-					$scope.login = function() {
+				function($scope,restService,$location,$cookies, AuthSharedService) {
+					
+                                        $scope.login = function() {
 						AuthSharedService.login($scope.Email, $scope.Password,
-								'false');
+								'false');    
+                                                $scope.$parent.connected = true;
 					};
-					$scope.display = function() {
-
+					
+					$scope.signup = function () {                                   
+                                             $location.path("/ProfilUI");
 					};
 				} ]);

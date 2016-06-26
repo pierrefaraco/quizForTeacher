@@ -26,13 +26,22 @@ public class coursRestWebService {
 	
   //-------------------Retrieve All Topics--------------------------------------------------------
    
-   @RequestMapping(value = "/professor/{id}/cours/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-   public ResponseEntity<List<CoursDto>> listAllTopics(@PathVariable("id") long  professorId) {
-       List<CoursDto> cours =  coursService.getAllProfessorCours(professorId);
+   @RequestMapping(value = "/user/{id}/cours/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<List<CoursDto>> listAllTopics(@PathVariable("id") long  userId) {
+       List<CoursDto> cours =  coursService.getAllProfessorCours(userId);
        if( cours.isEmpty()){
            return new ResponseEntity<List<CoursDto>>(HttpStatus.NO_CONTENT);
        }
        return new ResponseEntity<List<CoursDto>>( cours, HttpStatus.OK);
+   }
+   
+   
+   @RequestMapping(value = "/user/{id}/cours/{coursId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<CoursDto> getCours(@PathVariable("id") long  userId,@PathVariable("coursId")long   coursId) {
+       CoursDto cours = coursService.getCours(coursId);
+       if( cours == null)
+           return new ResponseEntity<CoursDto>(HttpStatus.NO_CONTENT);
+      return new ResponseEntity<CoursDto>( cours, HttpStatus.OK);
    }
    
  

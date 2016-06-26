@@ -8,6 +8,8 @@ import com.cnam.quiz.common.dto.UserDto;
 
 public interface CoursService {	
 	
+		CoursDto getCours(long coursId);
+	
 		CoursDto createCours();
 		
 		CoursDto updateCours(CoursDto coursDto);

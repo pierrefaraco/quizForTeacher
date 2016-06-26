@@ -2,6 +2,7 @@ package com.cnam.quiz.common.config;
 
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

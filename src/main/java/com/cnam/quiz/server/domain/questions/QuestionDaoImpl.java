@@ -21,9 +21,9 @@ public class QuestionDaoImpl extends AbstractDataAccessObjectImpl <Question, Lon
 	}
 
 	@Override
-	public List<Question> findByTopic(Topic topic) {
+	public List<Question> findQuestionsByTopic(Topic topic) {
 		Query query = em.createNamedQuery("findQuestionsByTopic");
-		query.setParameter("userid", topic.getId());
+		query.setParameter("topicid", topic.getId());
 		return query.getResultList();
 	}
 

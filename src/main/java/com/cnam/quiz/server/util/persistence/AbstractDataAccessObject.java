@@ -8,6 +8,7 @@ public interface AbstractDataAccessObject <E,K>  {
 	void save(E entity);
 	void update(E entity);
 	void delete(E entity);
+	void refresh(E entity);
 	E find(K id);
 	void setEntityClass();
 }

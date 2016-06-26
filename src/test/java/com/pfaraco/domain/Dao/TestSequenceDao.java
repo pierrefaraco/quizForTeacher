@@ -56,6 +56,7 @@ public class TestSequenceDao  extends TestCase {
 
 		Topic topic1 = EntitiesCreator.createRandomTopic(user);
 		Topic topic2 = EntitiesCreator.createRandomTopic(user);
+		
 		topicDao.save(topic1);
 		topicDao.save(topic2);
 
@@ -137,7 +138,7 @@ public class TestSequenceDao  extends TestCase {
 		long id = sequence1.getId();
 		assertEquals(" the sequence hasn't been registered ",sequenceCount + 1,	sequenceDao.findAll().size());	
 		Sequence sequence2 = sequenceDao.find(id);
-	//	assertTrue(" topic1 did'nt find in database ",  sequence1.equals( sequenceD));
+	
 	}
 
 	@Test

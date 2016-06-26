@@ -33,22 +33,17 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(final String login) {
+    public UserDetails loadUserByUsername(final String login) {	
     	System.out.println(" + "  + login);
-      //  log.debug("Authenticating {}", login);
         User user =  userDao.findUserByMail(login);
- 
         if (user == null) {
       
             throw new UsernameNotFoundException("User " + login + " was not found in the database");
         } 
-	
-        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-        AccountType authority = user.getAccountType();
-        System.out.println("AccountType " + AccountType.getName(authority) + " " + authority );
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(AccountType.getName(authority));
+        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();      
+        System.out.println("AccountType " + user.getAccountType().name() );
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getAccountType().name());
         grantedAuthorities.add(grantedAuthority);       
-
         return new org.springframework.security.core.userdetails.User(login, user.getPassword(),
                 grantedAuthorities);
     }

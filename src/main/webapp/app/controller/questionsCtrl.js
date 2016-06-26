@@ -1,9 +1,4 @@
-'use strict';
 
-
-/**
- * Déclaration de l'application questionsManagement
- */
 
 //var questionsMngmnt = angular.module('questionsMngmnt',[]);
 

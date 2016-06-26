@@ -1,14 +1,10 @@
 package com.pfaraco.domain.Dao;
 
-import static org.junit.Assert.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import junit.framework.TestCase;

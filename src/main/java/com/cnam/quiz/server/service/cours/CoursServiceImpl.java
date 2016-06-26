@@ -31,6 +31,12 @@ public class CoursServiceImpl implements CoursService{
 	}
 
 	@Override
+	public CoursDto getCours(long coursId) {
+		Cours cours = coursDao.find(coursId);// TODO Auto-generated method stub
+		return coursToCoursDto( cours ) ;
+	}
+	
+	@Override
 	public CoursDto updateCours(CoursDto coursDto) {
 		// TODO Auto-generated method stub
 		return null;
@@ -78,8 +84,6 @@ public class CoursServiceImpl implements CoursService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 	
 	public List <CoursDto> listOfcoursToListOfCoursDto (List <Cours> listCours){
 		ArrayList<CoursDto> listCoursDto = new ArrayList<CoursDto>();
@@ -101,7 +105,8 @@ public class CoursServiceImpl implements CoursService{
 		coursDto.setActive(cours.isActive());	
 		coursDto.setDescription(cours.getDescription());
 		coursDto.setName(cours.getName());
-		//coursDto.setUser(cours.getUser());
+		long userId = cours.getUser().getId();
+		coursDto.setUserId(userId);
 		return coursDto;	
 	}
 	
@@ -112,7 +117,10 @@ public class CoursServiceImpl implements CoursService{
 		cours.setActive(coursDto.isActive());	
 		cours.setDescription(coursDto.getDescription());
 		cours.setName(coursDto.getName());
-		cours.setUser(coursDto.getUser());
+		User user  = userDao.find(coursDto.getId());
+		cours.setUser(user);
 		return cours;	
 	}
+
+
 }

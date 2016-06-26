@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.AccountType;
+import com.cnam.quiz.common.exceptions.ObjectNotFoundException;
 import com.cnam.quiz.server.domain.user.User;
 import com.cnam.quiz.server.domain.user.UserDao;
 
@@ -27,18 +28,6 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	@Override
-	public UserDto login(String login, String password) {
-		System.out.println(login + " " + password);
-		User user = userDao.findUserByMailAndPassword(login, password);
-
-		// Retrieve security user after authentication
-
-		UserDto userDto = new UserDto();
-		userDto.setId(user.getId());
-		userDto.setAccountType(user.getAccountType());
-		return userDto;
-	}
 
 	@Override
 	public UserDto findUser(long id) {
@@ -82,22 +71,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteAccount(String id) {
-		// TODO Auto-generated method stub
+	
 
 	}
 
 	@Override
 	public List<UserDto> getAllProfessors() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public User findUserByMail(String email) {
 		User user = userDao.findUserByMail(email);
-
 		return user ;
-
 	}
 
 	public UserDto userToUserDto(User user) {
@@ -124,4 +110,7 @@ public class UserServiceImpl implements UserService {
 		user.setPresentation(userDto.getPresentation());
 		return user;
 	}
+
+
+
 }

@@ -17,20 +17,20 @@ public class CoursDto {
 	private String name;
 	private String description;
 	boolean active;
-	private User user;
+	private long userId;
 	private Map <User,SubscriberStatus> subscribers;
 	
 	public CoursDto() {
 	}
 	
 	public CoursDto(long id, String name, String description, boolean active,
-			User user, Map<User, SubscriberStatus> subscribers) {
+			long userId, Map<User, SubscriberStatus> subscribers) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.active = active;
-		this.user = user;
+		this.userId = userId;
 		this.subscribers = subscribers;
 	}
 
@@ -58,11 +58,11 @@ public class CoursDto {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	public User getUser() {
-		return user;
+	public long getUserId() {
+		return userId;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 	public Map<User, SubscriberStatus> getSubscribers() {
 		return subscribers;

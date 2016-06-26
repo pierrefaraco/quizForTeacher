@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 public abstract class AbstractDataAccessObjectImpl <E,K>  implements AbstractDataAccessObject <E,K> {
 	@PersistenceContext
 	protected EntityManager em;
-    protected EntityTransaction _tx;
+   // protected EntityTransaction _tx;
     private Class <E> entityClass;
     public EntityManager getEm() {
 		return em;
@@ -46,6 +46,9 @@ public abstract class AbstractDataAccessObjectImpl <E,K>  implements AbstractDat
 	public E find(K id) {				
 			return em.find(entityClass , id);
 	}
-
 	
+	@Override
+	public void refresh(E entity){
+			em.refresh(entity);
+	}
 }

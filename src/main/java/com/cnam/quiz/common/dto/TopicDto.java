@@ -6,23 +6,12 @@ public class TopicDto {
 	private long id;
 	private String name;
 	private String description;
+	private long userId;
+	public TopicDto(){}
 	
+
 	
-	public TopicDto(long id, String name, String description) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-	}
-	
-	public TopicDto(Topic topic) {
-		super();
-		this.id = topic.getId();
-		this.name = topic.getName();
-		this.description = topic.getDescription();
-	}
-	
-	
+
 	public long getId() {
 		return id;
 	}
@@ -41,6 +30,15 @@ public class TopicDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	
 	
 	
 }

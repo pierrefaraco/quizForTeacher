@@ -22,8 +22,8 @@ import com.cnam.security.RestUnauthorizedEntryPoint;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = false)
-@ComponentScan(basePackages = "com.cnam")
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@ComponentScan(basePackages = "com.cnam.security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	public static final String REMEMBER_ME_KEY = "rememberme_key";
@@ -62,15 +62,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception {
 	  http
-	   .headers().disable()
-	   .csrf().disable()
-	   .authorizeRequests()
-	    .antMatchers("/user/**").hasAnyAuthority(AccountType.getName(AccountType.AUDITOR))
-	    .antMatchers("/signin/**").hasAnyAuthority(AccountType.getName(AccountType.AUDITOR))
-	    .antMatchers("/professor/**").hasAnyAuthority(AccountType.getName(AccountType.AUDITOR))
-	    .antMatchers("/topic/**").hasAnyAuthority(AccountType.getName(AccountType.AUDITOR))
-	    .antMatchers("/sequence/**").hasAnyAuthority(AccountType.getName(AccountType.AUDITOR))
-	    .antMatchers("/authenticate").permitAll()	   
+	   	.headers().disable()
+	   	.csrf().disable()
+	   	.authorizeRequests()
+	    .antMatchers("/user/**").hasAnyAuthority(AccountType.AUDITOR.name(),AccountType.PROFESSOR.name()) 
+	    .antMatchers("/professor/**").hasAnyAuthority(AccountType.AUDITOR.name(),AccountType.PROFESSOR.name())
+	    .antMatchers("/topic/**").hasAnyAuthority(AccountType.AUDITOR.name(),AccountType.PROFESSOR.name())
+	    .antMatchers("/sequence/**").hasAnyAuthority(AccountType.AUDITOR.name(),AccountType.PROFESSOR.name())
+	    .antMatchers("/authenticate").permitAll()	
+	    .antMatchers("/unsecured/**").permitAll()	
 	    .anyRequest().authenticated()
 	    .and()
 	    .exceptionHandling()
@@ -78,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    .accessDeniedHandler(restAccessDeniedHandler)
 	    .and()
 	    .formLogin()
-	     .loginProcessingUrl("/authenticate")
+	    .loginProcessingUrl("/authenticate")
 	    .successHandler(restAuthenticationSuccessHandler)
 	    .failureHandler(restAuthenticationFailureHandler)
 	    .usernameParameter("username")
