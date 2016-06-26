@@ -41,4 +41,8 @@ public interface QuizService {
 	    
 	    List<SequenceDto> findSequenceByProfessor(long userId);   
 	    
+	    void addQuestionToSequence(long sequenceId, long questionId ,int pos);
+	    
+	    void removeQuestionFromSequence(long sequenceId,int pos);
+	    
 }

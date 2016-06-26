@@ -236,6 +236,40 @@ public class QuizServiceImpl implements  QuizService{
 		return this.listOfSequencesToListOfSequencesDto(sequences);
 	}
 
+	
+	@Override
+	public void addQuestionToSequence(long sequenceId, long questionId ,int pos) {
+		Sequence sequence = sequenceDao.find(sequenceId);
+		Map<Integer, Question> questions  = sequence.getQuestions();
+		if (questions.containsKey(pos)){
+			Question question = questions.get(pos);
+			addQuestionToSequence( sequenceId, question.getId(), pos+1);
+		}	
+		Question question = questionDao.find(questionId);
+		questions.put(pos, question );
+		sequenceDao.save(sequence);
+	}
+
+	@Override
+	public void removeQuestionFromSequence(long sequenceId , int pos) {
+		Sequence sequence = sequenceDao.find(sequenceId);
+		Map<Integer, Question> questions  = sequence.getQuestions();
+		questions.remove(pos);
+		Map<Integer, Question> newQuestions  = new HashMap<Integer, Question> ();		
+		for (Map.Entry<Integer,Question> e : questions .entrySet()) {
+			Question question = e.getValue();	
+			int newpos = e.getKey();
+			if ( newpos > pos)
+				 newQuestions.put(newpos - 1 , question);
+			else 
+				newQuestions.put(newpos , question);
+				
+		}	
+		sequence.setQuestions(newQuestions);
+		sequenceDao.save(sequence);		
+	}
+
+	
 	public Sequence sequenceDtoToSequence ( SequenceDto sequenceDto){
 		Sequence sequence = new Sequence();
 		sequence.setId(sequenceDto.getId());
@@ -273,6 +307,7 @@ public class QuizServiceImpl implements  QuizService{
 		sequenceDto.setQuestions(questionsDto);
 		return sequenceDto;		
 	}
+
 
 
 }
