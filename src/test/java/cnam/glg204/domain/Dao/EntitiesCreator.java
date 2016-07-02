@@ -1,4 +1,4 @@
-package com.pfaraco.domain.Dao;
+package cnam.glg204.domain.Dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -128,8 +128,10 @@ public class EntitiesCreator extends TestCase {
 		List<String> propositions = new ArrayList<String>();
 		List<String> answers = new ArrayList<String>();
 		for (int i=0;i<(int) (Math.random() * 10);i++){
-			propositions.add("proposition "+ i);
-			answers.add("answer "+ i);
+			String answer = "proposition "+ (int)(Math.random()*10000);
+			propositions.add(answer );
+			if((int)(Math.random()*2)>0)
+				answers.add(answer );
 			}
 			
 		
@@ -197,29 +199,37 @@ public class EntitiesCreator extends TestCase {
 	public static Result createRandomResult(User auditor ,SessionQuiz sessionQuiz ){
 		
 		List<String> goodAnswers= new ArrayList<String> ();
-		List<String> answers= new ArrayList<String> ();
-		
-		for (int i= 0 ; i<(int) (Math.random() * 10);i++){			
-			goodAnswers.add(	i +") "+  (Math.random()*10000000));
+		List<String> givenAnswers= new ArrayList<String> ();
+		List<String> propositions = new ArrayList<String> ();
+		for (int i= 0 ; i<(int) (Math.random() * 10);i++){		
+			String answ = i +") "+  (Math.random()*10000000);
+			propositions.add( answ );
+			if (Math.random() * 10>5)
+				goodAnswers.add(	i +") "+  answ );			
+			if (Math.random() * 10>5)
+				givenAnswers.add(	i +") "+   answ );
 		}
-		for (int i= 0 ; i<(int) (Math.random() * 5);i++){			
-			answers.add(	i +") "+  (Math.random()*10000000));
-		}	
 		
-		return createResult((int) (Math.random() * 10)
-					, (float)(Math.random()*10), 
+
+		
+		return createResult((long) (Math.random() * 10),
+						(int)(Math.random()*10), 
+						10, 
+						(float)(Math.random()*10), 
 						auditor, 
 						sessionQuiz, 
 						"Quel est le "+  (Math.random()*10000000)+" du "+ (Math.random()*10000000) + "?", 
+						propositions,
 						goodAnswers,
-						answers,
+						givenAnswers,
 						createRandomDate());
 	}
 	
 	
-	public static Result createResult(int point, float answerTime ,User auditor ,SessionQuiz sessionQuiz,String question,List<String>goodAnswers, List<String>answers,Date date ){
+	public static Result createResult(long questionId,int obtainedPoints,int maxPoints, float answerTime, User auditor, SessionQuiz sessionQuiz,
+			String question,List<String> propositions,  List<String> goodAnswers, List<String> givenAnswers, Date date){
 		
-		return new Result(point, answerTime, auditor, sessionQuiz, question, goodAnswers, answers, date);
+		return new Result(questionId, obtainedPoints , maxPoints ,answerTime, auditor, sessionQuiz, question, propositions, goodAnswers, givenAnswers, date);
 	}
 	
 	

@@ -8,7 +8,8 @@ import com.cnam.quiz.server.util.persistence.AbstractDataAccessObject;
 
 public interface CoursDao  extends AbstractDataAccessObject <Cours,Long> {
 	List<Cours>findAll();
-	List<Cours>getCoursProfessor(User user);
+	List<Cours>getActiveCours();
+	List<Cours>getCoursProfessor(User user);	
 	List<Cours>getCoursAuditor(User user);
 }
 

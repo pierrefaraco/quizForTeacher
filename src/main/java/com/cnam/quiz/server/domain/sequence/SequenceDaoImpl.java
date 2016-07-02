@@ -29,5 +29,7 @@ public class SequenceDaoImpl  extends AbstractDataAccessObjectImpl <Sequence,Lon
 	public List<Sequence> findAll() {	
 		return em.createNamedQuery("findAllSequences").getResultList();
 	}
+	
+	
 
 }

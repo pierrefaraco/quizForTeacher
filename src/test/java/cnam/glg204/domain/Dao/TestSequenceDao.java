@@ -1,4 +1,4 @@
-package com.pfaraco.domain.Dao;
+package cnam.glg204.domain.Dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

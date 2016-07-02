@@ -23,7 +23,8 @@ import com.cnam.quiz.server.domain.cours.CoursDaoImpl;
 import com.cnam.quiz.server.domain.user.User;
 import com.cnam.quiz.server.domain.user.UserDao;
 import com.cnam.quiz.server.domain.user.UserDaoImpl;
-import com.pfaraco.domain.Dao.EntitiesCreator;
+
+import cnam.glg204.domain.Dao.EntitiesCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
@@ -47,7 +48,7 @@ public class dataInjector extends TestCase  {
 		user.setLastName("Faraco");
 		userDao.save(user);
                 
-                User user2 =new User();
+        User user2 =new User();
 		user2.setAccountType(AccountType.PROFESSOR);	
 		user2.setEmail("pierrot5526@hotmail.fr");
 		user2.setPassword("55261981");

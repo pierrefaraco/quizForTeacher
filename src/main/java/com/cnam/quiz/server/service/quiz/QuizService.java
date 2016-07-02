@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
+import com.cnam.quiz.common.dto.SessionQuizDto;
 import com.cnam.quiz.common.dto.TopicDto;
 
 
@@ -15,7 +16,7 @@ public interface QuizService {
 	     
 	    void updateTopic(TopicDto topicDto);
 	     
-	    void deleteTopic(long id)  ;
+	    void deleteTopic(long id);
 	 
 	    List<TopicDto> findAllTopics() ;   
 	    
@@ -44,5 +45,15 @@ public interface QuizService {
 	    void addQuestionToSequence(long sequenceId, long questionId ,int pos);
 	    
 	    void removeQuestionFromSequence(long sequenceId,int pos);
+	   
+	   	SessionQuizDto findSessionQuiz(long id) ;
+	     
+	    void createSessionQuiz(SessionQuizDto sessionDto);
+	     
+	    void updateSessionQuiz(SessionQuizDto sessionDto);
+	     
+	    void deleteSessionQuiz(long id);
+	    
+		List <SessionQuizDto>findSessionQuizByCours(long coursId);	
 	    
 }

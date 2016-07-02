@@ -1,6 +1,9 @@
-package com.pfaraco.domain.Dao;
+package cnam.glg204.domain.Dao;
 
 import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -19,6 +22,7 @@ import com.cnam.quiz.common.enums.SessionStatus;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
 import com.cnam.quiz.server.domain.cours.CoursDaoImpl;
+import com.cnam.quiz.server.domain.questions.Question;
 import com.cnam.quiz.server.domain.questions.QuestionDao;
 import com.cnam.quiz.server.domain.questions.QuestionDaoImpl;
 import com.cnam.quiz.server.domain.sequence.Sequence;
@@ -130,4 +134,33 @@ public class TestSessionQuizDao extends TestCase {
 		assertEquals(questionCount, sessionQuizDao.find(sessionQuiz1.getId())
 				.getSequence().getQuestions().size());
 	}
+	
+	@Test
+	public void testFindSessionsByCours() {
+		
+		Map<Topic, Integer> topics = new HashMap<Topic, Integer>();
+		User professor = EntitiesCreator.createRandomUser();
+		professor.setAccountType(AccountType.PROFESSOR);
+		userDao.save(professor);
+		
+		Map<Integer, Question> mapQuestions = EntitiesCreator.createListOfQuestions(questionDao, topics);
+		Sequence sequence = EntitiesCreator.createRandomSequence(professor, mapQuestions);
+		sequenceDao.save( sequence );
+		
+		Cours cours = EntitiesCreator.createRandomCours(true, professor , null);
+		coursDao.save(cours);
+		
+		
+		for (int i = 0 ; i<10 ;i++){
+			
+			SessionQuiz sessionQuiz = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);
+			sessionQuizDao.save(sessionQuiz);
+		}
+
+		
+		assertEquals(10,sessionQuizDao.findByCours(cours).size());
+		
+	}
+
+
 }

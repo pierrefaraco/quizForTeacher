@@ -40,14 +40,14 @@ public class SessionQuizDaoImpl extends AbstractDataAccessObjectImpl<SessionQuiz
 	@Override
 	public List<SessionQuiz> findByCours(Cours cours) {
 		Query query = em.createNamedQuery("findSessionsByCours");
-		query.setParameter("cours", cours);
+		query.setParameter("coursid", cours.getId());
 		return query.getResultList();
 	}
 
 	@Override
 	public List<SessionQuiz> findByAuditorAndCours(User user, Cours cours) {
 		Query query = em.createNamedQuery("findSessionsByAuditor");
-		query.setParameter("user", user);
+		query.setParameter("userid", user.getId());
 		query.setParameter("coursid", cours.getId());
 		return query.getResultList();
 	}

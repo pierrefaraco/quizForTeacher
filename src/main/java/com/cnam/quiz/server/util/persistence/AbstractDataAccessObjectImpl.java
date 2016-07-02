@@ -19,11 +19,9 @@ public abstract class AbstractDataAccessObjectImpl <E,K>  implements AbstractDat
 		this.em = em;
 	}
 
-
 	public void setEntityClass(Class<E> entityClass) {
 	        this.entityClass = entityClass;
-	   }
-	
+	}
 	
 	@Override
 	public void save(E entity) {
@@ -44,11 +42,11 @@ public abstract class AbstractDataAccessObjectImpl <E,K>  implements AbstractDat
 
 	@Override
 	public E find(K id) {				
-			return em.find(entityClass , id);
+		return em.find(entityClass , id);
 	}
 	
 	@Override
 	public void refresh(E entity){
 			em.refresh(entity);
-	}
+	}		
 }

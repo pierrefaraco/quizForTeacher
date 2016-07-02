@@ -38,7 +38,7 @@ public class coursRestWebService {
    
    @RequestMapping(value = "/user/{id}/cours/{coursId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<CoursDto> getCours(@PathVariable("id") long  userId,@PathVariable("coursId")long   coursId) {
-       CoursDto cours = coursService.getCours(coursId);
+       CoursDto cours = coursService.findCours(coursId);
        if( cours == null)
            return new ResponseEntity<CoursDto>(HttpStatus.NO_CONTENT);
       return new ResponseEntity<CoursDto>( cours, HttpStatus.OK);

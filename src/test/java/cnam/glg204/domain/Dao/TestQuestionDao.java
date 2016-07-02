@@ -1,4 +1,4 @@
-package com.pfaraco.domain.Dao;
+package cnam.glg204.domain.Dao;
 
 
 import java.util.List;
@@ -33,7 +33,7 @@ import com.cnam.quiz.server.domain.user.UserDaoImpl;
 		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })
 
 @Transactional(rollbackOn = Exception.class)
-@Rollback(true)
+@Rollback(false)
 public class TestQuestionDao  extends TestCase {
 	
 	
@@ -75,10 +75,9 @@ public class TestQuestionDao  extends TestCase {
 		for (int i = 0;i<t;i++)
 			questionDao.save(EntitiesCreator.createRandomQuestion(topic,QuestionType.QUIZ));		
 		assertEquals( questionCount + t ,questionDao.findAll().size());			
-		List<Question> g = questionDao.findAll();
+		List<Question> g = questionDao.findQuestionsByTopic(topic);
 		for (Question question : g )
-			assertEquals(topic.getId() , question.getTopic().getId());			
-		
+			assertEquals(topic.getId() , question.getTopic().getId());				
 	}
 	
 	@Test

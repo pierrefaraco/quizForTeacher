@@ -11,27 +11,27 @@ import com.cnam.quiz.common.enums.SessionStatus;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.sequence.Sequence;
 
-public class SessionDto {
+public class SessionQuizDto {
 	long id;
 	SessionStatus status;
 	Date startDate;
 	Date endDate;
-	Cours cours;
-	Sequence sequence;
+	long coursId;
+	long sequenceId;
 	
-	public SessionDto() {
+	public SessionQuizDto() {
 
 	}
 
-	public SessionDto(long id, SessionStatus status, Date startDate,
-			Date endDate, Cours cours, Sequence sequence) {
+	public SessionQuizDto(long id, SessionStatus status, Date startDate,
+			Date endDate, long coursId, long sequenceId) {
 		super();
 		this.id = id;
 		this.status = status;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.cours = cours;
-		this.sequence = sequence;
+		this.coursId = coursId;
+		this.sequenceId = sequenceId;
 	}
 
 	public long getId() {
@@ -66,20 +66,20 @@ public class SessionDto {
 		this.endDate = endDate;
 	}
 
-	public Cours getCours() {
-		return cours;
+	public long getCoursId() {
+		return coursId;
 	}
 
-	public void setCours(Cours cours) {
-		this.cours = cours;
+	public void setCoursId(long coursId) {
+		this.coursId = coursId;
 	}
 
-	public Sequence getSequence() {
-		return sequence;
+	public long getSequenceId() {
+		return sequenceId;
 	}
 
-	public void setSequence(Sequence sequence) {
-		this.sequence = sequence;
+	public void setSequenceId(long sequenceId) {
+		this.sequenceId= sequenceId;
 	}
 	
 	

@@ -3,26 +3,28 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
+import com.cnam.quiz.common.dto.SessionQuizDto;
 import com.cnam.quiz.common.dto.TopicDto;
+import com.cnam.quiz.server.domain.cours.Cours;
+import com.cnam.quiz.server.domain.cours.CoursDao;
 import com.cnam.quiz.server.domain.questions.Question;
 import com.cnam.quiz.server.domain.questions.QuestionDao;
 import com.cnam.quiz.server.domain.sequence.Sequence;
 import com.cnam.quiz.server.domain.sequence.SequenceDao;
+import com.cnam.quiz.server.domain.sessionquiz.SessionQuiz;
+import com.cnam.quiz.server.domain.sessionquiz.SessionQuizDao;
 import com.cnam.quiz.server.domain.topic.Topic;
 import com.cnam.quiz.server.domain.topic.TopicDao;
 import com.cnam.quiz.server.domain.user.User;
 import com.cnam.quiz.server.domain.user.UserDao;
 
 @Service("quizService")
-@Transactional()
-@Rollback(false)
+@Rollback(true)
 public class QuizServiceImpl implements  QuizService{
 	private static List<Topic> topics;
 	
@@ -35,9 +37,15 @@ public class QuizServiceImpl implements  QuizService{
 	
 	@Autowired
 	SequenceDao sequenceDao;
+	
+	@Autowired
+	SessionQuizDao sessionQuizDao;
 	 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	CoursDao coursDao;
 	
 	@Override
 	public void createTopic(TopicDto topicDto) {	
@@ -308,6 +316,73 @@ public class QuizServiceImpl implements  QuizService{
 		return sequenceDto;		
 	}
 
+	@Override
+	public SessionQuizDto findSessionQuiz(long id) {
+		SessionQuiz sessionQuiz = sessionQuizDao.find(id);
+		return this.sessionQuizToSessionQuizDto(sessionQuiz);
+	}
 
+	@Override
+	public void createSessionQuiz(SessionQuizDto sessionQuizDto) {
+		SessionQuiz sessionQuiz = this.sessionQuizDtoToSessionQuiz(sessionQuizDto);
+		sessionQuizDao.save(sessionQuiz );
+		sessionQuizDto.setId(sessionQuiz.getId());
+	}
 
+	@Override
+	public void updateSessionQuiz(SessionQuizDto sessionQuizDto) {
+		SessionQuiz sessionQuiz = this.sessionQuizDtoToSessionQuiz(sessionQuizDto);
+		sessionQuizDao.update( sessionQuiz );
+	}
+
+	@Override
+	public void deleteSessionQuiz(long id) {
+		SessionQuiz sessionQuiz = sessionQuizDao.find(id);
+		sessionQuizDao.delete(sessionQuiz);	
+	}
+
+	@Override
+	public List<SessionQuizDto> findSessionQuizByCours(long coursId) {
+		Cours cours = coursDao.find(coursId);	
+		List<SessionQuiz> listSessionQuiz =  sessionQuizDao.findByCours(cours);		
+		return this.listOfSessionQuizToListOfSessionQuizDto(listSessionQuiz);
+	}
+	
+	public List <SessionQuizDto> listOfSessionQuizToListOfSessionQuizDto (List <SessionQuiz> listSessionQuiz){
+		ArrayList<SessionQuizDto> listSessionQuizDto = new ArrayList<SessionQuizDto>();
+		for (SessionQuiz sessionQuiz : listSessionQuiz)
+			listSessionQuizDto.add( sessionQuizToSessionQuizDto(sessionQuiz) );
+		return	listSessionQuizDto;	
+	}
+	
+	public List <SessionQuiz> listOfsessionQuizDtoToListOfSessionQuiz (List <SessionQuizDto> listSessionQuizDto){
+		ArrayList<SessionQuiz> listSessionQuiz = new ArrayList<SessionQuiz>();
+		for (SessionQuizDto sessionQuiz : listSessionQuizDto)
+			 listSessionQuiz.add( sessionQuizDtoToSessionQuiz(sessionQuiz) );
+		return	listSessionQuiz;	
+	}
+
+	public SessionQuiz sessionQuizDtoToSessionQuiz(SessionQuizDto sessionQuizDto){
+		SessionQuiz sessionQuiz = new SessionQuiz();
+		sessionQuiz.setId(sessionQuizDto.getId());
+		Cours cours = coursDao.find(sessionQuizDto.getCoursId());
+		Sequence sequence = sequenceDao.find(sessionQuizDto.getSequenceId());
+		sessionQuiz.setCours(cours);
+		sessionQuiz.setSequence(sequence);
+		sessionQuiz.setStartDate(sessionQuizDto.getStartDate());
+		sessionQuiz.setEndDate(sessionQuizDto.getEndDate());
+		sessionQuiz.setStatus(sessionQuizDto.getStatus());
+		return sessionQuiz;		
+	}
+	
+	public SessionQuizDto  sessionQuizToSessionQuizDto (SessionQuiz sessionQuiz){
+		SessionQuizDto sessionQuizDto = new SessionQuizDto();
+		sessionQuizDto.setId(sessionQuiz.getId());
+		sessionQuizDto.setCoursId( sessionQuiz.getCours().getId());
+		sessionQuizDto.setSequenceId(sessionQuiz.getSequence().getId());
+		sessionQuizDto.setStartDate(sessionQuiz.getStartDate());
+		sessionQuizDto.setEndDate(sessionQuiz.getEndDate());
+		sessionQuizDto.setStatus(sessionQuiz.getStatus());
+		return sessionQuizDto;		
+	}
 }

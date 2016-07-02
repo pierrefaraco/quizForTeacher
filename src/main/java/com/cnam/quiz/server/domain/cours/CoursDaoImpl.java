@@ -36,4 +36,9 @@ public class CoursDaoImpl extends AbstractDataAccessObjectImpl<Cours, Long> impl
 		return query.getResultList();
 	}
 
+	@Override
+	public List<Cours> getActiveCours() {
+		return em.createNamedQuery("findAllActivesCours").getResultList();
+	}
+
 }

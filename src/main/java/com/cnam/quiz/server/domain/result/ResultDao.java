@@ -9,8 +9,10 @@ import com.cnam.quiz.server.domain.user.User;
 import com.cnam.quiz.server.util.persistence.AbstractDataAccessObject;
 
 public interface ResultDao extends AbstractDataAccessObject <Result,Long> {
-	List<Result>findResultForASessionQuiz(SessionQuiz sessionQuiz );
-	List<Result>findResultForACours(Cours cours);
-	List<Result>findResultByUserForASessionQuiz(SessionQuiz session, User user);
-	List<Result>findResultByUserForACours(Cours cours,User user);
+	
+	List <Result> findResultsByUserQuestionAndSession(long userId ,long questionId, long sessionId );
+	List <Result> findResultsByUserAndSession(long userId , long sessionId );
+	List <Result> findResultsBySession(long sessionId);
+	List <Result> findResultsByQuestionAndSession(long questionId , long sessionId );	
+	
 }

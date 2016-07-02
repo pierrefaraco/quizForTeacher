@@ -49,6 +49,8 @@ import com.cnam.quiz.server.domain.user.User;
 	@NamedQuery(name = "findAllCours", query="select o from Cours o"),
 	@NamedQuery(name = "findCoursByProfessor", query="select o from Cours o where o.user.id = :userid "),
 	@NamedQuery(name = "findCoursByAuditor", query="select   o from Cours o where :user in o.subscribers"),
+	@NamedQuery(name = "findAllActivesCours", query="select o from Cours o where o.active = 1"),
+	
 })
 
 
@@ -69,7 +71,7 @@ public class Cours extends DomainObject  implements  Serializable{
 	private User user;
 	@ElementCollection
 	@MapKeyJoinColumn(name="user_id")
-	@Column(name="suscriber_status")
+	@Column(name="suscriber_status" , nullable =   false)
 	private Map <User,SubscriberStatus> subscribers;
 	
 	public Cours(long id, String name, String description,boolean active, User user,
@@ -128,7 +130,6 @@ public class Cours extends DomainObject  implements  Serializable{
 		this.user = user;
 	}
 
-
 	
 	public Map<User, SubscriberStatus> getSubscribers() {
 		return subscribers;
@@ -142,10 +143,10 @@ public class Cours extends DomainObject  implements  Serializable{
 	public long getId() {
 		return id;
 	}
+	
 	@Override
 	public void setId(long id) {
-		this.id=id;
-		
+		this.id=id;	
 	}
 
 	@Override
