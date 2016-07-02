@@ -99,7 +99,7 @@ public class TestResultDao extends TestCase {
 	static Map <Integer, Question> questions =null;
 	static Map  <User, SubscriberStatus> auditors=null;
 	static SessionQuiz sessionQuiz=null;
-
+	static int resultsNumber = 0;
 	@Test
 	public void testBInjectData() {
 		User professor = EntitiesCreator.createRandomUser(AccountType.PROFESSOR);
@@ -124,15 +124,12 @@ public class TestResultDao extends TestCase {
 		
 		/*SessionQuiz*/ sessionQuiz = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);
 	
-		sessionQuizDao.save(sessionQuiz);
-	
-		
+		sessionQuizDao.save(sessionQuiz);		
 	}	
-
 
 	@Test
 	public void  testCInjectData(){
-		
+		resultsNumber = resultDao.findResultsBySession(sessionQuiz.getId()).size();
 		for (Map.Entry <Integer , Question> q : questions.entrySet()){
 			int pos = q.getKey();
 			Question question = q.getValue();
@@ -152,7 +149,6 @@ public class TestResultDao extends TestCase {
 				result.setObtainedPoint((int)( Math.random()*10 ));	
 				result.setUser(user);
 				result.setSessionQuiz(sessionQuiz);
-				System.out.println(j++);
 				resultDao.save(result);
 			}		
 		}
@@ -165,7 +161,7 @@ public class TestResultDao extends TestCase {
 	
 	@Test
 	public void  testDInjectData(){
-		assertEquals(30 * 20 ,resultDao.findResultsBySession(sessionQuiz.getId()).size());
+		assertEquals(resultsNumber + 30 * 20 ,resultDao.findResultsBySession(sessionQuiz.getId()).size());
 		
 		for (Map.Entry <User, SubscriberStatus> a : auditors.entrySet()){
 				User user = a.getKey();	
@@ -178,8 +174,7 @@ public class TestResultDao extends TestCase {
 			assertEquals(20  ,resultDao.findResultsByQuestionAndSession(question.getId(), sessionQuiz.getId()).size());
 			for (Map.Entry <User, SubscriberStatus> a : auditors.entrySet()){
 				User user = a.getKey();	
-				assertEquals(1  ,resultDao.findResultsByUserQuestionAndSession(user.getId(),question.getId(), sessionQuiz.getId()).size());
-				
+				assertEquals(1  ,resultDao.findResultsByUserQuestionAndSession(user.getId(),question.getId(), sessionQuiz.getId()).size());			
 			}
 		}
 	}
