@@ -75,18 +75,21 @@ public class coursRestWebService {
 	}
 
 	@RequestMapping(value = "/user/{userid}/cours/{coursid}/suscribe/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void suscribe(@PathVariable("userid")long suscriberId,@PathVariable("coursid") long coursId) {
+	public ResponseEntity  suscribe(@PathVariable("userid")long suscriberId,@PathVariable("coursid") long coursId) {
 		coursService.suscribe(suscriberId, coursId);
+		return new ResponseEntity  ( HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/{userid}/cours/{coursid}/unsuscribe/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void unSuscribe(long suscriberId, long coursId) {
+	public ResponseEntity  unSuscribe(long suscriberId, long coursId) {
 		coursService.unSuscribe(suscriberId, coursId);
+		return new ResponseEntity  ( HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/{userid}/cours/{coursid}/updatesuscriberstatus/{status} ", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void updateSuscriberStatus(@PathVariable("userid")long suscriberId, @PathVariable("coursid")long coursId,@PathVariable("status") SubscriberStatus status) {
+	public ResponseEntity  updateSuscriberStatus(@PathVariable("userid")long suscriberId, @PathVariable("coursid")long coursId,@PathVariable("status") SubscriberStatus status) {
 		coursService.updateSuscriberStatus(suscriberId, coursId, status);
+		return new ResponseEntity  ( HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/cours/{coursid}/sucribers/ ", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

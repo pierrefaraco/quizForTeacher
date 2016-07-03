@@ -20,6 +20,17 @@ public class UserRestWebService {
 
 	@Autowired
 	UserService userService;
+	
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDto>  findUser(@PathVariable("id") long id) {
+		UserDto userDto = userService.findUser(id);
+		if (userDto == null) {
+			System.out.println("User with id " + id + " not found");
+			return new ResponseEntity<UserDto>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
+	}
+
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> updateProfil(@RequestBody UserDto userDto,
@@ -32,16 +43,5 @@ public class UserRestWebService {
 		return new ResponseEntity<Void>(headers, HttpStatus.ACCEPTED);
 	}
 
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
-
-		UserDto userDto = userService.findUser(id);
-
-		if (userDto == null) {
-			System.out.println("User with id " + id + " not found");
-			return new ResponseEntity<UserDto>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
-	}
 
 }

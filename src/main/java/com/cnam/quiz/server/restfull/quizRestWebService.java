@@ -1,15 +1,12 @@
 package com.cnam.quiz.server.restfull;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
 import com.cnam.quiz.common.dto.SessionQuizDto;
@@ -88,7 +85,7 @@ public class quizRestWebService {
 		quizService.createQuestion(questionDto);
 		if (questionDto.getId() == -1)
 			return new ResponseEntity<QuestionDto>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<QuestionDto>(questionDto,HttpStatus.valueOf("TOPIC NOT RECORDED"));
+		return new ResponseEntity<QuestionDto>(questionDto,HttpStatus.valueOf("QUESTION NOT RECORDED"));
 		
 	}
 	
@@ -111,70 +108,115 @@ public class quizRestWebService {
 		
 	}
 	
-	public List<QuestionDto> findQuestionsByTopic(long topicId) {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value = "topic/{topicid}/question/", method = RequestMethod.GET)
+	public ResponseEntity<List<QuestionDto>> findQuestionsByTopic(@PathVariable("topicid")long topicId) {
+		List<QuestionDto> questions = quizService.findQuestionsByTopic(topicId);
+		if (questions == null)
+			return new ResponseEntity <List<QuestionDto>> (HttpStatus.NO_CONTENT);
+		return new ResponseEntity <List<QuestionDto>> (questions, HttpStatus.OK);
 	}
 	
-	public SequenceDto findSequence(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value = "/sequence/{sequenceid}", method = RequestMethod.GET)
+	public ResponseEntity<SequenceDto>  findSequence(@PathVariable("sequenceid")long id) {
+		SequenceDto sequence= quizService.findSequence(id);
+		if (sequence== null)
+			return new ResponseEntity <SequenceDto> (HttpStatus.NO_CONTENT);
+		return new ResponseEntity <SequenceDto> (sequence, HttpStatus.OK);
 	}
 	
-	public void createSequence(SequenceDto sequenceDto) {
-		// TODO Auto-generated method stub
+	@RequestMapping(value = "/sequence/", method = RequestMethod.POST)
+	public ResponseEntity<SequenceDto>  createSequence(SequenceDto sequenceDto) {
+		sequenceDto.setId(-1);
+		quizService.createSequence(sequenceDto);
+		if (sequenceDto.getId() == -1)
+			return new ResponseEntity<SequenceDto>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<SequenceDto>(sequenceDto,HttpStatus.valueOf("SEQUENCE NOT RECORDED"));
 		
 	}
 	
-	public void updateSequence(SequenceDto sequenceDto) {
-		// TODO Auto-generated method stub
+	@RequestMapping(value = "/sequence/", method = RequestMethod.PUT)
+	public ResponseEntity  updateSequence(SequenceDto sequenceDto) {
+		quizService.updateSequence(sequenceDto);
+		SequenceDto sequence = quizService.findSequence(sequenceDto.getId());
+		if(!sequence.equals(sequenceDto))
+			return new ResponseEntity( HttpStatus.NOT_MODIFIED );	
+		return new ResponseEntity( HttpStatus.OK);		
+	}
+	
+	@RequestMapping(value = "/sequence/{sequenceid}", method = RequestMethod.DELETE)
+	public ResponseEntity deleteSequence(@PathVariable("sequenceid")long id) {
+		quizService.deleteSequence(id);
+		SequenceDto sequence = quizService.findSequence(id);
+		if (sequence == null)
+			return new ResponseEntity( HttpStatus.OK);
+		return new ResponseEntity( HttpStatus.NOT_MODIFIED );
 		
 	}
 	
-	public void deleteSequence(long id) {
-		// TODO Auto-generated method stub
+	
+	@RequestMapping(value = "user/{userid}/sequence/}", method = RequestMethod.GET)
+	public ResponseEntity <List<SequenceDto>> findSequenceByProfessor(@PathVariable("userid")long userId) {
+		List<SequenceDto> sequences = quizService.findSequenceByProfessor(userId);
+		if (sequences == null)
+			return new ResponseEntity <List<SequenceDto>> (HttpStatus.NO_CONTENT);
+		return new ResponseEntity <List<SequenceDto>> (sequences, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/sequence/{sequenceid}/question/{questionid}/position/{pos}/add/}", method = RequestMethod.PUT)
+	public  ResponseEntity  addQuestionToSequence(@PathVariable("sequenceid")long sequenceId,
+			@PathVariable("questionid") long questionId,@PathVariable("pos")int pos) {
+		quizService.addQuestionToSequence(sequenceId, questionId, pos);	
+		return new ResponseEntity  ( HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/sequence/{sequenceid}/position/{pos}/remove/}", method = RequestMethod.PUT)
+	public ResponseEntity  removeQuestionFromSequence(@PathVariable("sequenceid")long sequenceId,@PathVariable("pos") int pos) {
+		quizService.removeQuestionFromSequence(sequenceId, pos);		
+		return new ResponseEntity  ( HttpStatus.OK);	
+	}
+	
+	
+	@RequestMapping(value = "/sessionquiz/{sessionquizid}", method = RequestMethod.GET)
+	public ResponseEntity<SessionQuizDto>  findSessionQuiz(@PathVariable("sessionquizid")long id) {
+		SessionQuizDto sessionQuizDto = quizService.findSessionQuiz(id);
+		if (sessionQuizDto == null)
+			return new ResponseEntity<SessionQuizDto>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<SessionQuizDto>(sessionQuizDto, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/sessionquiz/", method = RequestMethod.POST)
+	public ResponseEntity <SessionQuizDto> createSessionQuiz(SessionQuizDto sessionQuizDto) {
+		sessionQuizDto.setId(-1);
+		quizService.createSessionQuiz(sessionQuizDto);
+		if(sessionQuizDto.getId() == -1 )
+			return new ResponseEntity <SessionQuizDto>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<SessionQuizDto>(sessionQuizDto,HttpStatus.valueOf("SEQUENCE NOT RECORDED"));
+	}
+	
+	@RequestMapping(value = "/sessionquiz/", method = RequestMethod.PUT)
+	public ResponseEntity updateSessionQuiz(SessionQuizDto sessionQuizDto) {
+		quizService.updateSessionQuiz(sessionQuizDto);
+		SessionQuizDto sessionQuiz = quizService.findSessionQuiz(sessionQuizDto.getId());
+		if(!sessionQuiz.equals(sessionQuizDto))
+			return new ResponseEntity( HttpStatus.NOT_MODIFIED );	
+		return new ResponseEntity( HttpStatus.OK);		
+	}
 		
+	@RequestMapping(value = "/sessionquiz/{sessionquizid}", method = RequestMethod.DELETE)
+	public ResponseEntity deleteSessionQuiz(@PathVariable("sessionquizid") long id) {
+		quizService.deleteSessionQuiz(id);
+		SessionQuizDto sessionQuiz = quizService.findSessionQuiz(id);
+		if( sessionQuiz == null )	
+			return new ResponseEntity( HttpStatus.OK);
+		return new ResponseEntity( HttpStatus.NOT_MODIFIED );	
 	}
 	
-	public List<SequenceDto> findSequenceByProfessor(long userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public void addQuestionToSequence(long sequenceId, long questionId, int pos) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void removeQuestionFromSequence(long sequenceId, int pos) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public SessionQuizDto findSessionQuiz(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public void createSessionQuiz(SessionQuizDto sessionDto) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void updateSessionQuiz(SessionQuizDto sessionDto) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void deleteSessionQuiz(long id) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public List<SessionQuizDto> findSessionQuizByCours(long coursId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
- 
-  
+	@RequestMapping(value = "cours/{coursid}/sessionquiz/", method = RequestMethod.DELETE)
+	public ResponseEntity< List<SessionQuizDto>> findSessionQuizByCours(@PathVariable("coursid")long coursId) {
+		List<SessionQuizDto> sessions = quizService.findSessionQuizByCours(coursId) ;
+		if (sessions == null)
+			return new ResponseEntity <List<SessionQuizDto>> (HttpStatus.NO_CONTENT);
+		return new ResponseEntity <List<SessionQuizDto>> (sessions, HttpStatus.OK);	
+	} 
 }
