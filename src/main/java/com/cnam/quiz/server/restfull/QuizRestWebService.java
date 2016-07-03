@@ -14,12 +14,12 @@ import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.server.service.quiz.QuizService;
 
 @RestController
-public class quizRestWebService {
+public class QuizRestWebService {
 	
 	 @Autowired
 	 QuizService quizService;	 
 
-	@RequestMapping(value = "/topic/{topicid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor/topic/{topicid}", method = RequestMethod.GET)
 	public ResponseEntity<TopicDto> findTopic(@PathVariable("topicid") long id) {
 		TopicDto topicDto =  quizService.findTopic(id);
 		if (topicDto == null)
@@ -27,7 +27,7 @@ public class quizRestWebService {
 		return new ResponseEntity<TopicDto>(topicDto, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/topic/", method = RequestMethod.POST)
+	@RequestMapping(value = "/professor/topic/", method = RequestMethod.POST)
 	public ResponseEntity<TopicDto>  createTopic(TopicDto topicDto) {
 		topicDto.setId(-1);
 		quizService.createTopic(topicDto);
@@ -37,7 +37,7 @@ public class quizRestWebService {
 		
 	}
 	
-	@RequestMapping(value = "/topic/", method = RequestMethod.PUT)
+	@RequestMapping(value = "/professor/topic/", method = RequestMethod.PUT)
 	public ResponseEntity updateTopic(TopicDto topicDto) {
 		quizService.updateTopic(topicDto);
 		TopicDto topic = quizService.findTopic(topicDto.getId());
@@ -46,7 +46,7 @@ public class quizRestWebService {
 		return new ResponseEntity( HttpStatus.OK);	
 	}
 	
-	@RequestMapping(value = "/topic/{topicid}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/professor/topic/{topicid}", method = RequestMethod.DELETE)
 	public ResponseEntity deleteTopic(@PathVariable("topicid")long id) {
 		quizService.deleteTopic(id);
 		TopicDto topic = quizService.findTopic(id);
@@ -55,7 +55,7 @@ public class quizRestWebService {
 		return new ResponseEntity( HttpStatus.NOT_MODIFIED );		
 	}
 	
-	@RequestMapping(value = "/topic/", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor/topic/", method = RequestMethod.GET)
 	public  ResponseEntity<List<TopicDto>> findAllTopics() {
 		List<TopicDto> topics = quizService.findAllTopics();
 		if (topics == null)
@@ -63,7 +63,7 @@ public class quizRestWebService {
 		return new ResponseEntity<List<TopicDto>>(topics, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "user/{userid}/topic/", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor/user/{userid}/topic/", method = RequestMethod.GET)
 	public ResponseEntity<List<TopicDto>>  findTopicsByProfessor(@PathVariable("userid")long userId) {
 		List<TopicDto> topics = quizService.findTopicsByProfessor(userId);
 		if (topics == null)
@@ -71,7 +71,7 @@ public class quizRestWebService {
 		return new ResponseEntity<List<TopicDto>>(topics, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/question/{questionid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor/question/{questionid}", method = RequestMethod.GET)
 	public ResponseEntity< QuestionDto> findQuestion(@PathVariable("questionid")long id) {
 		QuestionDto questionDto = quizService.findQuestion(id);
 		if (questionDto  == null)
@@ -79,7 +79,7 @@ public class quizRestWebService {
 		return new ResponseEntity<QuestionDto>(questionDto, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/question/", method = RequestMethod.POST)
+	@RequestMapping(value = "/professor/question/", method = RequestMethod.POST)
 	public ResponseEntity<QuestionDto>createQuestion(QuestionDto questionDto) {
 		questionDto.setId(-1);
 		quizService.createQuestion(questionDto);
@@ -89,7 +89,7 @@ public class quizRestWebService {
 		
 	}
 	
-	@RequestMapping(value = "/question/", method = RequestMethod.PUT)
+	@RequestMapping(value = "/professor/question/", method = RequestMethod.PUT)
 	public ResponseEntity<QuestionDto>  updateQuestion(QuestionDto questionDto) {
 		quizService.updateQuestion(questionDto);
 		QuestionDto question = quizService.findQuestion(questionDto.getId());
@@ -98,7 +98,7 @@ public class quizRestWebService {
 		return new ResponseEntity( HttpStatus.OK);		
 	}
 	
-	@RequestMapping(value = "/question/{questionid}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/professor/question/{questionid}", method = RequestMethod.DELETE)
 	public ResponseEntity deleteQuestion(@PathVariable("questionid")long id) {
 		quizService.deleteQuestion(id);
 		QuestionDto question = quizService.findQuestion(id);
@@ -108,7 +108,7 @@ public class quizRestWebService {
 		
 	}
 	
-	@RequestMapping(value = "topic/{topicid}/question/", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor/topic/{topicid}/question/", method = RequestMethod.GET)
 	public ResponseEntity<List<QuestionDto>> findQuestionsByTopic(@PathVariable("topicid")long topicId) {
 		List<QuestionDto> questions = quizService.findQuestionsByTopic(topicId);
 		if (questions == null)
@@ -116,7 +116,7 @@ public class quizRestWebService {
 		return new ResponseEntity <List<QuestionDto>> (questions, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/sequence/{sequenceid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor/sequence/{sequenceid}", method = RequestMethod.GET)
 	public ResponseEntity<SequenceDto>  findSequence(@PathVariable("sequenceid")long id) {
 		SequenceDto sequence= quizService.findSequence(id);
 		if (sequence== null)
@@ -124,7 +124,7 @@ public class quizRestWebService {
 		return new ResponseEntity <SequenceDto> (sequence, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/sequence/", method = RequestMethod.POST)
+	@RequestMapping(value = "/professor/sequence/", method = RequestMethod.POST)
 	public ResponseEntity<SequenceDto>  createSequence(SequenceDto sequenceDto) {
 		sequenceDto.setId(-1);
 		quizService.createSequence(sequenceDto);
@@ -134,7 +134,7 @@ public class quizRestWebService {
 		
 	}
 	
-	@RequestMapping(value = "/sequence/", method = RequestMethod.PUT)
+	@RequestMapping(value = "/professor/sequence/", method = RequestMethod.PUT)
 	public ResponseEntity  updateSequence(SequenceDto sequenceDto) {
 		quizService.updateSequence(sequenceDto);
 		SequenceDto sequence = quizService.findSequence(sequenceDto.getId());
@@ -143,7 +143,7 @@ public class quizRestWebService {
 		return new ResponseEntity( HttpStatus.OK);		
 	}
 	
-	@RequestMapping(value = "/sequence/{sequenceid}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/professor/sequence/{sequenceid}", method = RequestMethod.DELETE)
 	public ResponseEntity deleteSequence(@PathVariable("sequenceid")long id) {
 		quizService.deleteSequence(id);
 		SequenceDto sequence = quizService.findSequence(id);
@@ -154,7 +154,7 @@ public class quizRestWebService {
 	}
 	
 	
-	@RequestMapping(value = "user/{userid}/sequence/}", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor/user/{userid}/sequence/}", method = RequestMethod.GET)
 	public ResponseEntity <List<SequenceDto>> findSequenceByProfessor(@PathVariable("userid")long userId) {
 		List<SequenceDto> sequences = quizService.findSequenceByProfessor(userId);
 		if (sequences == null)
@@ -163,21 +163,21 @@ public class quizRestWebService {
 	}
 	
 	
-	@RequestMapping(value = "/sequence/{sequenceid}/question/{questionid}/position/{pos}/add/}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/professor/sequence/{sequenceid}/question/{questionid}/position/{pos}/add/}", method = RequestMethod.PUT)
 	public  ResponseEntity  addQuestionToSequence(@PathVariable("sequenceid")long sequenceId,
 			@PathVariable("questionid") long questionId,@PathVariable("pos")int pos) {
 		quizService.addQuestionToSequence(sequenceId, questionId, pos);	
 		return new ResponseEntity  ( HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/sequence/{sequenceid}/position/{pos}/remove/}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/professor/sequence/{sequenceid}/position/{pos}/remove/}", method = RequestMethod.PUT)
 	public ResponseEntity  removeQuestionFromSequence(@PathVariable("sequenceid")long sequenceId,@PathVariable("pos") int pos) {
 		quizService.removeQuestionFromSequence(sequenceId, pos);		
 		return new ResponseEntity  ( HttpStatus.OK);	
 	}
 	
 	
-	@RequestMapping(value = "/sessionquiz/{sessionquizid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor/sessionquiz/{sessionquizid}", method = RequestMethod.GET)
 	public ResponseEntity<SessionQuizDto>  findSessionQuiz(@PathVariable("sessionquizid")long id) {
 		SessionQuizDto sessionQuizDto = quizService.findSessionQuiz(id);
 		if (sessionQuizDto == null)
@@ -185,7 +185,7 @@ public class quizRestWebService {
 		return new ResponseEntity<SessionQuizDto>(sessionQuizDto, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/sessionquiz/", method = RequestMethod.POST)
+	@RequestMapping(value = "/professor/sessionquiz/", method = RequestMethod.POST)
 	public ResponseEntity <SessionQuizDto> createSessionQuiz(SessionQuizDto sessionQuizDto) {
 		sessionQuizDto.setId(-1);
 		quizService.createSessionQuiz(sessionQuizDto);
@@ -194,7 +194,7 @@ public class quizRestWebService {
 		return new ResponseEntity<SessionQuizDto>(sessionQuizDto,HttpStatus.valueOf("SEQUENCE NOT RECORDED"));
 	}
 	
-	@RequestMapping(value = "/sessionquiz/", method = RequestMethod.PUT)
+	@RequestMapping(value = "/professor/sessionquiz/", method = RequestMethod.PUT)
 	public ResponseEntity updateSessionQuiz(SessionQuizDto sessionQuizDto) {
 		quizService.updateSessionQuiz(sessionQuizDto);
 		SessionQuizDto sessionQuiz = quizService.findSessionQuiz(sessionQuizDto.getId());
@@ -203,7 +203,7 @@ public class quizRestWebService {
 		return new ResponseEntity( HttpStatus.OK);		
 	}
 		
-	@RequestMapping(value = "/sessionquiz/{sessionquizid}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/professor/sessionquiz/{sessionquizid}", method = RequestMethod.DELETE)
 	public ResponseEntity deleteSessionQuiz(@PathVariable("sessionquizid") long id) {
 		quizService.deleteSessionQuiz(id);
 		SessionQuizDto sessionQuiz = quizService.findSessionQuiz(id);
@@ -212,7 +212,7 @@ public class quizRestWebService {
 		return new ResponseEntity( HttpStatus.NOT_MODIFIED );	
 	}
 	
-	@RequestMapping(value = "cours/{coursid}/sessionquiz/", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/all/cours/{coursid}/sessionquiz/", method = RequestMethod.GET)
 	public ResponseEntity< List<SessionQuizDto>> findSessionQuizByCours(@PathVariable("coursid")long coursId) {
 		List<SessionQuizDto> sessions = quizService.findSessionQuizByCours(coursId) ;
 		if (sessions == null)

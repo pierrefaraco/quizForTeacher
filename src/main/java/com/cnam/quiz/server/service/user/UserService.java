@@ -11,8 +11,6 @@ import com.cnam.quiz.server.domain.user.User;
 public interface UserService { 
 	void createAccount(UserDto userDto);
 	void updateProfil(UserDto userDto);
-	void deleteAccount(String id);
+	void deleteAccount(long id);
 	UserDto findUser(long id) ;
-	User findUserByMail(String mail) ;
-	List <UserDto> getAllProfessors();  
 }

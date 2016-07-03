@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-
 	@Override
 	public UserDto findUser(long id) {
 		User user = userDao.find(id);
@@ -72,21 +71,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteAccount(String id) {
-	
-
+	public void deleteAccount(long id) {
+		User user = userDao.find(id);
+		userDao.delete(user);
 	}
 
-	@Override
-	public List<UserDto> getAllProfessors() {
-		return null;
-	}
-
-	@Override
-	public User findUserByMail(String email) {
-		User user = userDao.findUserByMail(email);
-		return user ;
-	}
 
 	public UserDto userToUserDto(User user) {
 		UserDto userDto = new UserDto();
