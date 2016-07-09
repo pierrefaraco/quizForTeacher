@@ -1,39 +1,22 @@
 package com.cnam.quiz.common.dto;
 
+import java.io.Serializable;
 import java.util.Map;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyJoinColumn;
-
 import com.cnam.quiz.common.enums.SubscriberStatus;
-import com.cnam.quiz.server.domain.user.User;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-public class CoursDto {
+
+
+public class CoursDto implements Serializable {
 	private long id;
 	private String name;
 	private String description;
 	boolean active;
 	private long userId;
-	private Map <User,SubscriberStatus> subscribers;
 	
-	public CoursDto() {
-	}
 	
-	public CoursDto(long id, String name, String description, boolean active,
-			long userId, Map<User, SubscriberStatus> subscribers) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.active = active;
-		this.userId = userId;
-		this.subscribers = subscribers;
-	}
-
 	public long getId() {
 		return id;
 	}
@@ -64,11 +47,43 @@ public class CoursDto {
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
-	public Map<User, SubscriberStatus> getSubscribers() {
-		return subscribers;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (active ? 1231 : 1237);
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + (int) (userId ^ (userId >>> 32));
+		return result;
 	}
-	public void setSubscribers(Map<User, SubscriberStatus> subscribers) {
-		this.subscribers = subscribers;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CoursDto other = (CoursDto) obj;
+		if (active != other.active)
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (id != other.id)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (userId != other.userId)
+			return false;
+		return true;
 	}
-		
+
 }

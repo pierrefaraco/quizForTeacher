@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
 import com.cnam.quiz.common.dto.SessionQuizDto;
@@ -24,6 +26,7 @@ import com.cnam.quiz.server.domain.user.User;
 import com.cnam.quiz.server.domain.user.UserDao;
 
 @Service("quizService")
+@Transactional
 @Rollback(true)
 public class QuizServiceImpl implements  QuizService{
 	private static List<Topic> topics;

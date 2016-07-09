@@ -2,23 +2,18 @@ package com.cnam.quiz.server.service.cours;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import com.cnam.quiz.common.dto.CoursDto;
-import com.cnam.quiz.common.dto.QuestionDto;
-import com.cnam.quiz.common.dto.SessionQuizDto;
+import com.cnam.quiz.common.dto.CoursWithSubscribersDto;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
-import com.cnam.quiz.server.domain.questions.Question;
 import com.cnam.quiz.server.domain.user.UserDao;
 import com.cnam.quiz.server.domain.user.User ;
 
@@ -42,6 +37,11 @@ public class CoursServiceImpl implements CoursService{
 	@Override
 	public void createCours(CoursDto coursDto) {
 		Cours cours  = this.coursDtoToCours(coursDto);
+                
+		System.out.println("Save cours =>  "+ cours.getId()+  " " +cours.getName() +
+				" "+  cours.getDescription()+ " " +cours.isActive() 
+				+cours.getUser().getId());
+
 		coursDao.save(cours);
 		coursDto.setId(cours.getId());
 	}
@@ -90,17 +90,28 @@ public class CoursServiceImpl implements CoursService{
 	}
 	
 	@Override
-	public Map<UserDto, SubscriberStatus> getAllSuscribers(long coursId) {
+	public CoursWithSubscribersDto getAllSuscribers(long coursId) {
+		
+		CoursWithSubscribersDto coursWithSubscribersDto = new CoursWithSubscribersDto();
 		Cours cours = coursDao.find(coursId);		
-		Map <User,SubscriberStatus>  sucribers = cours.getSubscribers();
-		Map <UserDto ,SubscriberStatus>  sucribersDto = new HashMap <UserDto ,SubscriberStatus>();	
-		for (Map.Entry<User,SubscriberStatus>  e :  sucribers.entrySet()) {
+		coursWithSubscribersDto.setId(cours.getId());
+		coursWithSubscribersDto.setActive(cours.isActive());	
+		coursWithSubscribersDto.setDescription(cours.getDescription());
+		coursWithSubscribersDto.setName(cours.getName());
+		long userId = cours.getUser().getId();
+		coursWithSubscribersDto.setUserId(userId);	
+		Map <User,SubscriberStatus>  subscribers = cours.getSubscribers();
+		HashMap <UserDto ,SubscriberStatus>  subscribersDto = new HashMap <UserDto ,SubscriberStatus>();	
+		System.out.println(subscribers.size() +" suscribers :");
+		for (Map.Entry<User,SubscriberStatus>  e : subscribers .entrySet()) {
 			User user = e.getKey();		
 			UserDto userDto = userToUserDto(user);
 			SubscriberStatus status = e.getValue();	
-			sucribersDto.put(userDto,status);		
+			System.out.println( userDto.getFirstName()+ " "+ userDto.getEmail());
+			subscribersDto.put(userDto,status);		
 			}	
-		return sucribersDto;
+		coursWithSubscribersDto.setSubscribers(subscribersDto);
+		return coursWithSubscribersDto;
 	}
 	
 	@Override
@@ -133,6 +144,7 @@ public class CoursServiceImpl implements CoursService{
 		cours.setName(coursDto.getName());
 		User user  = userDao.find(coursDto.getUserId());
 		cours.setUser(user);
+		cours.setSubscribers(new HashMap<User, SubscriberStatus>());
 		return cours;	
 	}
 

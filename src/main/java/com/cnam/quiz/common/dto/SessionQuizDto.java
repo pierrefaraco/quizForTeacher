@@ -1,5 +1,6 @@
 package com.cnam.quiz.common.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,7 +12,7 @@ import com.cnam.quiz.common.enums.SessionStatus;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.sequence.Sequence;
 
-public class SessionQuizDto {
+public class SessionQuizDto implements Serializable {
 	long id;
 	SessionStatus status;
 	Date startDate;

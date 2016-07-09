@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.cnam.quiz.common.dto.CoursDto;
 import com.cnam.quiz.common.dto.UserDto;
-import com.cnam.quiz.server.domain.user.User;
+
 import com.cnam.quiz.server.service.user.UserService;
 
 @RestController
@@ -37,7 +36,7 @@ public class UserRestWebService {
 	}
 
 
-	@RequestMapping(value = "/all/user/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/all/user/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity< UserDto > updateProfil(@RequestBody UserDto userDto,
 			UriComponentsBuilder ucBuilder) {
 		userService.updateProfil(userDto);
@@ -47,13 +46,12 @@ public class UserRestWebService {
 		return new ResponseEntity< UserDto >(user, HttpStatus.ACCEPTED);
 	}
 
-	@RequestMapping(value = "/unsecured/user/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDto> createAccount(@RequestBody UserDto userDto,
-			UriComponentsBuilder ucBuilder) {
-		userDto.setId(-1);
+	@RequestMapping(value = "/unsecured/user/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDto> createAccount(@RequestBody UserDto userDto ) {
+		userDto.setId(0);
 		userService.createAccount(userDto);
-		if (userDto.getId() == -1)
-			return new ResponseEntity<UserDto>(HttpStatus.valueOf("USER NOT RECORDED"));
+		if (userDto.getId() == 0 )
+			return new ResponseEntity<UserDto>(HttpStatus.NOT_MODIFIED);
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.CREATED);
 	}
 

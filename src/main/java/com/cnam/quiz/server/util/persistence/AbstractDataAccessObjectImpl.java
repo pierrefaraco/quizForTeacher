@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 public abstract class AbstractDataAccessObjectImpl <E,K>  implements AbstractDataAccessObject <E,K> {
 	@PersistenceContext
@@ -23,10 +24,9 @@ public abstract class AbstractDataAccessObjectImpl <E,K>  implements AbstractDat
 	        this.entityClass = entityClass;
 	}
 	
-	@Override
+	
 	public void save(E entity) {
-		em.persist(entity);// TODO Auto-generated method stub
-		
+		em.persist(entity);// TODO Auto-generated method stub		
 	}
 
 	@Override

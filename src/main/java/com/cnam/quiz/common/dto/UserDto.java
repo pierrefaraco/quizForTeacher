@@ -1,12 +1,10 @@
 package com.cnam.quiz.common.dto;
 
+import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.Column;
-
 import com.cnam.quiz.common.enums.AccountType;
 
-public class UserDto {
+public class UserDto implements Serializable {
 	private long id;
 	private String firstName;
 	private String lastName;
@@ -64,7 +62,69 @@ public class UserDto {
 	}
 	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((accountType == null) ? 0 : accountType.hashCode());
+		result = prime * result + ((birthDay == null) ? 0 : birthDay.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((presentation == null) ? 0 : presentation.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserDto other = (UserDto) obj;
+		if (accountType != other.accountType)
+			return false;
+		if (birthDay == null) {
+			if (other.birthDay != null)
+				return false;
+		} else if (!birthDay.equals(other.birthDay))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (id != other.id)
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (presentation == null) {
+			if (other.presentation != null)
+				return false;
+		} else if (!presentation.equals(other.presentation))
+			return false;
+		return true;
 	}	
+	
 	
 	
 }

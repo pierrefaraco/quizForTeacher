@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/topic/", method = RequestMethod.POST)
-	public ResponseEntity<TopicDto>  createTopic(TopicDto topicDto) {
+	public ResponseEntity<TopicDto>  createTopic(@RequestBody TopicDto topicDto) {
 		topicDto.setId(-1);
 		quizService.createTopic(topicDto);
 		if (topicDto.getId() == -1)
@@ -38,7 +39,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/topic/", method = RequestMethod.PUT)
-	public ResponseEntity updateTopic(TopicDto topicDto) {
+	public ResponseEntity updateTopic(@RequestBody TopicDto topicDto) {
 		quizService.updateTopic(topicDto);
 		TopicDto topic = quizService.findTopic(topicDto.getId());
 		if (!topicDto.equals(topic))

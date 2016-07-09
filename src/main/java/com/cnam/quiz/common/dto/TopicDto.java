@@ -1,17 +1,16 @@
 package com.cnam.quiz.common.dto;
 
+import java.io.Serializable;
+
 import com.cnam.quiz.server.domain.topic.Topic;
 
-public class TopicDto {
+public class TopicDto implements Serializable  {
 	private long id;
 	private String name;
 	private String description;
 	private long userId;
 	public TopicDto(){}
 	
-
-	
-
 	public long getId() {
 		return id;
 	}
@@ -39,6 +38,5 @@ public class TopicDto {
 		this.userId = userId;
 	}
 	
-	
-	
+
 }

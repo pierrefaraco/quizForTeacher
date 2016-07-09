@@ -1,29 +1,39 @@
 <!DOCTYPE html  >
 <html>
     <!-- ng-strict-di -->
-
+<!--
     <script src="js/jquery.js"></script>
     <script src="js/angular.min.js"></script>
     <script src="js/angular-route.js"></script>
     <script src="js/angular-resource.js"></script>
     <script src="js/angular-cookies.min.js"></script>
     <script src="js/ui-bootstrap.min.js"></script>
+-->
 
-
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-route/angular-route.js"></script>
+    <script src="node_modules/angular-resource/angular-resource.js"></script>
+    <script src="node_modules/angular-cookies/angular-cookies.min.js"></script>
+    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
     <script src="app/main.js"></script>
     <script src="app/constants.js"></script>
     <script src="app/routage/route.js"></script>
-    <script src="app/services/restService.js"></script>
+    <script src="app/services/rest/coursRestClient.js"></script>
+    <script src="app/services/rest/userRestClient.js"></script>
     <script src="app/services/sessionService.js"></script>
     <script src="app/controller/mainController.js"></script>
     <script src="app/controller/homeCtrl.js"></script>
     <script src="app/controller/coursCtrl.js"></script>
     <script src="app/controller/questionsCtrl.js"></script>
     <script src="app/controller/profilCtrl.js"></script>
+    <script src="app/controller/subscribersCtrl.js"></script>
 
     <head>
         <title>Main page</title>
-        <link href="css/bootstrap.css" rel="stylesheet">
+       <!-- <link href="css/bootstrap.css" rel="stylesheet"> -->
+        <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
         <link rel="shortcut icon" href="">
     </head>
@@ -52,7 +62,7 @@
                             <ul class="nav navbar-nav">
                                 <li><a href="#/">Home</a></li>
                                 <li ng-show="user.connected"><a href="#/CoursUI">Cours</a></li>
-                                <li ng-show="user.connected"><a href="#">Suscribers</a></li>
+                                <li ng-show="user.connected"><a href="#/SubscribersUI">Subscribers</a></li>
                                 <li ng-show="user.connected" class="active"><a href="#/QuestionsUI">Questions</a></li>
                                 <li ng-show="user.connected"><a href="#">Quiz session</a></li>
 

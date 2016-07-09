@@ -21,20 +21,18 @@ quizApp.controller('topicCtrl',["$scope", "$uibModal", function ($scope, $uibMod
     $scope.animationsEnabled = false;       
     $scope.count = 0;  
     $scope.open = function (action,size) {
-
         var modalInstance = $uibModal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'myModalContent.html',
-            controller: 'topicCtrlForm',
-            size: size, 
-            resolve: {
-                param: function () {
-                    return {'paramsTopic':paramsTopic ,'action':action  };
+                animation: $scope.animationsEnabled,
+                templateUrl:'topicModal.html',
+                controller: 'topicCtrlForm',
+                size: size, 
+                resolve: {
+                    param: function () {
+                        return {'paramsTopic':paramsTopic ,
+                                 'action':action  };
                 }
             }
         });
-        
-
     };
     
     $scope.remove = function () 
@@ -59,7 +57,7 @@ quizApp.controller('topicCtrl',["$scope", "$uibModal", function ($scope, $uibMod
 quizApp.controller('topicCtrlForm',["$scope", "$uibModalInstance", "param",function ($scope, $uibModalInstance, param) {
   
   var action = param.action;
-  var topics  = param.paramsTopic.topics;
+  var topics = param.paramsTopic.topics;
   var index;
   if(action==='edit')
   {

@@ -10,9 +10,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.security.RestAccessDeniedHandler;
 import com.cnam.security.RestAuthenticationFailureHandler;
@@ -56,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 @Override
 	 public void configure(WebSecurity web) throws Exception {
 	        web.ignoring().antMatchers( "/index.html", "/app/**","/app/view/forms/**","/css/**",
-	                "/fonts/**", "/js/**","/forms/**");
+	                "/fonts/**", "/node_modules/**","/forms/**");
 	 }
 	 
 	 @Override
@@ -66,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	   	.csrf().disable()
 	   	.authorizeRequests()
 	    .antMatchers("/all/**").hasAnyAuthority(AccountType.AUDITOR.name(),AccountType.PROFESSOR.name()) 
-	    .antMatchers("/professor/**").hasAnyAuthority(AccountType.PROFESSOR.name())
+	    .antMatchers("/professor/**").hasAnyAuthority(AccountType.PROFESSOR.name()) 
 	    .antMatchers("/authenticate").permitAll()	
 	    .antMatchers("/unsecured/**").permitAll()	
 	    .anyRequest().authenticated()

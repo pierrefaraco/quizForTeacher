@@ -1,8 +1,5 @@
 
 
-import static org.junit.Assert.*;
-
-import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -23,12 +20,14 @@ import com.cnam.quiz.server.domain.cours.CoursDaoImpl;
 import com.cnam.quiz.server.domain.user.User;
 import com.cnam.quiz.server.domain.user.UserDao;
 import com.cnam.quiz.server.domain.user.UserDaoImpl;
+import com.cnam.quiz.server.service.cours.CoursService;
+import com.cnam.quiz.server.service.cours.CoursServiceImpl;
 
 import cnam.glg204.domain.Dao.EntitiesCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
-		UserDaoImpl.class, CoursDaoImpl.class })
+		UserDaoImpl.class, CoursDaoImpl.class,CoursServiceImpl.class })
 @Transactional(rollbackOn = Exception.class)
 @Rollback(false)
 public class dataInjector extends TestCase  {
@@ -37,6 +36,9 @@ public class dataInjector extends TestCase  {
 
 	@Autowired
 	CoursDao coursDao;
+	
+	@Autowired
+	CoursService coursService;
 
 	@Test
 	public void testAutoId() {
@@ -56,7 +58,7 @@ public class dataInjector extends TestCase  {
 		user2.setLastName("Faraco");
 		userDao.save(user2);
 	
-                for (int i=0 ;i<14;i++){
+        for (int i=0 ;i<14;i++){
                     Cours cours1 = EntitiesCreator.createRandomCours(true, user, null);
                     if( (int)(Math.random()*4)==1)
                         cours1.setActive(false);  
@@ -65,6 +67,15 @@ public class dataInjector extends TestCase  {
                     if( i%2==1)
                         cours1.setActive(false);
                     coursDao.save(cours2);
+                    
+                	for( int j =0 ;j< 7 ;j++){
+            			User user1 = EntitiesCreator.createRandomUser();
+            			user1.setAccountType(AccountType.AUDITOR);
+            			user1.setFirstName ("auditor_"+j);
+            			userDao.save(user1);
+            			coursService.suscribe(user1.getId(),cours1.getId());
+            			coursService.suscribe(user1.getId(),cours2.getId());
+            		}
                 }		
 	
 	}

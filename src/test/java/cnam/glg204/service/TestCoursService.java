@@ -186,8 +186,8 @@ public class TestCoursService {
 		}
 		
 	
-		Map <UserDto, SubscriberStatus> suscribers = coursService.getAllSuscribers(coursId1);
-		Map <UserDto, SubscriberStatus> suscribers2 = coursService.getAllSuscribers(coursId2);
+		Map <UserDto, SubscriberStatus> suscribers = coursService.getAllSuscribers(coursId1).getSubscribers();
+		Map <UserDto, SubscriberStatus> suscribers2 = coursService.getAllSuscribers(coursId2).getSubscribers();
 		
 		assertEquals(25,suscribers.size());	
 		assertEquals(15,suscribers2.size());
@@ -215,7 +215,7 @@ public class TestCoursService {
 				toUpdate = user.getId();
 		}
 		coursService.updateSuscriberStatus(toUpdate, coursId, SubscriberStatus.ACCEPTED);
-		Map <UserDto, SubscriberStatus> suscribers = coursService.getAllSuscribers(coursId);
+		Map <UserDto, SubscriberStatus> suscribers = coursService.getAllSuscribers(coursId).getSubscribers();
 		
 		for (Map.Entry<UserDto,SubscriberStatus> e :   suscribers.entrySet()) {
 			UserDto userDto = e.getKey();

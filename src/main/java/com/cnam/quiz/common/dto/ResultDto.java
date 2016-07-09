@@ -1,5 +1,6 @@
 package com.cnam.quiz.common.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import javax.persistence.ManyToOne;
 import com.cnam.quiz.server.domain.sessionquiz.SessionQuiz;
 import com.cnam.quiz.server.domain.user.User;
 
-public class ResultDto {
+public class ResultDto implements Serializable {
 	private long id;
 	long questionId;
 	float answerTime;

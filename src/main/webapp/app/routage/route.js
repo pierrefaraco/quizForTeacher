@@ -8,8 +8,8 @@ quizApp.config(["$routeProvider",function($routeProvider){
             .when("/CoursUI",{
                 templateUrl:"app/views/Cours.html"
             }) 
-             .when("/SuscribersUI",{
-                templateUrl:"app/views/Home.html"
+             .when("/SubscribersUI",{
+                templateUrl:"app/views/Subscribers.html"
             })
             .when("/UsersUI",{
                 templateUrl:"app/views/Home.html"

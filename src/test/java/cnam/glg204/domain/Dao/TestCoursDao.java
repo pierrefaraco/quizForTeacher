@@ -59,7 +59,6 @@ public class TestCoursDao extends TestCase  {
 	public void testSuscribe() {
 		User professor = EntitiesCreator
 				.createRandomUser(AccountType.PROFESSOR);
-		;
 		userDao.save(professor);
 		Cours cours1 = EntitiesCreator.createRandomCours(true, professor, null);
 		coursDao.save(cours1);
@@ -86,7 +85,6 @@ public class TestCoursDao extends TestCase  {
 	public void testUnSuscribe() {
 		User professor = EntitiesCreator
 				.createRandomUser(AccountType.PROFESSOR);
-		;
 		userDao.save(professor);
 		Cours cours1 = EntitiesCreator.createRandomCours(true, professor, null);
 		coursDao.save(cours1);
