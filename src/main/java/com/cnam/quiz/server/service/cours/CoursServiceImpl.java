@@ -49,6 +49,8 @@ public class CoursServiceImpl implements CoursService{
 	@Override
 	public void updateCours(CoursDto coursDto) {
 		Cours cours  = this.coursDtoToCours(coursDto);
+		Cours cours2 = coursDao.find(cours.getId());
+		cours.setSubscribers(cours2.getSubscribers());
 		coursDao.update(cours);
 	}
 
@@ -90,7 +92,7 @@ public class CoursServiceImpl implements CoursService{
 	}
 	
 	@Override
-	public CoursWithSubscribersDto getAllSuscribers(long coursId) {
+	public CoursWithSubscribersDto getCourWithSuscribers(long coursId) {
 		
 		CoursWithSubscribersDto coursWithSubscribersDto = new CoursWithSubscribersDto();
 		Cours cours = coursDao.find(coursId);		
@@ -102,16 +104,35 @@ public class CoursServiceImpl implements CoursService{
 		coursWithSubscribersDto.setUserId(userId);	
 		Map <User,SubscriberStatus>  subscribers = cours.getSubscribers();
 		HashMap <UserDto ,SubscriberStatus>  subscribersDto = new HashMap <UserDto ,SubscriberStatus>();	
-		System.out.println(subscribers.size() +" suscribers :");
 		for (Map.Entry<User,SubscriberStatus>  e : subscribers .entrySet()) {
 			User user = e.getKey();		
 			UserDto userDto = userToUserDto(user);
 			SubscriberStatus status = e.getValue();	
-			System.out.println( userDto.getFirstName()+ " "+ userDto.getEmail());
 			subscribersDto.put(userDto,status);		
 			}	
 		coursWithSubscribersDto.setSubscribers(subscribersDto);
 		return coursWithSubscribersDto;
+	}
+	
+	@Override
+	public void updateCourWithSuscribers(CoursWithSubscribersDto coursWithSubscribersDto) {
+		Cours cours = new Cours();	
+		cours.setId(coursWithSubscribersDto.getId());
+		cours.setActive(coursWithSubscribersDto.isActive());	
+		cours.setDescription(coursWithSubscribersDto.getDescription());
+		cours.setName(coursWithSubscribersDto.getName());
+		User professor = userDao.find(coursWithSubscribersDto.getUserId());
+		cours.setUser(professor);	
+		Map <User,SubscriberStatus>  subscribers = new HashMap <User ,SubscriberStatus>();
+		Map<UserDto, SubscriberStatus>  subscribersDto = coursWithSubscribersDto.getSubscribers();		
+		for (Map.Entry<UserDto,SubscriberStatus>  e : subscribersDto.entrySet()) {
+			UserDto userDto = e.getKey();		
+			User auditor = userDao.find(userDto.getId());		
+			SubscriberStatus status = e.getValue();	
+			subscribers.put( auditor,status);		
+			}	
+		cours.setSubscribers(subscribers);
+		coursDao.update(cours);
 	}
 	
 	@Override
@@ -168,5 +189,5 @@ public class CoursServiceImpl implements CoursService{
 		userDto.setAccountType(user.getAccountType());
 		return userDto;
 	}
-	
+
 }

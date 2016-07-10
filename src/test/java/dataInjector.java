@@ -1,17 +1,11 @@
-
-
-
 import javax.transaction.Transactional;
-
 import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.cnam.quiz.common.config.PersistenceJPAConfig;
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.server.domain.cours.Cours;
@@ -22,8 +16,8 @@ import com.cnam.quiz.server.domain.user.UserDao;
 import com.cnam.quiz.server.domain.user.UserDaoImpl;
 import com.cnam.quiz.server.service.cours.CoursService;
 import com.cnam.quiz.server.service.cours.CoursServiceImpl;
-
 import cnam.glg204.domain.Dao.EntitiesCreator;
+import com.cnam.quiz.common.enums.SubscriberStatus;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
@@ -68,13 +62,22 @@ public class dataInjector extends TestCase  {
                         cours1.setActive(false);
                     coursDao.save(cours2);
                     
-                	for( int j =0 ;j< 7 ;j++){
+                	for( int j =0 ;j< 40 ;j++){
             			User user1 = EntitiesCreator.createRandomUser();
             			user1.setAccountType(AccountType.AUDITOR);
             			user1.setFirstName ("auditor_"+j);
             			userDao.save(user1);
             			coursService.suscribe(user1.getId(),cours1.getId());
-            			coursService.suscribe(user1.getId(),cours2.getId());
+            			coursService.suscribe(user1.getId(),cours2.getId()); 
+                                SubscriberStatus status =null;
+                                switch ((int)(Math.random()*3)){
+                                    case 0:status =SubscriberStatus.WAITING_ANSWER; break;
+                                    case 1:status =SubscriberStatus.DENIED;break;
+                                    case 2:status =  SubscriberStatus.ACCEPTED;break;
+                                }
+                               coursService.updateSuscriberStatus(user1.getId(),cours1.getId(),status);
+                               coursService.updateSuscriberStatus(user1.getId(),cours2.getId(),status);
+                                
             		}
                 }		
 	

@@ -1,0 +1,66 @@
+
+<section >
+
+
+    <div class="row">
+
+        <div class="col-lg-2">
+            <div class="btn-group-vertical" >
+                <select ng-options="status.value for status in statusData.statusList" ng-model="selectedStatus"></select> 
+                <button type="button" class="btn btn-primary pull-left"
+                ng-click="updateStatus()"> Apply status </button>
+           
+                <label><input type="checkbox" ng-model="selectAllValue" ng-click="selectAll()"/>  Select all </label>
+              
+                
+               </div>
+           </div>
+     
+
+
+        <!-- listes des questions du Topic  -->
+
+        <section class="col-lg-10">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel-primary panel-default">
+                        <div class="panel-heading">Selected cours : {{selectedCours.name}}</div>
+
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+
+                                <table class="table">
+                                    <thead>         
+                                        <tr>
+                                            <th>first name</th>
+                                            <th>last name</th>
+                                            <th>email</th>
+                                            <th>status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="subscriber in coursWithSubscribers.subscribers| orderBy : 'firstName'"
+                                            ng-click="selectSubscriber(subscriber)" ng-class ="{warning: subscriber.selected  }">  
+                                            <!-- ng-class ="{warning: subscriber.id == selectedSubscriber.id}">  -->
+                                            
+                                            <td > {{subscriber.firstName}}</td>
+                                            <td > {{subscriber.lastName}}</td>
+                                            <td > {{subscriber.email}}</td>   
+                                            <td > {{subscriber.status}} </td>             
+                                    </tr>	 							
+                        </tbody>
+
+                </table>
+        </div>
+
+</div>
+</div>
+</div>
+
+
+</div>
+</section>
+
+</div>
+</section>

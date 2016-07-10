@@ -22,11 +22,20 @@ quizApp.factory("coursRestClient", ["$resource", "$http", "SERVER_URL",
             }                   
           ,
           getSubscribersRestObject: function () {
-                return $resource(SERVER_URL + 'professor/cours/:coursId/sucribers/ ', {
+                return $resource(SERVER_URL + 'professor/coursAndSucribers/:coursId ', {
                 }, {
-                    'get': {method: 'GET'}
+                    'get': {method: 'GET'},
+                    'update': {method: 'PUT'}
                 });
           }
+          ,
+          getSubscriberStatusRestObject: function () {
+                return $resource(SERVER_URL + 'professor/user/:userId/cours/:coursId/updatesuscriberstatus/:status', {
+                }, {
+                    'update': {method: 'PUT'}
+                });
+          }
+       
 
         };
 

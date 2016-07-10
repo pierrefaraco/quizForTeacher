@@ -86,19 +86,25 @@ public class CoursRestWebService {
 		return new ResponseEntity  ( HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/professor/user/{userid}/cours/{coursid}/updatesuscriberstatus/{status} ", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/professor/user/{userid}/cours/{coursid}/updatesuscriberstatus/{status}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity  updateSuscriberStatus(@PathVariable("userid")long suscriberId, 
 			@PathVariable("coursid")long coursId,@PathVariable("status") SubscriberStatus status) {
 		coursService.updateSuscriberStatus(suscriberId, coursId, status);
 		return new ResponseEntity  ( HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/professor/cours/{coursid}/sucribers/ ", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity <CoursWithSubscribersDto> getAllSuscribers(@PathVariable("coursid")long coursId) {
-		CoursWithSubscribersDto coursWithSubscribersDto = coursService.getAllSuscribers(coursId);
+	@RequestMapping(value = "professor/coursAndSucribers/{coursid} ", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity <CoursWithSubscribersDto> getCoursWithSubscribersDto (@PathVariable("coursid")long coursId) {
+		CoursWithSubscribersDto coursWithSubscribersDto = coursService.getCourWithSuscribers(coursId);
 		if (coursWithSubscribersDto == null ) {
 				return new ResponseEntity<CoursWithSubscribersDto>(HttpStatus.NO_CONTENT);
 		}
+		return new ResponseEntity<CoursWithSubscribersDto>(coursWithSubscribersDto, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "professor/coursAndSucribers/ ", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity <CoursWithSubscribersDto> updateCoursWithSubscribersDto (@RequestBody CoursWithSubscribersDto coursWithSubscribersDto) {
+		coursService.updateCourWithSuscribers( coursWithSubscribersDto);
 		return new ResponseEntity<CoursWithSubscribersDto>(coursWithSubscribersDto, HttpStatus.OK);
 	}
 

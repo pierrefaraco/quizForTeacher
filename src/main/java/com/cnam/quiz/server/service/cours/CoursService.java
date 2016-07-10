@@ -29,6 +29,7 @@ public interface CoursService {
 		
 		void updateSuscriberStatus (long suscriberId, long coursId, SubscriberStatus status);
 		
-		CoursWithSubscribersDto getAllSuscribers(long coursId);		
-					
+		CoursWithSubscribersDto getCourWithSuscribers(long coursId);		
+				
+		void updateCourWithSuscribers(CoursWithSubscribersDto coursWithSubscribersDto);	
 }
