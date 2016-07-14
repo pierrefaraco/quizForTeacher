@@ -19,11 +19,6 @@ var quizApp = angular.module('quizApp',['ngRoute','ngResource','ngCookies','ui.b
             $rootScope.selectedCours = coursRestService.get({coursId:$cookies.get("selectedCours")});
  }]);
    
-    
-    
-
-
-
 quizApp.config(['$httpProvider',function($httpProvider){    
           $httpProvider.defaults.withCredentials = true;  
 }]);

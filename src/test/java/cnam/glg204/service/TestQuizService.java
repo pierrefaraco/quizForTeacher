@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,8 +143,7 @@ public class TestQuizService {
 		assertEquals(questionDto.getPosition(), questionDto2.getPosition());
 		assertEquals(questionDto.getQuestion(), questionDto2.getQuestion());
 		assertEquals(questionDto.getPoints(), questionDto2.getPoints());
-		assertEquals(questionDto.getPropositions().size(), questionDto2.getPropositions().size());
-		assertEquals(questionDto.getAnswers().size(), questionDto2.getAnswers().size());
+		assertEquals(questionDto.getAnswers().size(), questionDto2.getAnswers().size());	
 		assertEquals(questionDto.getQuestionType(), questionDto2.getQuestionType());
 		assertEquals(questionDto.getTopicId(), questionDto2.getTopicId());
 
@@ -181,7 +181,7 @@ public class TestQuizService {
 		assertEquals(0, questionsDto.size());
 	}
 
-
+/*
 	@Test
 	public void testCRUDSequence() {
 
@@ -344,7 +344,7 @@ public class TestQuizService {
 			
 		assertEquals(10 + 20 + 1 + 1  ,sequenceDto2.getQuestions().size());
 	}
-	
+	*/
 	
 	@Test
 	public void testCRUDSession() 
@@ -451,18 +451,19 @@ public class TestQuizService {
 		questionDto.setId(question.getId());
 		long topicId = question.getTopic().getId();
 		questionDto.setTopicId(topicId);
+		questionDto.setTitle(question.getTitle());
 		questionDto.setPoints(question.getPoints());
 		questionDto.setPosition(question.getPosition());
-		questionDto.setPropositions(question.getPropositions());
+		questionDto.setAnswers(question.getAnswers());
 		questionDto.setQuestion(question.getQuestion());
 		questionDto.setQuestionType(question.getQuestionType());
-		questionDto.setAnswers(question.getAnswers());
+		questionDto.setAnswers( question.getAnswers());
 		questionDto.setTimeToAnswer(question.getTimeToAnswer());
 		return questionDto;
 	}
 
 		
-	
+	/*
 	private SequenceDto createSequenceDto( User user, Map<Integer, Question> mapQuestions ) {	
 		Sequence sequence = EntitiesCreator.createRandomSequence(user, mapQuestions);
 		SequenceDto sequenceDto = new SequenceDto();
@@ -483,7 +484,7 @@ public class TestQuizService {
 		sequenceDto.setQuestions(questionsDto);
 		return sequenceDto;
 	}
-	
+	*/
 	public CoursDto coursToCoursDto(Cours cours) {
 		CoursDto coursDto = new CoursDto();
 		coursDto.setId(cours.getId());

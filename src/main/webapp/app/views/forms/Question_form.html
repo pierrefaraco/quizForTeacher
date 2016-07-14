@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!-- Form Cours-->
+
+
+<div class="btn-group-vertical" >
+
+   <script type="text/ng-template" id="questionModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title"> {{action}} </h3>
+        </div>
+        <div class="modal-body">
+
+            <!-- Select Basic 
+            <div class="form-group">
+                <label class="control-label" for="questionType">questionType</label>
+                <div >
+                    <select id="questionType" ng-model="question.questionType" name="questionType" class="form-control" >
+                </div>
+            </div>  -->
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="control-label" for="title">Title :</label>  
+                <div>
+                    <input id="title" name="title" type="text" ng-model="question.title"class="form-control input-md" required="">
+                </div>
+            </div>
+
+            <!-- Textarea -->
+            <div class="form-group">
+                <label class="control-label" for="question">Question :</label>
+                <div>                     
+                    <textarea class="form-control" id="question" ng-model="question.question" name="question" rows="10" >default text</textarea>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="control-label" for="answer"> Answers : </label>
+                <div>
+                    <input id="proposition" name="proposition" type="text" placeholder="proposition" ng-model="proposition" class="form-control input-md">
+                    <button id="addGood" name="addGood" class="btn btn-primary" ng-click="addProposition(true)">add good proposition</button>
+                    <button id="addBad" name="addBad" class="btn btn-primary" ng-click="addProposition(false)">add bad proposition</button>
+                    <table class="table">
+                            <tbody>
+                                <tr ng-repeat="proposition in question.answers" ng-click="deleteProposition()" ng-class ="{success: proposition.isItTrue,danger: !proposition.isItTrue}" >                                                     
+                                    <td><li>{{proposition.text}} <button id="addBad" name="addBad" class="btn btn-primary pull-right"  ng-click="removeProposition(proposition)">remove</button></li></td>
+                                </tr> 
+                            </tbody>
+                       </table> 
+                </div>
+            </div>
+
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="control-label" for="points">Points :</label>  
+                <div >
+                    <input id="points" name="points" type="text" ng-model="question.points"  class="form-control input-md" required=""
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class=" control-label" for="timeToAnswer">Time to answer :</label>  
+                <div>
+                    <input id="timeToAnswer" name="timeToAnswer" ng-model="question.timeToAnswer" type="text" class="form-control input-md">
+                </div>
+            </div> 
+
+
+        </div>
+        <div class="modal-footer">
+            <div ng-include src="'app/views/forms/Question_presentation_form.html'"></div>
+            <button class="btn btn-primary" type="button" ng-click="validate()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    
+    <button type="button" class="btn btn-primary pull-right"
+            ng-click="openQuestionModal('Create question')">Create Question</button>
+    <button type="button" class="btn btn-primary pull-right"
+            ng-click="openQuestionModal('Edit question', null)">Edit Question</button>
+    <button type="button" class="btn btn-primary pull-right"
+            ng-click="deleteQuestion()">Delete Question</button>
+
+</div>

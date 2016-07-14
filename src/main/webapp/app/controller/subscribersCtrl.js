@@ -12,7 +12,7 @@ quizApp.controller('SubscribersController', ["$scope", "coursRestClient", "$cook
         refresh();
 
         function refresh() {
-            var subscribersRestService = coursRestClient.getSubscribersRestObject();
+            var subscribersRestService = coursRestClient.getSubscribersResource();
             $scope.coursWithSubscribers = subscribersRestService.get({coursId: $cookies.get("selectedCours")});
         }
         ;
@@ -38,27 +38,10 @@ quizApp.controller('SubscribersController', ["$scope", "coursRestClient", "$cook
         $scope.updateStatus = function () {
             for (var i in  $scope.coursWithSubscribers.subscribers)
                 if ($scope.coursWithSubscribers.subscribers[i].selected) 
-                        $scope.coursWithSubscribers.subscribers[i].status =  $scope.selectedStatus.value;
+                        $scope.coursWithSubscribers.subscribers[i].status  =  $scope.selectedStatus.value;
             
-          var subscribersRestService = coursRestClient.getSubscribersRestObject();
-          $scope.coursWithSubscribers = subscribersRestService.update({coursId:""}, $scope.coursWithSubscribers);
-               
-             /*
-            var subscriberStatusRestService = coursRestClient.getSubscriberStatusRestObject();      
-            for (var i in  $scope.coursWithSubscribers.subscribers)
-                if ($scope.coursWithSubscribers.subscribers[i].selected) {
-                    var subscriber = $scope.coursWithSubscribers.subscribers[i];
-                    subscriberStatusRestService.get({
-                        userId: subscriber.id,
-                        coursId: $cookies.get("selectedCours"),
-                        status: $scope.selectedStatus.value
-                    }, function () {
-
-                    }, function (response) {
-                        alert("Error : " + response.status);
-                    });
-                }
-        */
+         var subscribersRestService = coursRestClient.getSubscribersResource();
+         subscribersRestService.update({coursId:""}, $scope.coursWithSubscribers); 
         };
 
     }]);

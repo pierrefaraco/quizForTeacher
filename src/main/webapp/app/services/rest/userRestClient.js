@@ -1,6 +1,6 @@
 
-quizApp.factory("userRestClient", ["$resource", "$http", "SERVER_URL",
-    function ($resource, $http, SERVER_URL) {
+quizApp.factory("userRestClient", ["$resource",  "SERVER_URL",
+    function ($resource,  SERVER_URL) {
 
         return {
             getUserRestObject: function () {

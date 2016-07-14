@@ -10,7 +10,7 @@ import com.cnam.quiz.common.dto.TopicDto;
 
 public interface QuizService {
 	
-	   	TopicDto findTopic(long id) ;
+	   TopicDto findTopic(long id) ;
 	     	     
 	    void createTopic(TopicDto topicDto);
 	     
@@ -22,7 +22,7 @@ public interface QuizService {
 	    
 	    List<TopicDto> findTopicsByProfessor(long userId) ;   
 	    
-	 	QuestionDto findQuestion(long id) ;
+            QuestionDto findQuestion(long id) ;
 	     
 	    void createQuestion(QuestionDto  questionDto);
 	     
@@ -32,7 +32,7 @@ public interface QuizService {
 	 
 	    List<QuestionDto> findQuestionsByTopic(long topicId) ;   
 	     
-	   	SequenceDto findSequence(long id) ;
+	    SequenceDto findSequence(long id) ;
 	     
 	    void createSequence(SequenceDto sequenceDto);
 	     
@@ -46,7 +46,7 @@ public interface QuizService {
 	    
 	    void removeQuestionFromSequence(long sequenceId,int pos);
 	   
-	   	SessionQuizDto findSessionQuiz(long id) ;
+            SessionQuizDto findSessionQuiz(long id) ;
 	     
 	    void createSessionQuiz(SessionQuizDto sessionDto);
 	     
@@ -54,6 +54,6 @@ public interface QuizService {
 	     
 	    void deleteSessionQuiz(long id);
 	    
-		List <SessionQuizDto>findSessionQuizByCours(long coursId);	
+            List <SessionQuizDto>findSessionQuizByCours(long coursId);	
 	    
 }

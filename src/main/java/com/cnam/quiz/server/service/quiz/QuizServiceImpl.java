@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
 import com.cnam.quiz.common.dto.SessionQuizDto;
@@ -58,7 +57,7 @@ public class QuizServiceImpl implements  QuizService{
 		}
 	 
 	@Override
-	public TopicDto findTopic(long id) {
+	public TopicDto findTopic(long id) {               
 			Topic topic = topicDao.find(id);
 			return this.topicToTopicDto(topic);
 	}
@@ -154,7 +153,24 @@ public class QuizServiceImpl implements  QuizService{
 	public List<QuestionDto> findQuestionsByTopic(long topicId) {
 		Topic topic = topicDao.find(topicId);	
 		List<Question> questions = questionDao.findQuestionsByTopic(topic);
-		return this.listOfQuestionsToListOfQuestionsDto(questions);
+
+
+			
+		List<QuestionDto > questionsDto = this.listOfQuestionsToListOfQuestionsDto(questions);
+		/*
+		System.out.println("nb questions " +  questions.size());
+		for (Question question : questions)
+			for (String p : question.getGoodPropositions())
+				System.out.println("real object =>" +p);
+		System.out.println("nb questions " +  questions.size());
+		for (QuestionDto question :questionsDto){
+			for (String p : question.getGoodPropositions())
+				System.out.println("DTO =>" +p);
+			for (String p : question.getBadPropositions())
+				System.out.println("DTO =>" +p);
+		}
+		*/
+		return questionsDto;
 	}
 	
 	public List <QuestionDto> listOfQuestionsToListOfQuestionsDto (List <Question> listQuestions){
@@ -177,12 +193,12 @@ public class QuizServiceImpl implements  QuizService{
 		question.setId(questionDto.getId());
 		Topic topic = topicDao.find(questionDto.getTopicId());
 		question.setTopic(topic);
+		question.setTitle( questionDto.getTitle());
 		question.setPoints(questionDto.getPoints());
 		question.setPosition(questionDto.getPosition());
-		question.setPropositions(questionDto.getPropositions());
+		question.setAnswers(questionDto.getAnswers());
 		question.setQuestion(questionDto.getQuestion());
 		question.setQuestionType(questionDto.getQuestionType());
-		question.setAnswers(questionDto.getAnswers());
 		question.setTimeToAnswer(questionDto.getTimeToAnswer());
 		return question;		
 	}
@@ -192,12 +208,12 @@ public class QuizServiceImpl implements  QuizService{
 		questionDto.setId(question.getId());
 		long topicId = question.getTopic().getId();
 		questionDto.setTopicId(topicId);
+		questionDto.setTitle( question.getTitle());
 		questionDto.setPoints(question.getPoints());
 		questionDto.setPosition(question.getPosition());
-		questionDto.setPropositions(question.getPropositions());
+		questionDto.setAnswers(question.getAnswers());
 		questionDto.setQuestion(question.getQuestion());
 		questionDto.setQuestionType(question.getQuestionType());
-		questionDto.setAnswers(question.getAnswers());
 		questionDto.setTimeToAnswer(question.getTimeToAnswer());
 		return questionDto;		
 	}
@@ -288,14 +304,15 @@ public class QuizServiceImpl implements  QuizService{
 		sequence.setUser(user);
 		sequence.setName(sequenceDto.getName());
 		sequence.setDescription(sequenceDto.getDescription());			
-		Map <Integer,QuestionDto >   questionsDto =  sequenceDto.getQuestions();
+	/*	Map <Integer,QuestionDto >   questionsDto =  sequenceDto.getQuestions();
 		Map <Integer,Question> questions = new HashMap <Integer,Question > ();
-		for (Map.Entry<Integer,QuestionDto> e : questionsDto .entrySet()) {
-			Integer key = e.getKey();
-			Question question = this.questionDtoToQuestion(e.getValue());
-			questions.put(key, question );
-			}	
-		sequence.setQuestions(questions);
+                if (questionsDto != null)
+                    for (Map.Entry<Integer,QuestionDto> e : questionsDto .entrySet()) {
+                            Integer key = e.getKey();
+                            Question question = this.questionDtoToQuestion(e.getValue());
+                            questions.put(key, question );
+                            }	
+		sequence.setQuestions(questions);*/
 		return sequence;		
 	}
 	
@@ -306,16 +323,17 @@ public class QuizServiceImpl implements  QuizService{
 		sequenceDto.setUserId( userId );
 		sequenceDto.setName(sequence.getName());
 		sequenceDto.setDescription(sequence.getDescription());	
-		Map <Integer,Question>   questions =  sequence.getQuestions();
+	/*	Map <Integer,Question>   questions =  sequence.getQuestions();
 		Map <Integer,QuestionDto> questionsDto = new HashMap <Integer,QuestionDto > ();
 		int i = 0 ;
-		for (Map.Entry<Integer,Question> e : questions .entrySet()) {
-			Integer key = e.getKey();		
-			Question question = e.getValue();
-			QuestionDto questionDto = this.questionToQuestionDto(e.getValue());
-			questionsDto.put(key, questionDto );
-			}	
-		sequenceDto.setQuestions(questionsDto);
+                if (questions!= null)
+                    for (Map.Entry<Integer,Question> e : questions .entrySet()) {
+                            Integer key = e.getKey();		
+                            Question question = e.getValue();
+                            QuestionDto questionDto = this.questionToQuestionDto(e.getValue());
+                            questionsDto.put(key, questionDto );
+                            }	
+		sequenceDto.setQuestions(questionsDto);*/
 		return sequenceDto;		
 	}
 

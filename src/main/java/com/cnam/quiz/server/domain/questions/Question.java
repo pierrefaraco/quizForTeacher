@@ -3,19 +3,7 @@ package com.cnam.quiz.server.domain.questions;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-
-
-
-
-
-
-
-
-
-
-
-
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -26,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -33,8 +22,10 @@ import javax.persistence.Table;
 
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.QuestionType;
+import com.cnam.quiz.common.enums.SubscriberStatus;
 import com.cnam.quiz.server.domain.DomainObject;
 import com.cnam.quiz.server.domain.topic.Topic;
+import com.cnam.quiz.server.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 @Entity
 @NamedQueries({
@@ -51,13 +42,13 @@ public class Question extends DomainObject implements  Serializable{
 	@GeneratedValue
 	@Column(name="id")
 	private long id;
-	@Column(name="question", nullable = false, length = 255)
+	@Column(name="title", nullable = false, length = 255)
+	private String title;	
+	@Column(name="question", nullable = false, length = 2048)
 	private String question;	
-	@ElementCollection
-	private List <String> propositions;	
-	@ElementCollection
-	private List <String>  answers;	
-	@Column(name="points", nullable = false )
+	@ElementCollection(fetch =FetchType.EAGER)   
+	@Column(name="answers" , nullable =   false)
+	private Map <String,Boolean> answers;
 	private int points;
 	@Column(name="time_to_answer", nullable = false )
 	private int timeToAnswer;
@@ -69,33 +60,18 @@ public class Question extends DomainObject implements  Serializable{
 	@JoinColumn(name ="topic_id", nullable = false)
 	private Topic topic;
 
-	public Question(String question,List<String> propositions,
-			List<String> answers, int points,int timeToAnswer ,int position,QuestionType questionType, Topic topic) {
+	public Question(String title,String question,Map <String,Boolean> answers, int points,int timeToAnswer ,int position,QuestionType questionType, Topic topic) {
 		super();
+		this.title = title;
 		this.question = question;
-		this.propositions = propositions;
-		this.answers = answers;
 		this.points = points;
 		this.position = position;
 		this.topic = topic;
 		this.timeToAnswer =timeToAnswer;
 		this.questionType =questionType;
+		this.answers = answers ;
 	}
 
-	public Question(long id, String question, List<String> propositions,
-			List<String> answers, int points,int timeToAnswer, int position,QuestionType questionType, Topic topic) {
-		super();
-		this.id = id;
-		this.question = question;
-		this.propositions = propositions;
-		this.answers = answers;
-		this.points = points;
-		this.position = position;
-		this.topic = topic;
-		this.timeToAnswer =timeToAnswer;
-		this.questionType =questionType;
-	}
-	
 		
 	public Question() {
 		super();
@@ -111,6 +87,14 @@ public class Question extends DomainObject implements  Serializable{
 		this.id = id ;
 		
 	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public String getQuestion() {
 		return question;
@@ -118,22 +102,6 @@ public class Question extends DomainObject implements  Serializable{
 
 	public void setQuestion(String question) {
 		this.question = question;
-	}
-
-	public List<String> getPropositions() {
-		return propositions;
-	}
-
-	public void setPropositions(List<String> propositions) {
-		this.propositions = propositions;
-	}
-
-	public List<String> getAnswers() {
-		return answers;
-	}
-
-	public void setAnswers(List<String> answers) {
-		this.answers = answers;
 	}
 
 	public int getPoints() {
@@ -176,6 +144,14 @@ public class Question extends DomainObject implements  Serializable{
 		this.questionType = questionType;
 	}
 
+	public Map<String, Boolean> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(Map<String, Boolean> answers) {
+		this.answers = answers;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -184,13 +160,10 @@ public class Question extends DomainObject implements  Serializable{
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + points;
 		result = prime * result + position;
-		result = prime * result
-				+ ((propositions == null) ? 0 : propositions.hashCode());
-		result = prime * result
-				+ ((question == null) ? 0 : question.hashCode());
-		result = prime * result
-				+ ((questionType == null) ? 0 : questionType.hashCode());
+		result = prime * result + ((question == null) ? 0 : question.hashCode());
+		result = prime * result + ((questionType == null) ? 0 : questionType.hashCode());
 		result = prime * result + timeToAnswer;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((topic == null) ? 0 : topic.hashCode());
 		return result;
 	}
@@ -215,11 +188,6 @@ public class Question extends DomainObject implements  Serializable{
 			return false;
 		if (position != other.position)
 			return false;
-		if (propositions == null) {
-			if (other.propositions != null)
-				return false;
-		} else if (!propositions.equals(other.propositions))
-			return false;
 		if (question == null) {
 			if (other.question != null)
 				return false;
@@ -229,6 +197,11 @@ public class Question extends DomainObject implements  Serializable{
 			return false;
 		if (timeToAnswer != other.timeToAnswer)
 			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
 		if (topic == null) {
 			if (other.topic != null)
 				return false;
@@ -236,6 +209,8 @@ public class Question extends DomainObject implements  Serializable{
 			return false;
 		return true;
 	}
+
+
 
 
 	

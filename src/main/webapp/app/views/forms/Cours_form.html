@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <!-- Form Cours-->
 
-<h6>Cours</h6>
+
 <div class="btn-group-vertical" >
 
     <script type="text/ng-template" id="coursModal.html">
-                <div class="modal-header">
-                <h3 class="modal-title"> {{action}} </h3>
-                </div>
-                <div class="modal-body">
-                
+        <div class="modal-header">
+            <h3 class="modal-title"> {{action}} </h3>
+        </div>
+        <div class="modal-body">
+
             <div class="form-group ">
-                    <label class="control-label " for="name">
-                     Name
-                    </label>
-                    <input class="form-control" ng-model="cours.name" id="name" name="name" type="text"/>
-                   </div>
-                   <div class="form-group ">
-                    <label class="control-label " for="message">
-                     Description
-                    </label>
-                    <textarea class="form-control"  ng-model="cours.description"  cols="40" id="message" name="message" placeholder="description" rows="6"></textarea>
-                   </div>
-                   <div class="form-group ">
-                    <label class="control-label ">
-                     Active
-                    </label>
-                    <div class=" ">
-                     <div class="checkbox">
-                      <label class="checkbox" >
-                       <input name="checkbox" type="checkbox" ng-model="cours.active"  value="Check if you want the cours avaiable"/>
-                       Check if you want the cours avaiable
-                      </label>
-                     </div>
+                <label class="control-label " for="name">
+                    Name
+                </label>
+                <input class="form-control" ng-model="cours.name" id="name" name="name" type="text"/>
+            </div>
+            <div class="form-group ">
+                <label class="control-label " for="message">
+                    Description
+                </label>
+                <textarea class="form-control"  ng-model="cours.description"  cols="40" id="message" name="message" placeholder="description" rows="6"></textarea>
+            </div>
+            <div class="form-group ">
+                <label class="control-label ">
+                    Active
+                </label>
+                <div class=" ">
+                    <div class="checkbox">
+                        <label class="checkbox" >
+                            <input name="checkbox" type="checkbox" ng-model="cours.active"  value="Check if you want the cours avaiable"/>
+                            Check if you want the cours avaiable
+                        </label>
                     </div>
-                   </div>         
-                
                 </div>
-                <div class="modal-footer">
-                <button class="btn btn-primary" type="button" ng-click="validate()">OK</button>
-                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-                </div>
-    </script>
+            </div>         
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="validate()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script> 
     <button type="button" class="btn btn-primary pull-right"
             ng-click="open('Create cours')">Create Cours</button>
     <button type="button" class="btn btn-primary pull-right"

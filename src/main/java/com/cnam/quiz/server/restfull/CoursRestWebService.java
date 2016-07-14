@@ -30,7 +30,20 @@ public class CoursRestWebService {
 			return new ResponseEntity<CoursDto>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<CoursDto>(cours, HttpStatus.OK);
 	}
-
+	@RequestMapping(value = "professor/coursAndSubscribers/{coursid} ", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity <CoursWithSubscribersDto> getCoursWithSubscribersDto (@PathVariable("coursid")long coursId) {
+		CoursWithSubscribersDto coursWithSubscribersDto = coursService.getCourWithSuscribers(coursId);
+		if (coursWithSubscribersDto == null ) {
+				return new ResponseEntity<CoursWithSubscribersDto>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<CoursWithSubscribersDto>(coursWithSubscribersDto, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "professor/coursAndSubscribers/ ", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity <CoursWithSubscribersDto> updateCoursWithSubscribersDto (@RequestBody CoursWithSubscribersDto coursWithSubscribersDto) {
+		coursService.updateCourWithSuscribers( coursWithSubscribersDto);
+		return new ResponseEntity<CoursWithSubscribersDto>(coursWithSubscribersDto, HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/professor/cours/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CoursDto> createCours(@RequestBody CoursDto coursDto){
@@ -74,10 +87,10 @@ public class CoursRestWebService {
 		return new ResponseEntity<List<CoursDto>>(cours, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/suscribe/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/subscribe/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity  suscribe(@PathVariable("userid")long suscriberId,@PathVariable("coursid") long coursId) {
 		coursService.suscribe(suscriberId, coursId);
-		return new ResponseEntity  ( HttpStatus.OK);
+		return new ResponseEntity  ( HttpStatus.OK );
 	}
 
 	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/unsuscribe/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -86,26 +99,13 @@ public class CoursRestWebService {
 		return new ResponseEntity  ( HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/professor/user/{userid}/cours/{coursid}/updatesuscriberstatus/{status}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/professor/user/{userid}/cours/{coursid}/updatesubscriberstatus/{status}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity  updateSuscriberStatus(@PathVariable("userid")long suscriberId, 
 			@PathVariable("coursid")long coursId,@PathVariable("status") SubscriberStatus status) {
 		coursService.updateSuscriberStatus(suscriberId, coursId, status);
 		return new ResponseEntity  ( HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "professor/coursAndSucribers/{coursid} ", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity <CoursWithSubscribersDto> getCoursWithSubscribersDto (@PathVariable("coursid")long coursId) {
-		CoursWithSubscribersDto coursWithSubscribersDto = coursService.getCourWithSuscribers(coursId);
-		if (coursWithSubscribersDto == null ) {
-				return new ResponseEntity<CoursWithSubscribersDto>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<CoursWithSubscribersDto>(coursWithSubscribersDto, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "professor/coursAndSucribers/ ", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity <CoursWithSubscribersDto> updateCoursWithSubscribersDto (@RequestBody CoursWithSubscribersDto coursWithSubscribersDto) {
-		coursService.updateCourWithSuscribers( coursWithSubscribersDto);
-		return new ResponseEntity<CoursWithSubscribersDto>(coursWithSubscribersDto, HttpStatus.OK);
-	}
+
 
 }

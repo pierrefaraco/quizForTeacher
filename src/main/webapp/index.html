@@ -20,13 +20,14 @@
     <script src="app/main.js"></script>
     <script src="app/constants.js"></script>
     <script src="app/routage/route.js"></script>
+     <script src="app/services/rest/quizRestClient.js"></script>
     <script src="app/services/rest/coursRestClient.js"></script>
     <script src="app/services/rest/userRestClient.js"></script>
     <script src="app/services/sessionService.js"></script>
     <script src="app/controller/mainController.js"></script>
     <script src="app/controller/homeCtrl.js"></script>
     <script src="app/controller/coursCtrl.js"></script>
-    <script src="app/controller/questionsCtrl.js"></script>
+    <script src="app/controller/quizCtrl.js"></script>
     <script src="app/controller/profilCtrl.js"></script>
     <script src="app/controller/subscribersCtrl.js"></script>
 
@@ -47,13 +48,13 @@
             <!-- Header -->
 
             <header class="row">
-                <div class="col-lg-12">No quiz sesion {{user.connected}}</div>
+                <div class="col-sm-12">No quiz sesion {{user.connected}}</div>
             </header>
 
             <!-- Menu navigation -->
 
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-sm-12">
                     <nav class="navbar navbar-inverse">
                         <div class="container-fluid">
                             <div class="navbar-header">
@@ -63,7 +64,7 @@
                                 <li><a href="#/">Home</a></li>
                                 <li ng-show="user.connected"><a href="#/CoursUI">Cours</a></li>
                                 <li ng-show="user.connected"><a href="#/SubscribersUI">Subscribers</a></li>
-                                <li ng-show="user.connected"><a href="#/QuestionsUI">Questions</a></li>
+                                <li ng-show="user.connected"><a href="#/QuizUI">Quiz Management</a></li>
                                 <li ng-show="user.connected"><a href="#">Quiz session</a></li>
 
                             </ul>
@@ -91,7 +92,7 @@
             <!-- footer -->
 
             <footer class="row">
-                <div class="col-lg-12">A GLG-204 Project developped by Pierre
+                <div class="col-sm-12">A GLG-204 Project developped by Pierre
                     faraco</div>
             </footer>
 

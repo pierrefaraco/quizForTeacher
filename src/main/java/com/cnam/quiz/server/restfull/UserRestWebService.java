@@ -48,22 +48,17 @@ public class UserRestWebService {
 
 	@RequestMapping(value = "/unsecured/user/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto> createAccount(@RequestBody UserDto userDto ) {
-		userDto.setId(0);
 		userService.createAccount(userDto);
 		if (userDto.getId() == 0 )
 			return new ResponseEntity<UserDto>(HttpStatus.NOT_MODIFIED);
-		return new ResponseEntity<UserDto>(userDto, HttpStatus.CREATED);
+		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
 
 
 	@RequestMapping(value = "/professor/user/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity deleteAccount(long id) {
 		userService.deleteAccount(id);
-		UserDto user = userService.findUser(id);
-		if(user  ==null)
-			return new ResponseEntity( HttpStatus.OK);
-		return new ResponseEntity( HttpStatus.NOT_MODIFIED );
-		
+		return new ResponseEntity( HttpStatus.OK);	
 	}
 
 

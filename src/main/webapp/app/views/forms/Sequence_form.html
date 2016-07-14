@@ -4,7 +4,7 @@
 
 <div class="btn-group-vertical">
 
-    <script type="text/ng-template" id="topicModal.html">
+    <script type="text/ng-template" id="sequenceModal.html">
              <div class="modal-header">
                 <h3 class="modal-title"> {{action}} </h3>
                 </div>
@@ -14,13 +14,13 @@
                     <label class="control-label " for="name">
                         Name
                     </label>
-                    <input class="form-control" ng-model="topic.name" id="name" name="name" type="text"/>
+                    <input class="form-control" ng-model="sequence.name" id="name" name="name" type="text"/>
                 </div>
                 <div class="form-group ">
                     <label class="control-label " for="message">
                         Description
                     </label>
-                    <textarea class="form-control"  ng-model="topic.description"  cols="40" id="message" name="message" placeholder="description" rows="6"></textarea>
+                    <textarea class="form-control"  ng-model="sequence.description"  cols="40" id="message" name="message" placeholder="description" rows="6"></textarea>
                 </div>        
 
                 </div>
@@ -30,10 +30,10 @@
             </div>
     </script>
     <button type="button" class="btn btn-primary pull-right"
-            ng-click="openTopicModal('Create topic')">Create</button>
+            ng-click="openSequenceModal('Create sequence')">Create</button>
     <button type="button" class="btn btn-primary pull-right"
-            ng-click="openTopicModal('Edit topic', null)">Edit</button>
+            ng-click="openSequenceModal('Edit sequence', null)">Edit</button>
     <button type="button" class="btn btn-primary pull-right"
-            ng-click="deleteTopic()">Delete</button>
+            ng-click="deleteSequence()">Delete</button>
 
 </div>

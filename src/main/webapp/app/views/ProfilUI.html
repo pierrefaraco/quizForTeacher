@@ -11,9 +11,9 @@ and open the template in the editor.
 
 			<div ng-show="user.connected" class="form-group">
 
-				<label class="col-md-3 control-label" for="AccountType">Account
+				<label class="col-sm-3 control-label" for="AccountType">Account
 					Type</label>
-				<div class="col-md-4">
+				<div class="col-sm-4">
 					<input id="AccountType" type="text" class="form-control"
 						name="AccountType" ng-model="user.accountType" />
 
@@ -21,61 +21,61 @@ and open the template in the editor.
 
 			</div>
 			<div class="form-group">
-				<label class="col-md-3 control-label" for="Email">Email</label>
-				<div class="col-md-4">
+				<label class="col-sm-3 control-label" for="Email">Email</label>
+				<div class="col-sm-4">
 					<input id="Email" type="email" class="form-control" name="Email"
 						ng-model="user.email" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-md-3 control-label" for="Password">Password</label>
-				<div class="col-md-4">
+				<label class="col-sm-3 control-label" for="Password">Password</label>
+				<div class="col-sm-4">
 					<input id="Password" type="password" class="form-control"
 						name="Password" ng-model="user.password" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-md-3 control-label" for="ConfirmPassword">Confirm
+				<label class="col-sm-3 control-label" for="ConfirmPassword">Confirm
 					Password</label>
-				<div class="col-md-4">
+				<div class="col-sm-4">
 					<input id="ConfirmPassword" type="password" class="form-control"
 						name="ConfirmPassword" ng-model="user.password" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-md-3 control-label" for="FirstName">First
+				<label class="col-sm-3 control-label" for="FirstName">First
 					Name</label>
-				<div class="col-md-4">
+				<div class="col-sm-4">
 					<input id="FirstName" type="texte" class="form-control"
 						name="FirstName" ng-model="user.firstName" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-md-3 control-label" for="LastName">Last
+				<label class="col-sm-3 control-label" for="LastName">Last
 					Name</label>
-				<div class="col-md-4">
+				<div class="col-sm-4">
 					<input id="LastName" type="texte" class="form-control"
 						name="LastName" ng-model="user.lastName" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-md-3 control-label" for="BirthDay">Birth
+				<label class="col-sm-3 control-label" for="BirthDay">Birth
 					Day</label>
-				<div class="col-md-4">
+				<div class="col-sm-4">
 					<input id="LastName" type="date" class="form-control"
 						name="LastName" ng-model="user.birthDay" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-md-3 control-label" for="Presentation">Presentation</label>
-				<div class="col-md-4">
+				<label class="col-sm-3 control-label" for="Presentation">Presentation</label>
+				<div class="col-sm-4">
 					<textarea id="Presentation" type="texte" class="form-control"
 						name="Presentation" ng-model="user.presentation" />
 				</div>
 			</div>
 
 			<div class="form-group">
-				<div class="col-md-offset-3 col-md-9">
+				<div class="col-sm-offset-3 col-sm-9">
 					<input ng-show="user.connected" type="submit" class="btn btn-default" value="Update"
 						ng-click="updateUser()" /> 
                                         <input ng-show="!user.connected" type="submit"

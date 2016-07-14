@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -125,18 +126,14 @@ public class EntitiesCreator extends TestCase {
 	
 	
 	public static Question createRandomQuestion(Topic topic, QuestionType questionType) {
-		List<String> propositions = new ArrayList<String>();
-		List<String> answers = new ArrayList<String>();
+		Map <String,Boolean> answers =new HashMap<String,Boolean> ();
 		for (int i=0;i<(int) (Math.random() * 10);i++){
-			String answer = "proposition "+ (int)(Math.random()*10000);
-			propositions.add(answer );
-			if((int)(Math.random()*2)>0)
-				answers.add(answer );
+			String answer =  "Proposition "+ (int)(Math.random()*10000);
+			answers.put(answer ,new Random().nextBoolean());
 			}
 			
 		
-		return createQuestion((int) (Math.random() * 10000) + "question ?", 
-				propositions,
+		return createQuestion((int) (Math.random() * 10000) + "TITLE :", (int) (Math.random() * 10000) + "question ?", 
 				answers,
 				(int) (Math.random() * 10),
 				(int) (Math.random() * 60),
@@ -145,10 +142,10 @@ public class EntitiesCreator extends TestCase {
 				topic);
 	}
 
-	public static Question createQuestion(String question,List <String> propositions, List <String> answers,int points,
+	public static Question createQuestion(String title,String question,Map <String,Boolean> answers,int points,
 			int timeToAnswer,int position, QuestionType questionType,Topic topic)
 		{
-		return new Question(question, propositions, answers, points,timeToAnswer, position,questionType, topic);
+		return new Question(title,question, answers , points,timeToAnswer, position,questionType, topic);
 		}
 	
 	public static Sequence createRandomSequence(User user,Map<Integer, Question> questions) {
@@ -198,38 +195,30 @@ public class EntitiesCreator extends TestCase {
 	
 	public static Result createRandomResult(User auditor ,SessionQuiz sessionQuiz ){
 		
-		List<String> goodAnswers= new ArrayList<String> ();
-		List<String> givenAnswers= new ArrayList<String> ();
-		List<String> propositions = new ArrayList<String> ();
+		Map <String,boolean[]> answers = new HashMap<String,boolean[]>();
 		for (int i= 0 ; i<(int) (Math.random() * 10);i++){		
 			String answ = i +") "+  (Math.random()*10000000);
-			propositions.add( answ );
-			if (Math.random() * 10>5)
-				goodAnswers.add(	i +") "+  answ );			
-			if (Math.random() * 10>5)
-				givenAnswers.add(	i +") "+   answ );
+			boolean [] r ={new Random().nextBoolean(),new Random().nextBoolean()};
+			answers.put (answ,r);	
 		}
 		
 
 		
 		return createResult((long) (Math.random() * 10),
 						(int)(Math.random()*10), 
-						10, 
-						(float)(Math.random()*10), 
+						(int)(Math.random()*20), 
 						auditor, 
 						sessionQuiz, 
 						"Quel est le "+  (Math.random()*10000000)+" du "+ (Math.random()*10000000) + "?", 
-						propositions,
-						goodAnswers,
-						givenAnswers,
+						answers,
 						createRandomDate());
 	}
 	
 	
-	public static Result createResult(long questionId,int obtainedPoints,int maxPoints, float answerTime, User auditor, SessionQuiz sessionQuiz,
-			String question,List<String> propositions,  List<String> goodAnswers, List<String> givenAnswers, Date date){
+	public static Result createResult(long questionId,int obtainedPoints, float answerTime, User auditor, SessionQuiz sessionQuiz,
+			String question,Map <String,boolean[]> answers, Date date){
 		
-		return new Result(questionId, obtainedPoints , maxPoints ,answerTime, auditor, sessionQuiz, question, propositions, goodAnswers, givenAnswers, date);
+		return new Result(questionId, obtainedPoints  ,answerTime, auditor, sessionQuiz, question, answers, date);
 	}
 	
 	

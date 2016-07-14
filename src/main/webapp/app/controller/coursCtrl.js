@@ -9,8 +9,12 @@ quizApp.controller('CoursController', ["$scope", "$rootScope", "coursRestClient"
         };
 
         $scope.selectCours = function (cours) {
-            $rootScope.selectedCours = cours;
-            $cookies.put("selectedCours", $scope.selectedCours.id);
+            if ($rootScope.selectedCours === cours)
+                 unSelectCours ();
+            else{
+                $rootScope.selectedCours = cours;
+                $cookies.put("selectedCours", $scope.selectedCours.id);
+            }
         };
             
         function unSelectCours () {
@@ -31,7 +35,7 @@ quizApp.controller('CoursController', ["$scope", "$rootScope", "coursRestClient"
          $scope.edit= function (cours){ 
              var coursResource  = coursRestClient.getCoursResource();      
              coursResource.update({ } , cours , function(res){
-                    unSelectCours();
+                    $scope.selectCours (cours);
                     refresh();           
             },function(response){
                     alert("Error : "+ response.status );

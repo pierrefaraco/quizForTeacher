@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<section >
+    <div class="row" >
+        <div class="col-sm-2">
+			<div ng-include src="'app/views/forms/Question_form.html'"></div>
+		</div>
+
+        <section class="col-sm-10">
+            <div class="row">
+
+                <!--  Topics  -->
+
+                <div class="col-sm-2">
+                    <label class="control-label pull-left">topic :</label>
+                    <select class="btn btn-primary pull-right" style="width:25px" ng-change="refreshQuestions()" ng-options="topic.name for topic in listOfTopics" ng-model="selectedTopic"></select> 
+                    <div ng-include src="'app/views/forms/Topic_form.html'"></div>
+                </div>
+                <div class="col-sm-4 ">
+                    <div class="form-group ">
+                        <input class="form-control  disabled" id="name" name="name" type="text" value='name : {{selectedTopic.name}} ' readonly> 
+                    </div>
+                    <div class="form-group ">
+                        <textarea class="form-control disabled" cols="40" id="textarea" name="textarea" rows="4"  readonly>descritpion : {{selectedTopic.description}}</textarea>       
+                    </div>
+                </div> 
+
+                <!--  Sequences -->
+
+                <div class="col-sm-2">
+                    <label class="control-label pull-left">seq :</label>
+                    <select class="btn btn-primary pull-right" style="width:25px" ng-options="sequence.name for sequence in listOfSequences" ng-model="selectedSequence"></select> 
+                    <div ng-include src="'app/views/forms/Sequence_form.html'"></div>
+                </div>
+                <div class="col-sm-4 ">
+                    <div class="form-group ">
+                        <input class="form-control  disabled" id="name" name="name" type="text"value='name : {{selectedSequence.name}} ' readonly> 
+                    </div>
+                    <div class="form-group ">
+                        <textarea class="form-control disabled" cols="40" id="textarea" name="textarea" rows="4"  readonly>descritpion : {{selectedSequence.description}}</textarea>       
+                    </div>
+                </div> 
+
+            </div>
+
+   
+    <div class="row">
+
+        <!--  Topics Questions -->
+
+        <div class="col-sm-6">
+            <div class="panel-primary panel-default">
+             
+                <div class="panel-body">
+
+                    <table class="table">
+                        <thead>         
+                            <tr>
+                                <th>title</th>
+                                <th>points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="question in listOfQuestions| orderBy : 'position'" ng-click="selectQuestion(question)" ng-class ="{warning: question.id == selectedQuestion.id}">                                                     
+                                <td>{{question.title}}</td>
+                                <td>{{question.points}}</td>
+                            </tr> 
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+        </div>
+
+        <!--  Sequence Questions -->
+
+        <div class="col-sm-6">
+            <div class="panel-primary panel-default">
+        
+                <div class="panel-body">Sequences list</div>
+            </div>
+        </div>
+       </section>
+    </div>
+</section>
+
+
+
+

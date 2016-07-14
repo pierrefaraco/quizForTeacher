@@ -3,19 +3,7 @@ package com.cnam.quiz.common.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-
-
-
-
-
-
-
-
-
-
-
-
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -35,33 +23,52 @@ import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.QuestionType;
 import com.cnam.quiz.server.domain.DomainObject;
 import com.cnam.quiz.server.domain.topic.Topic;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-public class QuestionDto extends DomainObject implements  Serializable{
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+@JsonSerialize(using = QuestionDtoSerializer.class)
+public class QuestionDto implements  Serializable{
 
 	private long id;
+	private String title;	
 	private String question;	
-	private List <String> propositions;	
-	private List <String>  answers;	
+	private Map <String,Boolean> answers;
 	private int points;
 	private int timeToAnswer;
 	private int position;
-	private QuestionType questionType;	
+	private QuestionType questionType;		
+	
+	public Map<String, Boolean> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(Map<String, Boolean> answers) {
+		this.answers = answers;
+	}
+
 	private long topicId;
 
 	public QuestionDto(){}
 		
 
-	@Override
 	public long getId() {
 		return id;
 	}
 
-	@Override
+
 	public void setId(long id) {
 		this.id = id ;
 		
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 
 	public String getQuestion() {
 		return question;
@@ -70,22 +77,8 @@ public class QuestionDto extends DomainObject implements  Serializable{
 	public void setQuestion(String question) {
 		this.question = question;
 	}
+	
 
-	public List<String> getPropositions() {
-		return propositions;
-	}
-
-	public void setPropositions(List<String> propositions) {
-		this.propositions = propositions;
-	}
-
-	public List<String> getAnswers() {
-		return answers;
-	}
-
-	public void setAnswers(List<String> answers) {
-		this.answers = answers;
-	}
 
 	public int getPoints() {
 		return points;
@@ -128,5 +121,54 @@ public class QuestionDto extends DomainObject implements  Serializable{
 	}
 
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + points;
+		result = prime * result + position;
+		result = prime * result + ((question == null) ? 0 : question.hashCode());
+		result = prime * result + ((questionType == null) ? 0 : questionType.hashCode());
+		result = prime * result + timeToAnswer;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + (int) (topicId ^ (topicId >>> 32));
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		QuestionDto other = (QuestionDto) obj;
+		if (id != other.id)
+			return false;
+		if (points != other.points)
+			return false;
+		if (position != other.position)
+			return false;
+		if (question == null) {
+			if (other.question != null)
+				return false;
+		} else if (!question.equals(other.question))
+			return false;
+		if (questionType != other.questionType)
+			return false;
+		if (timeToAnswer != other.timeToAnswer)
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		if (topicId != other.topicId)
+			return false;
+		return true;
+	}
+
 }
-//*/

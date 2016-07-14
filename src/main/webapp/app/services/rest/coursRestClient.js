@@ -1,6 +1,6 @@
 
-quizApp.factory("coursRestClient", ["$resource", "$http", "SERVER_URL",
-    function ($resource, $http, SERVER_URL) {
+quizApp.factory("coursRestClient", ["$resource",  "SERVER_URL",
+    function ($resource, SERVER_URL) {
 
         return {
             getListCoursResource: function () {
@@ -21,16 +21,16 @@ quizApp.factory("coursRestClient", ["$resource", "$http", "SERVER_URL",
                 });
             }                   
           ,
-          getSubscribersRestObject: function () {
-                return $resource(SERVER_URL + 'professor/coursAndSucribers/:coursId ', {
+          getSubscribersResource: function () {
+                return $resource(SERVER_URL + 'professor/coursAndSubscribers/:coursId ', {
                 }, {
                     'get': {method: 'GET'},
                     'update': {method: 'PUT'}
                 });
           }
           ,
-          getSubscriberStatusRestObject: function () {
-                return $resource(SERVER_URL + 'professor/user/:userId/cours/:coursId/updatesuscriberstatus/:status', {
+          getSubscriberStatusResource: function () {
+                return $resource(SERVER_URL + 'professor/user/:userId/cours/:coursId/updatesubscriberstatus/:status', {
                 }, {
                     'update': {method: 'PUT'}
                 });

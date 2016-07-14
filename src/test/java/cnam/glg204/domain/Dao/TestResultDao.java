@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -142,10 +143,9 @@ public class TestResultDao extends TestCase {
 							
 				result.setQuestionId(question.getId());
 				result.setQuestion(question.getQuestion());		
-				result.setPropositions(duplic(question.getPropositions()));
-				result.setGoodAnswers((duplic(question.getAnswers())));
-				result.setGivenAnswers(getGivenAnswer(question.getPropositions()));
-				result.setMaxPoints(10);
+				
+				
+				result.setAnswers(generateResult(question.getAnswers()));
 				result.setObtainedPoint((int)( Math.random()*10 ));	
 				result.setUser(user);
 				result.setSessionQuiz(sessionQuiz);
@@ -153,10 +153,15 @@ public class TestResultDao extends TestCase {
 			}		
 		}
 	}
-	private List <String> duplic(List <String> toDuplic){
-		List <String> duplicata =new ArrayList<String> ();
-		duplicata .addAll(toDuplic);
-		return 	duplicata;
+	private Map <String,boolean[]> generateResult (	Map <String,Boolean> toGiveResult){
+		Map <String,boolean[]> results = new  HashMap <String,boolean[]> ();
+		for (Map.Entry<String,Boolean> v : toGiveResult.entrySet() ){
+			String key = v.getKey();
+			boolean [] value ={v.getValue(),new Random().nextBoolean()};
+			results.put(key, value);
+		}
+			
+		return 	results;
 	}
 	
 	@Test

@@ -22,10 +22,9 @@ public class StatistsicsRestWebService {
 	
 	@RequestMapping(value = "/all/result/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<ResultDto> saveResult(@RequestBody ResultDto resultDto){
-		resultDto.setId(-1);
 		statisticService.saveResult(resultDto);
-		if(resultDto.getId()==-1)
-			return new ResponseEntity<ResultDto>(HttpStatus.valueOf("COURS NOT RECORDED"));
+		if(resultDto.getId()==0)
+			return new ResponseEntity<ResultDto>(HttpStatus.NOT_MODIFIED);
 		return new ResponseEntity<ResultDto>(resultDto, HttpStatus.OK);
 	}
 	

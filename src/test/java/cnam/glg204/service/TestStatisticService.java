@@ -3,8 +3,10 @@ package cnam.glg204.service;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -187,24 +189,23 @@ public class TestStatisticService {
 		resultDto.setAnswerTime((int) (Math.random()*20 ));
 		resultDto.setQuestionId((long) (Math.random()*2000000 ) );
 		resultDto.setQuestion("question " + (int) (Math.random()*2000000 ));
-		List <String> propositions = getPropositions();
-		resultDto.setPropositions( propositions);
-		resultDto.setGivenAnswers(	selectSomePropositions(propositions));
-		resultDto.setGoodAnswers (	selectSomePropositions(propositions));
+		resultDto.setAnswers( getAnswers());
 		resultDto.setSessionQuizId(sessionId);
 		int maxPoint = (int) (Math.random()* 10 );
-		resultDto.setMaxPoints( maxPoint);
 		resultDto.setObtainedPoints((int) (Math.random()*  maxPoint  ));
 		return resultDto;	
 	}
 	
 	
 	
-	private List <String>  getPropositions(){	
-		List <String> propositions = new ArrayList<String>();
-		for (int i = 0 ;i<(int)(Math.random()*10);i++)
-			 propositions.add(i +" => proposition " +Math.random()*1000000  );
-		return  propositions;		
+	private Map <String,boolean[]>  getAnswers(){	
+		Map <String,boolean[]> answers = new HashMap<String,boolean[]>();
+		for (int i= 0 ; i<(int) (Math.random() * 10);i++){		
+			String answ = i +") "+  (Math.random()*10000000);
+			boolean [] r ={new Random().nextBoolean(),new Random().nextBoolean()};
+			answers.put (answ,r);	
+		}
+		return   answers;		
 		
 	}
 	

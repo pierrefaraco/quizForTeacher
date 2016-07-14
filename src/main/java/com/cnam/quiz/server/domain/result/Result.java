@@ -4,6 +4,7 @@ package com.cnam.quiz.server.domain.result;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -53,13 +54,10 @@ public class Result extends DomainObject  implements  Serializable {
 	@Column(name="question")
 	String question;
 	@ElementCollection
-	List<String> propositions;
-	@ElementCollection
-	List<String> goodAnswers;
-	@ElementCollection
-	List<String> givenAnswers;
-	@Column(name="max_points")
-	int maxPoints;
+	@Column(name="answers" , nullable =   false)
+	private Map <String,boolean[]> answers;
+	
+
 	@Column(name="obtained_point")
 	int obtainedPoints;
 	@Column(name="date")
@@ -67,38 +65,20 @@ public class Result extends DomainObject  implements  Serializable {
 	
 	
 	
-	public Result(long id,long questionId, int obtainedPoints,int maxPoint, float answerTime, User auditor,
-			SessionQuiz sessionQuiz, String  question,List<String> propositions, List<String> givenAnswers, List<String> goodAnswers, List<String> answers, Date date) {
+	public Result(long questionId, int obtainedPoints , float answerTime, User auditor,
+			SessionQuiz sessionQuiz, String  question,Map <String,boolean[]> answers,  Date date) {
 		super();
 		this.questionId = questionId;
 		this.id = id;
 		this.obtainedPoints = obtainedPoints;
-		this.maxPoints = maxPoint;
 		this.answerTime = answerTime;
 		this.user = auditor;
 		this.sessionQuiz = sessionQuiz;
 		this.question = question;
-		this.propositions= propositions;
-		this.givenAnswers = givenAnswers;
-		this.goodAnswers = goodAnswers;
+		this.answers = answers;
 		this.date = date;
 	}	
 	
-
-	public Result(long questionId,int obtainedPoints,int maxPoints, float answerTime, User auditor, SessionQuiz sessionQuiz,
-			String question,List<String> propositions,  List<String> goodAnswers, List<String> givenAnswers, Date date) {
-		super();
-		this.maxPoints = maxPoints;
-		this.obtainedPoints =obtainedPoints;
-		this.answerTime = answerTime;
-		this.user = auditor;
-		this.sessionQuiz = sessionQuiz;
-		this.question = question;
-		this.propositions= propositions;
-		this.goodAnswers = goodAnswers;
-		this.givenAnswers = givenAnswers;
-		this.date = date;
-	}
 
 
 	public Result() {
@@ -166,46 +146,6 @@ public class Result extends DomainObject  implements  Serializable {
 	}
 
 
-	public List<String> getPropositions() {
-		return propositions;
-	}
-
-
-	public void setPropositions(List<String> propositions) {
-		this.propositions = propositions;
-	}
-
-
-	public List<String> getGoodAnswers() {
-		return goodAnswers;
-	}
-
-
-	public void setGoodAnswers(List<String> goodAnswers) {
-		this.goodAnswers = goodAnswers;
-	}
-
-
-	public List<String> getGivenAnswers() {
-		return givenAnswers;
-	}
-
-
-	public void setGivenAnswers(List<String> givenAnswers) {
-		this.givenAnswers = givenAnswers;
-	}
-
-
-	public int getMaxPoints() {
-		return maxPoints;
-	}
-
-
-	public void setMaxPoints(int maxPoints) {
-		this.maxPoints = maxPoints;
-	}
-
-
 	public int getObtainedPoint() {
 		return obtainedPoints;
 	}
@@ -226,24 +166,47 @@ public class Result extends DomainObject  implements  Serializable {
 	}
 
 
+
+	public Map<String, boolean[]> getAnswers() {
+		return answers;
+	}
+
+
+
+	public void setAnswers(Map<String, boolean[]> answers) {
+		this.answers = answers;
+	}
+
+
+
+	public int getObtainedPoints() {
+		return obtainedPoints;
+	}
+
+
+
+	public void setObtainedPoints(int obtainedPoints) {
+		this.obtainedPoints = obtainedPoints;
+	}
+
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Float.floatToIntBits(answerTime);
+		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((givenAnswers == null) ? 0 : givenAnswers.hashCode());
-		result = prime * result + ((goodAnswers == null) ? 0 : goodAnswers.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + maxPoints;
 		result = prime * result + obtainedPoints;
-		result = prime * result + ((propositions == null) ? 0 : propositions.hashCode());
 		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		result = prime * result + (int) (questionId ^ (questionId >>> 32));
 		result = prime * result + ((sessionQuiz == null) ? 0 : sessionQuiz.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
+
 
 
 	@Override
@@ -257,31 +220,19 @@ public class Result extends DomainObject  implements  Serializable {
 		Result other = (Result) obj;
 		if (Float.floatToIntBits(answerTime) != Float.floatToIntBits(other.answerTime))
 			return false;
+		if (answers == null) {
+			if (other.answers != null)
+				return false;
+		} else if (!answers.equals(other.answers))
+			return false;
 		if (date == null) {
 			if (other.date != null)
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (givenAnswers == null) {
-			if (other.givenAnswers != null)
-				return false;
-		} else if (!givenAnswers.equals(other.givenAnswers))
-			return false;
-		if (goodAnswers == null) {
-			if (other.goodAnswers != null)
-				return false;
-		} else if (!goodAnswers.equals(other.goodAnswers))
-			return false;
 		if (id != other.id)
 			return false;
-		if (maxPoints != other.maxPoints)
-			return false;
 		if (obtainedPoints != other.obtainedPoints)
-			return false;
-		if (propositions == null) {
-			if (other.propositions != null)
-				return false;
-		} else if (!propositions.equals(other.propositions))
 			return false;
 		if (question == null) {
 			if (other.question != null)
@@ -302,6 +253,8 @@ public class Result extends DomainObject  implements  Serializable {
 			return false;
 		return true;
 	}
+
+
 
 	
 

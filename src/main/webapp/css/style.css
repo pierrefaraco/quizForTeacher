@@ -16,23 +16,28 @@ body {
 	margin-left: auto;
 }
 
+
+
 @media ( min-width : 768px) {
 	.container {
-		width: 750px;
+		width: 768px;
 	}
 }
 
 @media ( min-width : 992px) {
 	.container {
-		width: 970px;
+		width: 992px;
 	}
 }
 
-@media ( min-width : 1600px) {
+
+@media ( min-width : 1200px) {
 	.container {
-		width: 1280px;
+		width: 1200px;
 	}
 }
+
+
 
 .pull-right {
 	float: right !important;

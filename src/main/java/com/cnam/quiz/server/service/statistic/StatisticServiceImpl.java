@@ -113,13 +113,10 @@ public class StatisticServiceImpl implements StatisticService {
 		result.setAnswerTime(resultDto.getAnswerTime());
 		result.setQuestionId(resultDto.getQuestionId());
 		result.setQuestion(resultDto.getQuestion());
-		result.setGivenAnswers(	resultDto.getGivenAnswers());
-		result.setGoodAnswers(	resultDto.getGoodAnswers());
-		result.setPropositions(resultDto.getPropositions());
+		result.setAnswers(	resultDto.getAnswers());
 		result.setDate(resultDto.getDate());	
 		SessionQuiz sessionQuiz = sessionQuizDao.find(resultDto.getSessionQuizId());
 		result.setSessionQuiz(sessionQuiz );
-		result.setMaxPoints(resultDto.getMaxPoints());
 		result.setObtainedPoint(resultDto.getObtainedPoints());
 		return result;	
 	}
@@ -131,12 +128,9 @@ public class StatisticServiceImpl implements StatisticService {
 		resultDto.setAnswerTime(result.getAnswerTime());
 		resultDto.setQuestionId(result.getQuestionId());
 		resultDto.setQuestion(result.getQuestion());
-		resultDto.setGivenAnswers(	result.getGivenAnswers());
-		resultDto.setGoodAnswers(	result.getGoodAnswers());
-		resultDto.setPropositions(result.getPropositions());
+		resultDto.setAnswers(	result.getAnswers());
 		resultDto.setDate(result.getDate());
 		resultDto.setSessionQuizId(result.getSessionQuiz().getId());
-		resultDto.setMaxPoints(result.getMaxPoints());
 		resultDto.setObtainedPoints(result.getObtainedPoint());
 		return resultDto;	
 	}
