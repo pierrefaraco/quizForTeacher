@@ -44,7 +44,7 @@
                     <table class="table">
                             <tbody>
                                 <tr ng-repeat="proposition in question.answers" ng-click="deleteProposition()" ng-class ="{success: proposition.isItTrue,danger: !proposition.isItTrue}" >                                                     
-                                    <td><li>{{proposition.text}} <button id="addBad" name="addBad" class="btn btn-primary pull-right"  ng-click="removeProposition(proposition)">remove</button></li></td>
+                                    <td><li>{{proposition.text}} <button id="addBad" name="addBad" class="btn btn-danger btn-sm pull-right glyphicon glyphicon-remove"  ng-click="removeProposition(proposition)"/></li></td>
                                 </tr> 
                             </tbody>
                        </table> 
@@ -56,7 +56,7 @@
             <div class="form-group">
                 <label class="control-label" for="points">Points :</label>  
                 <div >
-                    <input id="points" name="points" type="text" ng-model="question.points"  class="form-control input-md" required=""
+                    <input id="points" name="points"  ng-model="question.points" type="text" class="form-control input-md" />
                 </div>
             </div>
 
@@ -64,7 +64,7 @@
             <div class="form-group">
                 <label class=" control-label" for="timeToAnswer">Time to answer :</label>  
                 <div>
-                    <input id="timeToAnswer" name="timeToAnswer" ng-model="question.timeToAnswer" type="text" class="form-control input-md">
+                    <input id="timeToAnswer" name="timeToAnswer" ng-model="question.timeToAnswer" type="text" class="form-control input-md"/>
                 </div>
             </div> 
 
@@ -77,11 +77,12 @@
         </div>
     </script>
     
-    <button type="button" class="btn btn-primary pull-right"
-            ng-click="openQuestionModal('Create question')">Create Question</button>
-    <button type="button" class="btn btn-primary pull-right"
-            ng-click="openQuestionModal('Edit question', null)">Edit Question</button>
-    <button type="button" class="btn btn-primary pull-right"
-            ng-click="deleteQuestion()">Delete Question</button>
+    
+    <button type="button" class="btn btn-primary pull-right btn-sm"
+            ng-click="openQuestionModal('Create question')">create <span class="glyphicon glyphicon-plus pull-right "></span></button>
+    <button type="button" class="btn btn-primary pull-right btn-sm"
+            ng-click="openQuestionModal('Edit question', null)">edit <span class="glyphicon glyphicon-pencil pull-right "></span></button>
+    <button type="button" class="btn btn-warning pull-right btn-sm"
+            ng-click="deleteQuestion()">remove <span class="glyphicon glyphicon-remove pull-right "></span></button>
 
 </div>

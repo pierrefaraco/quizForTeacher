@@ -17,27 +17,27 @@ public class CoursWithSubscribersDtoSerializer extends JsonSerializer < CoursWit
 	public void serialize(CoursWithSubscribersDto  coursWithSusbscribers, JsonGenerator jgen,  SerializerProvider provider)
 			throws IOException, JsonProcessingException {
 		   jgen.writeStartObject();
-		   jgen.writeNumberField("id",coursWithSusbscribers.getId() );
-		   jgen.writeStringField("name",coursWithSusbscribers.getName());
-		   jgen.writeStringField("description",coursWithSusbscribers.getDescription());
-		   jgen.writeBooleanField("active",coursWithSusbscribers.isActive());
-		   jgen.writeNumberField("userId",coursWithSusbscribers.getUserId());
-		   Map <UserDto,SubscriberStatus> subscribers =   coursWithSusbscribers.getSubscribers();
-		   jgen.writeArrayFieldStart("subscribers");
-		   for ( Map.Entry <UserDto,SubscriberStatus>  e : subscribers.entrySet()) {
-			    UserDto  userDto = e.getKey();		
-				SubscriberStatus status = e.getValue();	
-				jgen.writeStartObject();
-		    	jgen.writeNumberField("id",userDto.getId() );
-		    	jgen.writeStringField("lastName", userDto.getLastName());
-			    jgen.writeStringField("firstName",  userDto.getFirstName());
-			    jgen.writeStringField("email", userDto.getEmail());
-			    jgen.writeStringField("status",e.getValue().toString());
-			    jgen.writeEndObject();		   
-		   }
-		   jgen.writeEndArray();
+			   jgen.writeNumberField("id",coursWithSusbscribers.getId() );
+			   jgen.writeStringField("name",coursWithSusbscribers.getName());
+			   jgen.writeStringField("description",coursWithSusbscribers.getDescription());
+			   jgen.writeBooleanField("active",coursWithSusbscribers.isActive());
+			   jgen.writeNumberField("userId",coursWithSusbscribers.getUserId());
+			   Map <UserDto,SubscriberStatus> subscribers =   coursWithSusbscribers.getSubscribers();
+			   jgen.writeArrayFieldStart("subscribers");
+				   for ( Map.Entry <UserDto,SubscriberStatus>  e : subscribers.entrySet()) {
+					    UserDto  userDto = e.getKey();		
+						SubscriberStatus status = e.getValue();	
+						jgen.writeStartObject();
+					    	jgen.writeNumberField("id",userDto.getId() );
+					    	jgen.writeStringField("lastName", userDto.getLastName());
+						    jgen.writeStringField("firstName",  userDto.getFirstName());
+						    jgen.writeStringField("email", userDto.getEmail());
+						    jgen.writeStringField("status",e.getValue().toString());
+					    jgen.writeEndObject();		   
+				   }
+			   jgen.writeEndArray();
 		   jgen.writeEndObject();				   
-		   }		
+	}		
 }
 
 

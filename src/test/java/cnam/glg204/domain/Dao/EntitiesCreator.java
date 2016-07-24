@@ -133,7 +133,8 @@ public class EntitiesCreator extends TestCase {
 			}
 			
 		
-		return createQuestion((int) (Math.random() * 10000) + "TITLE :", (int) (Math.random() * 10000) + "question ?", 
+		return createQuestion((int) (Math.random() * 10000) + " title  : " + (Math.random() * 10000) + " ! ",
+				(int) (Math.random() * 10000) + "question  oifzeoijopijfoijoigjroeiqjroiqjhghqoiguhqiohgiqhiucdsvjkjkvknskjvnjknkjfvnkjvkjsnjnvnskjvhreq?", 
 				answers,
 				(int) (Math.random() * 10),
 				(int) (Math.random() * 60),

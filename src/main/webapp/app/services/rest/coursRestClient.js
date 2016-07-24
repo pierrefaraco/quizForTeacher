@@ -4,7 +4,6 @@ quizApp.factory("coursRestClient", ["$resource",  "SERVER_URL",
 
         return {
             getListCoursResource: function () {
-
                 return $resource(SERVER_URL + 'professor/user/:userId/cours/ ', {
                 }, {'get': {method: 'GET'},
                     'query': {method: 'GET', isArray: true}
@@ -35,8 +34,27 @@ quizApp.factory("coursRestClient", ["$resource",  "SERVER_URL",
                     'update': {method: 'PUT'}
                 });
           }
-       
-
+          ,
+          getListCoursWithAuditorStatusResource: function () {
+                return $resource(SERVER_URL + 'all/user/:userId/coursWithAuditorStatus/ ', {
+                }, {'get': {method: 'GET'},
+                    'query': {method: 'GET', isArray: true}
+                });
+            }
+          , 
+          getSubscribeResource: function () {           
+                return $resource(SERVER_URL + 'all/user/:userId/cours/:coursId/subscribe/ ', {
+                }, {
+                    'get': {method: 'GET'},
+                });
+            }
+          ,
+          getUnSubscribeResource : function () {           
+                return $resource(SERVER_URL + 'all/user/:userId/cours/:coursId/unsubscribe/ ', {
+                }, {
+                    'get': {method: 'GET'},
+                });
+            }    
         };
 
 

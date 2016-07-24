@@ -1,11 +1,11 @@
-quizApp.controller('SubscribersController', ["$scope", "coursRestClient", "$cookies",
+quizApp.controller('subscribersCtrl', ["$scope", "coursRestClient", "$cookies",
     function ($scope, coursRestClient, $cookies) {
 
         $scope.statusData = {
             statusList: [
                 {value: "ACCEPTED", name: "Accepted"},
                 {value: "DENIED", name: "Denied"},
-                {value: "WAITING_ANSWER", name: "Waiting answer"
+                {value: "WAITING_ANSWER", name: "Waiting"
                 }]};
         $scope.selectedStatus = $scope.statusData.statusList[0];
         $scope.selectAllValue = false;

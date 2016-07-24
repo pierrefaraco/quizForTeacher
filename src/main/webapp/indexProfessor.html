@@ -1,0 +1,104 @@
+<!DOCTYPE html  >
+<html>
+    <!-- ng-strict-di -->
+<!--
+    <script src="js/jquery.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/angular-resource.js"></script>
+    <script src="js/angular-cookies.min.js"></script>
+    <script src="js/ui-bootstrap.min.js"></script>
+-->
+
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-route/angular-route.js"></script>
+    <script src="node_modules/angular-resource/angular-resource.js"></script>
+    <script src="node_modules/angular-cookies/angular-cookies.min.js"></script>
+    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+    <script src="app/main.js"></script>
+    <script src="app/constants.js"></script>
+    <script src="app/routage/route_professor.js"></script>
+     <script src="app/services/rest/quizRestClient.js"></script>
+    <script src="app/services/rest/coursRestClient.js"></script>
+    <script src="app/services/rest/userRestClient.js"></script>
+    <script src="app/services/sessionService.js"></script>
+    <script src="app/controller/mainCtrl.js"></script>
+    <script src="app/controller/homeCtrl.js"></script>
+    <script src="app/controller/coursCtrl.js"></script>
+    <script src="app/controller/quizCtrl.js"></script>
+    <script src="app/controller/sessionCtrl.js"></script>
+    <script src="app/controller/profilCtrl.js"></script>
+    <script src="app/controller/subscribersCtrl.js"></script>
+    <script src="app/controller/statisticsCtrl.js"></script>
+    <head>
+        <title>Main page</title>
+       <!-- <link href="css/bootstrap.css" rel="stylesheet"> -->
+        <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link rel="shortcut icon" href="">
+    </head>
+
+    <body ng-app="quizApp" ng-strict-di>
+
+        <div class="container" ng-controller="mainCtrl">
+
+
+
+            <!-- Header -->
+
+            <header class="row">
+                <div class="col-sm-12">No quiz sesion {{user.connected}}</div>
+            </header>
+
+            <!-- Menu navigation -->
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <nav class="navbar navbar-inverse">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <a class="navbar-brand">Quiz for teacher</a>
+                            </div>
+                            <ul class="nav navbar-nav">
+                                <li><a href="#/">Home</a></li>
+                                <li ng-show="user.connected"><a href="#/CoursUI">Cours</a></li>
+                                <li ng-show="user.connected"><a href="#/SubscribersUI">Subscribers</a></li>
+                                <li ng-show="user.connected"><a href="#/QuizUI">Quiz Builder</a></li>
+                                <li ng-show="user.connected"><a href="#/SessionUI">Quiz Executor</a></li>
+                                <li ng-show="user.connected"><a href="#/StatisticsUI">Statistics</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li ng-show="user.connected" ><a>{{user.name}}</a></li>
+                                <li ng-show="user.connected" ><a href="#/ProfilUI"><span
+                                            class="glyphicon glyphicon-user"></span>Profil</a></li>
+                                <li><a ng-show="user.connected" ng-click="logout()" ><span class="glyphicon glyphicon-log-in"></span>
+                                        Logout</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+
+            <!--  main container -->
+
+            <div ng-view>
+                <!--
+   This DIV loads templates depending upon route.
+                -->
+            </div>
+
+            <!-- footer -->
+
+            <footer class="row">
+                <div class="col-sm-12">A GLG-204 Project developped by Pierre
+                    faraco</div>
+            </footer>
+
+        </div>
+    </body>
+</html>
+
+

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
+
 public class QuestionDtoSerializer extends JsonSerializer < QuestionDto >{
 
 	@Override
@@ -31,11 +32,11 @@ public class QuestionDtoSerializer extends JsonSerializer < QuestionDto >{
 		   Map<String, Boolean> answers =  questionDto.getAnswers();
 		   jgen.writeArrayFieldStart("answers");
 		   for ( Map.Entry <String, Boolean>   e : answers.entrySet()) {
-			   	String answer = e.getKey();		
+			   	String  text = e.getKey();		
 				boolean isItTrue = e.getValue();	
 				jgen.writeStartObject();
-		    	jgen.writeStringField("proposition",answer );
-		    	jgen.writeBooleanField("lastName", isItTrue);
+		    	jgen.writeStringField("text", text );
+		    	jgen.writeBooleanField("isItTrue", isItTrue);
 			  			    jgen.writeEndObject();		   
 		   }
 		   jgen.writeEndArray();

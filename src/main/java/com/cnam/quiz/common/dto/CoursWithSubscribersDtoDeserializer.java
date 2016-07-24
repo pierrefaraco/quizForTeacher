@@ -44,8 +44,7 @@ public class CoursWithSubscribersDtoDeserializer extends JsonDeserializer<CoursW
 		coursDto.setUserId(userId);
 		coursDto.setActive(active);
 		int i = 0;
-                
-                System.out.println("1 "  );
+
 		HashMap<UserDto, SubscriberStatus> subscribers = new HashMap<UserDto, SubscriberStatus>();
 		JsonNode suscribersNode = node.
                             get("subscribers");

@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.cnam.quiz.common.config.PersistenceJPAConfig;
 import com.cnam.quiz.common.dto.CoursDto;
+import com.cnam.quiz.common.dto.CoursWithStatusDto;
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
 import com.cnam.quiz.common.dto.TopicDto;
@@ -48,7 +49,7 @@ import cnam.glg204.domain.Dao.EntitiesCreator;
 		CoursServiceImpl.class })
 
 @Transactional(rollbackOn = Exception.class)
-@Rollback(false)
+@Rollback(true)
 public class TestCoursService {
 	@Autowired
 	CoursService coursService;
@@ -227,6 +228,34 @@ public class TestCoursService {
 		}
 		
 		
+	}
+	
+	@Test
+	public void testGetAllCoursWithStatus() {
+		
+		User professor = EntitiesCreator.createRandomUser();
+		professor.setAccountType(AccountType.PROFESSOR);
+		userDao.save(professor);
+		
+		User auditor = EntitiesCreator.createRandomUser();
+		userDao.save(auditor);
+		
+		int x = (int)(Math.random()*20);
+		for (int i =0 ;i <20 ;i++ ){
+			Cours cours = EntitiesCreator.createRandomCours(true, professor , null);
+			CoursDto coursDto = coursToCoursDto(cours);
+			coursService.createCours(coursDto);
+			if(x>i)
+				coursService.suscribe(auditor .getId(),	 coursDto.getId());
+		}
+		
+		
+		List <CoursWithStatusDto> listCours = coursService. findAllCoursWithAuditorStatus(auditor .getId());
+		int y =0;
+		for (CoursWithStatusDto cours :listCours)
+			if ( cours.getStatus() == SubscriberStatus.WAITING_ANSWER)
+				y++;
+		assertEquals(x,y);	
 	}
 
 	public CoursDto coursToCoursDto(Cours cours) {

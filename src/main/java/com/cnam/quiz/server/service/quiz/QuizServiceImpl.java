@@ -1,16 +1,26 @@
 package com.cnam.quiz.server.service.quiz;
 import java.util.Map;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.cnam.quiz.common.dto.CoursDto;
+import com.cnam.quiz.common.dto.CoursWithStatusDto;
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
+import com.cnam.quiz.common.dto.SequenceWithQuestionsDto;
 import com.cnam.quiz.common.dto.SessionQuizDto;
 import com.cnam.quiz.common.dto.TopicDto;
+import com.cnam.quiz.common.enums.SessionStatus;
+import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CoursNotActiveException;
+import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
 import com.cnam.quiz.server.domain.questions.Question;
@@ -152,24 +162,8 @@ public class QuizServiceImpl implements  QuizService{
 	@Override
 	public List<QuestionDto> findQuestionsByTopic(long topicId) {
 		Topic topic = topicDao.find(topicId);	
-		List<Question> questions = questionDao.findQuestionsByTopic(topic);
-
-
-			
+		List<Question> questions = questionDao.findQuestionsByTopic(topic);		
 		List<QuestionDto > questionsDto = this.listOfQuestionsToListOfQuestionsDto(questions);
-		/*
-		System.out.println("nb questions " +  questions.size());
-		for (Question question : questions)
-			for (String p : question.getGoodPropositions())
-				System.out.println("real object =>" +p);
-		System.out.println("nb questions " +  questions.size());
-		for (QuestionDto question :questionsDto){
-			for (String p : question.getGoodPropositions())
-				System.out.println("DTO =>" +p);
-			for (String p : question.getBadPropositions())
-				System.out.println("DTO =>" +p);
-		}
-		*/
 		return questionsDto;
 	}
 	
@@ -219,21 +213,21 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void createSequence(SequenceDto sequenceDto) {
-		Sequence sequence = this.sequenceDtoToSequence(sequenceDto);
+	public void createSequence(SequenceWithQuestionsDto sequenceDto) {
+		Sequence sequence = this.sequenceWithQuestionsDtoToSequence(sequenceDto);
 		sequenceDao.save( sequence);
 		sequenceDto.setId(sequence.getId());		
 	}
 	
 	
 	@Override
-	public SequenceDto findSequence(long id) {
-		return this.sequenceToSequenceDto(sequenceDao.find(id));
+	public SequenceWithQuestionsDto findSequence(long id) {
+		return this.sequenceToSequenceWithQuestionsDto(sequenceDao.find(id));
 	}
 
 	@Override
-	public void updateSequence(SequenceDto sequenceDto) {
-		sequenceDao.update(this.sequenceDtoToSequence(sequenceDto));	
+	public void updateSequence(SequenceWithQuestionsDto sequenceDto) {
+		sequenceDao.update(this.sequenceWithQuestionsDtoToSequence(sequenceDto));	
 	}
 
 	@Override
@@ -265,16 +259,18 @@ public class QuizServiceImpl implements  QuizService{
 
 	
 	@Override
-	public void addQuestionToSequence(long sequenceId, long questionId ,int pos) {
+	public int addQuestionToSequence(long sequenceId, long questionId ,int pos) {
 		Sequence sequence = sequenceDao.find(sequenceId);
 		Map<Integer, Question> questions  = sequence.getQuestions();
 		if (questions.containsKey(pos)){
 			Question question = questions.get(pos);
-			addQuestionToSequence( sequenceId, question.getId(), pos+1);
+			pos = addQuestionToSequence( sequenceId, question.getId(), pos+1);
 		}	
 		Question question = questionDao.find(questionId);
 		questions.put(pos, question );
 		sequenceDao.save(sequence);
+		System.out.println(pos + " !" );
+		return pos;
 	}
 
 	@Override
@@ -304,15 +300,6 @@ public class QuizServiceImpl implements  QuizService{
 		sequence.setUser(user);
 		sequence.setName(sequenceDto.getName());
 		sequence.setDescription(sequenceDto.getDescription());			
-	/*	Map <Integer,QuestionDto >   questionsDto =  sequenceDto.getQuestions();
-		Map <Integer,Question> questions = new HashMap <Integer,Question > ();
-                if (questionsDto != null)
-                    for (Map.Entry<Integer,QuestionDto> e : questionsDto .entrySet()) {
-                            Integer key = e.getKey();
-                            Question question = this.questionDtoToQuestion(e.getValue());
-                            questions.put(key, question );
-                            }	
-		sequence.setQuestions(questions);*/
 		return sequence;		
 	}
 	
@@ -323,7 +310,38 @@ public class QuizServiceImpl implements  QuizService{
 		sequenceDto.setUserId( userId );
 		sequenceDto.setName(sequence.getName());
 		sequenceDto.setDescription(sequence.getDescription());	
-	/*	Map <Integer,Question>   questions =  sequence.getQuestions();
+		return sequenceDto;		
+	}
+	
+	
+	public Sequence sequenceWithQuestionsDtoToSequence ( SequenceWithQuestionsDto sequenceDto){
+		Sequence sequence = new Sequence();
+		sequence.setId(sequenceDto.getId());
+		User user = userDao.find(sequenceDto.getUserId());
+		sequence.setUser(user);
+		sequence.setName(sequenceDto.getName());
+		sequence.setDescription(sequenceDto.getDescription());			
+		Map <Integer,QuestionDto >   questionsDto =  sequenceDto.getQuestions();
+		Map <Integer,Question> questions = new HashMap <Integer,Question > ();
+                if (questionsDto != null)
+                    for (Map.Entry<Integer,QuestionDto> e : questionsDto .entrySet()) {
+                            Integer key = e.getKey();
+                            Question question = this.questionDtoToQuestion(e.getValue());
+                            questions.put(key, question );
+                            }	
+		sequence.setQuestions(questions);
+		return sequence;		
+	}
+	
+	
+	public SequenceWithQuestionsDto sequenceToSequenceWithQuestionsDto ( Sequence sequence){
+		SequenceWithQuestionsDto sequenceDto = new SequenceWithQuestionsDto();
+		sequenceDto.setId(sequence.getId());
+		long userId = sequence.getUser().getId();
+		sequenceDto.setUserId( userId );
+		sequenceDto.setName(sequence.getName());
+		sequenceDto.setDescription(sequence.getDescription());	
+		Map <Integer,Question>   questions =  sequence.getQuestions();
 		Map <Integer,QuestionDto> questionsDto = new HashMap <Integer,QuestionDto > ();
 		int i = 0 ;
                 if (questions!= null)
@@ -333,7 +351,7 @@ public class QuizServiceImpl implements  QuizService{
                             QuestionDto questionDto = this.questionToQuestionDto(e.getValue());
                             questionsDto.put(key, questionDto );
                             }	
-		sequenceDto.setQuestions(questionsDto);*/
+		sequenceDto.setQuestions(questionsDto);
 		return sequenceDto;		
 	}
 
@@ -344,16 +362,33 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void createSessionQuiz(SessionQuizDto sessionQuizDto) {
+	public void startSessionQuiz(SessionQuizDto sessionQuizDto) throws SessionQuizAlreadyRunningException, CoursNotActiveException {
+		
+		Cours cours =  coursDao.find(sessionQuizDto.getCoursId());
+		if ( !cours.isActive() )
+			throw new CoursNotActiveException("The cours " +cours.getName()  + " is not active");
+		
+		for (SessionQuiz  session : sessionQuizDao.findByCours(cours))
+			if (session.getStatus().equals(SessionStatus.RUNNING))
+				throw new SessionQuizAlreadyRunningException("A session quiz already running for the cours " +cours.getName());
+							
 		SessionQuiz sessionQuiz = this.sessionQuizDtoToSessionQuiz(sessionQuizDto);
+		sessionQuiz.setStatus(SessionStatus.RUNNING);
+		sessionQuiz.setStartDate(Calendar.getInstance().getTime());
 		sessionQuizDao.save(sessionQuiz );
 		sessionQuizDto.setId(sessionQuiz.getId());
+		sessionQuizDto.setStatus(sessionQuiz.getStatus());
+		sessionQuizDto.setStartDate(sessionQuiz.getStartDate());
 	}
 
 	@Override
-	public void updateSessionQuiz(SessionQuizDto sessionQuizDto) {
+	public void stopSessionQuiz(SessionQuizDto sessionQuizDto) {
 		SessionQuiz sessionQuiz = this.sessionQuizDtoToSessionQuiz(sessionQuizDto);
+		sessionQuiz.setStatus(SessionStatus.NOT_RUNNING);
+		sessionQuiz.setEndDate(Calendar.getInstance().getTime());
 		sessionQuizDao.update( sessionQuiz );
+		sessionQuizDto.setStatus(sessionQuiz.getStatus());
+		sessionQuizDto.setEndDate(sessionQuiz.getEndDate());
 	}
 
 	@Override
@@ -368,6 +403,8 @@ public class QuizServiceImpl implements  QuizService{
 		List<SessionQuiz> listSessionQuiz =  sessionQuizDao.findByCours(cours);		
 		return this.listOfSessionQuizToListOfSessionQuizDto(listSessionQuiz);
 	}
+	
+
 	
 	public List <SessionQuizDto> listOfSessionQuizToListOfSessionQuizDto (List <SessionQuiz> listSessionQuiz){
 		ArrayList<SessionQuizDto> listSessionQuizDto = new ArrayList<SessionQuizDto>();
@@ -406,4 +443,6 @@ public class QuizServiceImpl implements  QuizService{
 		sessionQuizDto.setStatus(sessionQuiz.getStatus());
 		return sessionQuizDto;		
 	}
+
+
 }

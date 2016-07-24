@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
+import com.cnam.quiz.common.dto.SequenceWithQuestionsDto;
 import com.cnam.quiz.common.dto.SessionQuizDto;
 import com.cnam.quiz.common.dto.TopicDto;
+import com.cnam.quiz.common.exceptions.CoursNotActiveException;
+import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 import com.cnam.quiz.server.service.quiz.QuizService;
 
 @RestController
@@ -92,7 +95,7 @@ public class QuizRestWebService {
 		QuestionDto question = quizService.findQuestion(questionDto.getId());
 		if (!questionDto.equals(question))
 			return new ResponseEntity( HttpStatus.NOT_MODIFIED );	
-		return new ResponseEntity( HttpStatus.OK);		
+		return new ResponseEntity <QuestionDto> (questionDto,  HttpStatus.OK);		
 	}
 	
 	@RequestMapping(value = "/professor/question/{questionid}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -110,30 +113,30 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/sequence/{sequenceid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SequenceDto>  findSequence(@PathVariable("sequenceid")long id) {
-		SequenceDto sequence= quizService.findSequence(id);
+	public ResponseEntity<SequenceWithQuestionsDto>  findSequence(@PathVariable("sequenceid")long id) {
+		SequenceWithQuestionsDto sequence= quizService.findSequence(id);
 		if (sequence== null)
-			return new ResponseEntity <SequenceDto> (HttpStatus.NO_CONTENT);
-		return new ResponseEntity <SequenceDto> (sequence, HttpStatus.OK);
+			return new ResponseEntity <SequenceWithQuestionsDto> (HttpStatus.NO_CONTENT);
+		return new ResponseEntity <SequenceWithQuestionsDto> (sequence, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/professor/sequence/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SequenceDto>  createSequence(@RequestBody SequenceDto sequenceDto) {
+	public ResponseEntity<SequenceWithQuestionsDto>  createSequence(@RequestBody SequenceWithQuestionsDto sequenceDto) {
 		System.out.println(sequenceDto.getId()+" "+ sequenceDto.getName()+" "+ sequenceDto.getDescription());
 		quizService.createSequence(sequenceDto);
 		if (sequenceDto.getId() == 0)
-			return new ResponseEntity<SequenceDto>(HttpStatus.NOT_MODIFIED);
-		return new ResponseEntity<SequenceDto>(sequenceDto,HttpStatus.OK);
+			return new ResponseEntity<SequenceWithQuestionsDto>(HttpStatus.NOT_MODIFIED);
+		return new ResponseEntity<SequenceWithQuestionsDto>(sequenceDto,HttpStatus.OK);
 		
 	}
 	
 	@RequestMapping(value = "/professor/sequence/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity  updateSequence(@RequestBody SequenceDto sequenceDto) {
+	public ResponseEntity <SequenceWithQuestionsDto> updateSequence(@RequestBody SequenceWithQuestionsDto sequenceDto) {
 		quizService.updateSequence(sequenceDto);
-		SequenceDto sequence = quizService.findSequence(sequenceDto.getId());
+		SequenceWithQuestionsDto sequence = quizService.findSequence(sequenceDto.getId());
 		if(!sequence.equals(sequenceDto))
-			return new ResponseEntity( HttpStatus.NOT_MODIFIED );	
-		return new ResponseEntity( HttpStatus.OK);		
+			return new ResponseEntity<SequenceWithQuestionsDto>( HttpStatus.NOT_MODIFIED );	
+		return new ResponseEntity<SequenceWithQuestionsDto>(sequenceDto, HttpStatus.OK);		
 	}
 	
 	@RequestMapping(value = "/professor/sequence/{sequenceid}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -152,14 +155,16 @@ public class QuizRestWebService {
 	}
 	
 	
-	@RequestMapping(value = "/professor/sequence/{sequenceid}/question/{questionid}/position/{pos}/add/}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public  ResponseEntity  addQuestionToSequence(@PathVariable("sequenceid")long sequenceId,
+	@RequestMapping(value = "/professor/sequence/{sequenceid}/question/{questionid}/position/{pos}/add/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public  ResponseEntity  <Integer> addQuestionToSequence(@PathVariable("sequenceid")long sequenceId,
 			@PathVariable("questionid") long questionId,@PathVariable("pos")int pos) {
-		quizService.addQuestionToSequence(sequenceId, questionId, pos);	
-		return new ResponseEntity  ( HttpStatus.OK);
+
+		int positionInSequence = quizService.addQuestionToSequence(sequenceId, questionId, pos);	
+		System.out.println("positionInSequence"  + positionInSequence );
+		return new ResponseEntity  <Integer >(  positionInSequence, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/professor/sequence/{sequenceid}/position/{pos}/remove/}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/professor/sequence/{sequenceid}/position/{pos}/remove/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity  removeQuestionFromSequence(@PathVariable("sequenceid")long sequenceId,@PathVariable("pos") int pos) {
 		quizService.removeQuestionFromSequence(sequenceId, pos);		
 		return new ResponseEntity  ( HttpStatus.OK);	
@@ -175,17 +180,25 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/sessionquiz/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity <SessionQuizDto> createSessionQuiz(@RequestBody SessionQuizDto sessionQuizDto) {
+	public ResponseEntity <SessionQuizDto> startSessionQuiz(@RequestBody SessionQuizDto sessionQuizDto) {
 		
-		quizService.createSessionQuiz(sessionQuizDto);
+		try {
+			quizService.startSessionQuiz(sessionQuizDto);
+		} catch (SessionQuizAlreadyRunningException e) {
+			e.printStackTrace();
+			return new ResponseEntity( HttpStatus.INTERNAL_SERVER_ERROR);	
+		} catch (CoursNotActiveException e) {
+			e.printStackTrace();
+			return new ResponseEntity( HttpStatus.INTERNAL_SERVER_ERROR);	
+		}
 		if(sessionQuizDto.getId() == 0 )
 			return new ResponseEntity <SessionQuizDto>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<SessionQuizDto>(sessionQuizDto,HttpStatus.NOT_MODIFIED);
+		return new ResponseEntity<SessionQuizDto>(sessionQuizDto, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/professor/sessionquiz/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity updateSessionQuiz(@RequestBody  SessionQuizDto sessionQuizDto) {
-		quizService.updateSessionQuiz(sessionQuizDto);
+	public ResponseEntity stopSessionQuiz(@RequestBody  SessionQuizDto sessionQuizDto) {
+		quizService.stopSessionQuiz(sessionQuizDto);
 		SessionQuizDto sessionQuiz = quizService.findSessionQuiz(sessionQuizDto.getId());
 		if(!sessionQuiz.equals(sessionQuizDto))
 			return new ResponseEntity( HttpStatus.NOT_MODIFIED );	

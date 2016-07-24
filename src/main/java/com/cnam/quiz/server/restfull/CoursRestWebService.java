@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.cnam.quiz.common.dto.CoursDto;
+import com.cnam.quiz.common.dto.CoursWithStatusDto;
 import com.cnam.quiz.common.dto.CoursWithSubscribersDto;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
@@ -30,6 +31,7 @@ public class CoursRestWebService {
 			return new ResponseEntity<CoursDto>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<CoursDto>(cours, HttpStatus.OK);
 	}
+	
 	@RequestMapping(value = "professor/coursAndSubscribers/{coursid} ", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity <CoursWithSubscribersDto> getCoursWithSubscribersDto (@PathVariable("coursid")long coursId) {
 		CoursWithSubscribersDto coursWithSubscribersDto = coursService.getCourWithSuscribers(coursId);
@@ -87,14 +89,14 @@ public class CoursRestWebService {
 		return new ResponseEntity<List<CoursDto>>(cours, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/subscribe/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/subscribe/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity  suscribe(@PathVariable("userid")long suscriberId,@PathVariable("coursid") long coursId) {
 		coursService.suscribe(suscriberId, coursId);
 		return new ResponseEntity  ( HttpStatus.OK );
 	}
 
-	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/unsuscribe/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity  unSuscribe(long suscriberId, long coursId) {
+	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/unsubscribe/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity  unSuscribe(@PathVariable("userid")long suscriberId,@PathVariable("coursid") long coursId) {
 		coursService.unSuscribe(suscriberId, coursId);
 		return new ResponseEntity  ( HttpStatus.OK);
 	}
@@ -106,6 +108,16 @@ public class CoursRestWebService {
 		return new ResponseEntity  ( HttpStatus.OK);
 	}
 	
-
+	@RequestMapping(value = "/all/user/{userid}/coursWithAuditorStatus/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity <List<CoursWithStatusDto>> findAllCoursWithAuditorStatus(@PathVariable("userid")long auditorId){
+		List<CoursWithStatusDto> listCours = coursService.findAllCoursWithAuditorStatus(auditorId);
+		if (listCours.isEmpty()) {
+			return new ResponseEntity<List<CoursWithStatusDto>>(HttpStatus.NO_CONTENT);
+		}
+		for (CoursWithStatusDto cours :listCours )
+			System.out.println(cours.getName()+" "+cours.getStatus());
+		return new ResponseEntity<List<CoursWithStatusDto>>(listCours, HttpStatus.OK);
+		
+	}
 
 }

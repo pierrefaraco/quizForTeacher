@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import com.cnam.quiz.common.dto.CoursDto;
+import com.cnam.quiz.common.dto.CoursWithStatusDto;
 import com.cnam.quiz.common.dto.CoursWithSubscribersDto;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
@@ -37,12 +38,7 @@ public class CoursServiceImpl implements CoursService{
 	@Override
 	public void createCours(CoursDto coursDto) {
 		Cours cours  = this.coursDtoToCours(coursDto);
-                
-		System.out.println("Save cours =>  "+ cours.getId()+  " " +cours.getName() +
-				" "+  cours.getDescription()+ " " +cours.isActive() 
-				+cours.getUser().getId());
-
-		coursDao.save(cours);
+        coursDao.save(cours);
 		coursDto.setId(cours.getId());
 	}
 
@@ -142,6 +138,28 @@ public class CoursServiceImpl implements CoursService{
 		cours.getSubscribers().put(user, status);
 		coursDao.save(cours );	
 	}
+	
+	
+	@Override
+	public List<CoursWithStatusDto> findAllCoursWithAuditorStatus(long auditorId) {	
+		List<Cours> listCours = coursDao.getActiveCours();
+		User  auditor = userDao.find(auditorId);
+		List<CoursWithStatusDto> listCoursDto = new ArrayList <CoursWithStatusDto> ();
+		for (Cours cours :  listCours){
+			CoursWithStatusDto coursDto = new CoursWithStatusDto ();
+			coursDto.setId(cours.getId());
+			coursDto.setActive(cours.isActive());	
+			coursDto.setDescription(cours.getDescription());
+			coursDto.setName(cours.getName());
+			long userId = cours.getUser().getId();
+			coursDto.setUserId(userId);
+			SubscriberStatus status = cours.getSubscribers().get(auditor);
+			coursDto.setStatus(status);
+			listCoursDto.add(coursDto);
+		}
+		return listCoursDto;
+	}
+	
 	
 	public List <CoursDto> listOfcoursToListOfCoursDto (List <Cours> listCours){
 		ArrayList<CoursDto> listCoursDto = new ArrayList<CoursDto>();

@@ -1,4 +1,4 @@
-quizApp.controller('CoursController', ["$scope", "$rootScope", "coursRestClient", "$cookies", "$uibModal",
+quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$cookies", "$uibModal",
     function ($scope, $rootScope, coursRestClient, $cookies, $uibModal) {
     
        refresh();

@@ -83,15 +83,15 @@ public class SessionQuizDto implements Serializable {
 		this.sequenceId= sequenceId;
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (coursId ^ (coursId >>> 32));
-		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + (int) (sequenceId ^ (sequenceId >>> 32));
-		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -107,25 +107,19 @@ public class SessionQuizDto implements Serializable {
 		SessionQuizDto other = (SessionQuizDto) obj;
 		if (coursId != other.coursId)
 			return false;
-		if (endDate == null) {
-			if (other.endDate != null)
-				return false;
-		} else if (!endDate.equals(other.endDate))
-			return false;
 		if (id != other.id)
 			return false;
 		if (sequenceId != other.sequenceId)
-			return false;
-		if (startDate == null) {
-			if (other.startDate != null)
-				return false;
-		} else if (!startDate.equals(other.startDate))
 			return false;
 		if (status != other.status)
 			return false;
 		return true;
 	}
-	
+
+	public void sysOutPrint (){
+		
+		System.out.println(id +" "+ coursId + " " + sequenceId+" " +startDate+ " "+endDate+" "+ status);
+	}
 	
 	
 	

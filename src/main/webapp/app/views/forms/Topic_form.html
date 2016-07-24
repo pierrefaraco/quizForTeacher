@@ -29,11 +29,11 @@
                 <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
             </div>
     </script>
-    <button type="button" class="btn btn-primary pull-right"
-            ng-click="openTopicModal('Create topic')">Create</button>
-    <button type="button" class="btn btn-primary pull-right"
-            ng-click="openTopicModal('Edit topic', null)">Edit</button>
-    <button type="button" class="btn btn-primary pull-right"
-            ng-click="deleteTopic()">Delete</button>
+    <button type="button" class="btn btn-primary pull-right btn-sm"
+            ng-click="openTopicModal('Create topic')"><span class="glyphicon glyphicon-plus"></span></button>
+    <button type="button" class="btn btn-primary pull-right btn-sm"
+            ng-click="openTopicModal('Edit topic', null)"><span class="glyphicon glyphicon-pencil"></span></button>
+    <button type="button" class="btn btn btn-warning pull-right btn-sm"
+            ng-click="deleteTopic()"><span class="glyphicon glyphicon-remove"></span></button>
 
 </div>

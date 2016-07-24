@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 import junit.framework.TestCase;
@@ -66,35 +68,52 @@ public class dataInjector extends TestCase  {
 		professor.setLastName("Faraco");
 		userDao.save(professor);
                 
-        User user2 =new User();
-		user2.setAccountType(AccountType.PROFESSOR);	
-		user2.setEmail("pierrot5526@hotmail.fr");
-		user2.setPassword("55261981");
-		user2.setFirstName("pierre");
-		user2.setLastName("Faraco");
-		userDao.save(user2);
+        User professor2 =new User();
+		professor2.setAccountType(AccountType.PROFESSOR);	
+		professor2.setEmail("professor@hotmail.fr");
+		professor2.setPassword("55261981");
+		professor2.setFirstName("pierre");
+		professor2.setLastName("Faraco");
+		userDao.save(professor2);
 		
 		
 		List <Question> questions =  new ArrayList <Question>();
 		//creation des topics;   
-	   	for (int j=0 ;j<20;j++){
+		 
+		
+	   	for (int j=0 ;j<5;j++){
 	   		 Topic topic = EntitiesCreator.createRandomTopic(professor);
 	   		 topicDao.save(topic);	 
 	   		//creation des questions;  
-	   	 	 for (int k=0 ;k<20;k++){
+	   	 	 for (int k=0 ;k<10;k++){
 	   	 		 Question question = EntitiesCreator.createRandomQuestion(topic, QuestionType.QUIZ.QUIZ);
 	   	 		 questionDao.save(question);
 	   	 		 questions.add(question);
 	   		 }
+	   	 	 	 
 	   	 }
 	   	 
-	   	 
-	   	 for (int j=0 ;j<40;j++){
+	   	   	
+	   	
+
+	   	 for (int j=0 ;j<5;j++){
 	   		 Sequence sequence  = EntitiesCreator.createRandomSequence(professor, null);
-	   		 sequenceDao.save(sequence);	 
+	   		
+	   		 Map <Integer,Question> listQuestions = new HashMap <Integer,Question>(); 
+	   		 for(int i =0 ;i<(int)(Math.random()*10);i++)
+	   			listQuestions.put(i, questions.get((int)(Math.random()*questions.size()))) ;
+	   	     sequence.setQuestions(listQuestions);
+	   		 sequenceDao.save(sequence);		   		 
 	   	 }
 		
-		
+	 	User auditor =new User();
+	   	auditor.setAccountType(AccountType.AUDITOR);	
+	   	auditor.setEmail("pierrot5526@hotmail.fr");
+	   	auditor.setPassword("55261981");
+	   	auditor.setFirstName("pierre");
+		auditor.setLastName("Faraco");
+		userDao.save(auditor);
+
 		
 		// Creation des cours;
         for (int i=0 ;i<14;i++){
@@ -102,11 +121,16 @@ public class dataInjector extends TestCase  {
                     if( (int)(Math.random()*4)==1)
                         cours1.setActive(false);  
                     coursDao.save(cours1);
-                    Cours cours2 = EntitiesCreator.createRandomCours(true, user2, null);
-                    if( i%2==1)
-                        cours1.setActive(false);
+                    Cours cours2 = EntitiesCreator.createRandomCours(true, professor2, null);
+                    if( (int)(Math.random()*4)==1)
+                        cours2.setActive(false);
                     coursDao.save(cours2);
-                  
+                    
+                   if ( cours1.isActive() && (int)(Math.random()*4)==2)
+                    	coursService.suscribe(auditor.getId(),cours1.getId());
+                    
+                    if ( cours2.isActive() && (int)(Math.random()*4)==2 )
+                    	coursService.suscribe(auditor.getId(),cours2.getId());
                     //creation des subscibers ;
                 	for( int j =0 ;j< 40 ;j++){
                 	    

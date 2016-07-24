@@ -7,28 +7,33 @@ quizApp.config(["$routeProvider",function($routeProvider){
                 templateUrl:"app/views/Home.html"
             })
             .when("/CoursUI",{
-                controller:"CoursController",
+                controller:"coursCtrl",
                 templateUrl:"app/views/Cours.html"
             }) 
              .when("/SubscribersUI",{
-                controller:"SubscribersController",
+                controller:"subscribersCtrl",
                 templateUrl:"app/views/Subscribers.html"
             })
-            .when("/UsersUI",{
+   /*         .when("/UsersUI",{
                 controller:"homeCtrl",
                 templateUrl:"app/views/Home.html"
   
-            })
+            })*/
             .when("/QuizUI",{
                 controller:"quizCtrl",
                 templateUrl:"app/views/Quiz.html"
             })
             .when("/SessionUI",{
-                templateUrl:"app/views/Home.html"
+                controller:"sessionCtrl",
+                templateUrl:"app/views/SessionUI.html"
             })
             .when("/ProfilUI",{
                 controller:"profilCtrl",
                 templateUrl:"app/views/ProfilUI.html"
+            })
+            .when("/StatisticsUI",{
+                controller:"statisticsCtrl",
+                templateUrl:"app/views/Statistics.html"
             })
         
     ;

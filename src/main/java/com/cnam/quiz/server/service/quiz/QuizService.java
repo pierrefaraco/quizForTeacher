@@ -1,11 +1,18 @@
 package com.cnam.quiz.server.service.quiz;
 
 import java.util.List;
+import java.util.Map;
 
+import com.cnam.quiz.common.dto.CoursDto;
+import com.cnam.quiz.common.dto.CoursWithStatusDto;
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
+import com.cnam.quiz.common.dto.SequenceWithQuestionsDto;
 import com.cnam.quiz.common.dto.SessionQuizDto;
 import com.cnam.quiz.common.dto.TopicDto;
+import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CoursNotActiveException;
+import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 
 
 public interface QuizService {
@@ -22,7 +29,7 @@ public interface QuizService {
 	    
 	    List<TopicDto> findTopicsByProfessor(long userId) ;   
 	    
-            QuestionDto findQuestion(long id) ;
+        QuestionDto findQuestion(long id) ;
 	     
 	    void createQuestion(QuestionDto  questionDto);
 	     
@@ -32,28 +39,30 @@ public interface QuizService {
 	 
 	    List<QuestionDto> findQuestionsByTopic(long topicId) ;   
 	     
-	    SequenceDto findSequence(long id) ;
+	    SequenceWithQuestionsDto findSequence(long id) ;
 	     
-	    void createSequence(SequenceDto sequenceDto);
+	    void createSequence(SequenceWithQuestionsDto sequenceDto);
 	     
-	    void updateSequence(SequenceDto sequenceDto);
+	    void updateSequence(SequenceWithQuestionsDto sequenceDto);
 	     
 	    void deleteSequence(long id)  ;
 	    
 	    List<SequenceDto> findSequenceByProfessor(long userId);   
 	    
-	    void addQuestionToSequence(long sequenceId, long questionId ,int pos);
+	    int addQuestionToSequence(long sequenceId, long questionId ,int pos);
 	    
 	    void removeQuestionFromSequence(long sequenceId,int pos);
 	   
-            SessionQuizDto findSessionQuiz(long id) ;
+        SessionQuizDto findSessionQuiz(long id) ;
 	     
-	    void createSessionQuiz(SessionQuizDto sessionDto);
+	    void startSessionQuiz(SessionQuizDto sessionDto)throws SessionQuizAlreadyRunningException, CoursNotActiveException;
 	     
-	    void updateSessionQuiz(SessionQuizDto sessionDto);
+	    void stopSessionQuiz(SessionQuizDto sessionDto);
 	     
 	    void deleteSessionQuiz(long id);
 	    
-            List <SessionQuizDto>findSessionQuizByCours(long coursId);	
+        List <SessionQuizDto>findSessionQuizByCours(long coursId);
+        
+        
 	    
 }

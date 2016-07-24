@@ -25,8 +25,10 @@ import com.cnam.quiz.server.domain.DomainObject;
 import com.cnam.quiz.server.domain.topic.Topic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(using = QuestionDtoSerializer.class)
+@JsonDeserialize(using = QuestionDtoDeserializer .class)
 public class QuestionDto implements  Serializable{
 
 	private long id;
@@ -120,7 +122,6 @@ public class QuestionDto implements  Serializable{
 		this.questionType = questionType;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -135,7 +136,6 @@ public class QuestionDto implements  Serializable{
 		result = prime * result + (int) (topicId ^ (topicId >>> 32));
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {

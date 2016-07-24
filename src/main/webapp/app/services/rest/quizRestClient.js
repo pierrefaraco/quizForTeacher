@@ -57,6 +57,36 @@ quizApp.factory("quizRestClient", ["$resource", "SERVER_URL",
                     'delete': {method: 'DELETE'}
                 });
             } 
+            ,            
+            addQuestionToSequenceResource: function () {
+                 return $resource(SERVER_URL + 'professor/sequence/:sequenceId/question/:questionId/position/:position/add/ ', {
+               }, {'get': {method: 'GET'}
+                });
+            } 
+            ,
+            removeQuestionFromSequenceResource: function () {
+                 return $resource(SERVER_URL + 'professor/sequence/:sequenceId/position/:position/remove/ ', {
+               }, {'get': {method: 'GET'}
+                });
+            }     
+            ,
+            getSessionResource: function () {
+                return $resource(SERVER_URL + 'professor/sessionquiz/:sessionId ', {
+               }, { 'get': {method: 'GET'},
+                    'save': {method: 'POST'},
+                    'update': {method: 'PUT'},
+                    'remove': {method: 'DELETE'},
+                    'delete': {method: 'DELETE'}
+                });
+            } 
+            ,    
+            getListSessionCoursResource: function () {
+                return $resource(SERVER_URL + 'all/cours/:coursId/sessionquiz/ ', {
+                }, 
+                {'query': {method: 'GET', isArray: true}            
+                });
+            } 
+      //      /all/cours/{coursid}/sessionquiz/
             
         };
 

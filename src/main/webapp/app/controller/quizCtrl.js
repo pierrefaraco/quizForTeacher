@@ -66,6 +66,45 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
             var sequenceRestService = quizRestClient.getListSequenceResource();
             $scope.listOfSequences = sequenceRestService.query({userId: $cookies.get("userId")});      
         };
+        
+       $scope.addToSequence =  function (question){
+           var sequenceRestService =   quizRestClient.addQuestionToSequenceResource();
+           sequenceRestService.get({
+               sequenceId: $scope.selectedSequence.id,
+               questionId:question.id,
+               position:0
+           },
+           function(){        
+                  $scope.chargeSelectedSequence ();
+            },function(response){
+                    alert("Error : "+ response.status );
+            });         
+       };
+       
+       $scope.removeFromSequence =  function (question){
+           var sequenceRestService =   quizRestClient.removeQuestionFromSequenceResource();
+           sequenceRestService.get({
+               sequenceId: $scope.selectedSequence.id,
+               position:question.positionInSequence
+           },
+           function(){        
+                  $scope.chargeSelectedSequence ();
+            },function(response){
+                    alert("Error : "+ response.status );
+            });         
+       };
+       
+       
+       
+       
+       $scope.chargeSelectedSequence = function (){
+            var sequenceRestService = quizRestClient.getSequenceResource();
+            sequenceRestService.get({sequenceId: $scope.selectedSequence.id }, function(sequence){
+                    $scope.selectedSequence = sequence;
+            },function(response){
+                    alert("Error : "+ response.status );
+            });         
+       };
                    
         $scope.createSequence = function (sequence){
             var sequenceRestService = quizRestClient.getSequenceResource();
@@ -117,7 +156,9 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
              
         $scope.refreshQuestions = function (){
             var questioncRestService = quizRestClient.getListQuestionResource();
-            $scope.listOfQuestions = questioncRestService .query({topicId:$scope.selectedTopic.id});    
+            $scope.listOfQuestions = questioncRestService .query({topicId:$scope.selectedTopic.id});   
+            $scope.chargeSelectedSequence();
+           
         }; 
         
         $scope.selectQuestion = function(question){
@@ -184,12 +225,9 @@ quizApp.controller('topicCtrl', ["$scope","$cookies", "$uibModalInstance", "para
                 description : null,
                 userId : $cookies.get("userId")
         };
-        if ($scope.action === "Edit topic" ) {
-            $scope.topic.id = params.topic.id;
-            $scope.topic.name = params.topic.name;
-            $scope.topic.description = params.topic.description;
-        };
-
+        if ($scope.action === "Edit topic" ) 
+            $scope.topic = params.topic;
+ 
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
@@ -211,12 +249,9 @@ quizApp.controller('sequenceCtrl', ["$scope","$cookies", "$uibModalInstance", "p
                 description : null,
                 userId : $cookies.get("userId")
         };
-        if ($scope.action === "Edit sequence" ) {
-            $scope.sequence.id = params.sequence.id;
-            $scope.sequence.name = params.sequence.name;
-            $scope.sequence.description = params.sequence.description;
-        };
-
+        if ($scope.action === "Edit sequence" ) 
+            $scope.sequence = params.sequence;
+        
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
@@ -233,32 +268,26 @@ quizApp.controller('sequenceCtrl', ["$scope","$cookies", "$uibModalInstance", "p
 
 
 quizApp.controller('questionCtrl', ["$scope","$cookies", "$uibModalInstance","$uibModal","params", function ($scope, $cookies,$uibModalInstance,$uibModal, params) {
-
+        
+        
+        
         $scope.action = params.action;
-        $scope.question = {
-                title : $scope.selectedTopic.name,
-                question: null,
-                points :null,
-                timeToAnswer :null,
-                position :"0",
-                questionType :"QUIZ",
-                topicId: $scope.selectedTopic.id, 
-                answers : new Array()
-        };
-      
-     
-        if ($scope.action === "Edit question" ) {
-                    $scope.question.id = params.question.id;
-                    $scope.question.title = params.question.title;
-                    $scope.question.question = params.question.question;
-                    $scope.question.points = params.question.points;     
-                    $scope.question.timeToAnswer = params.question. timeToAnswer;
-                    $scope.question.position = params.question.position;
-                    $scope.question.questionType = params.question.questionType;
-                    $scope.question.topicId = params.question.topicId;   
-                    $scope.question.answers = params.question.answers;
+        if ($scope.action === "Create question" ) {
+                $scope.question = {
+                        title : $scope.selectedTopic.name,
+                        question: null,
+                        points :2,
+                        timeToAnswer :15,
+                        position :0,
+                        questionType :"QUIZ",
+                        topicId: $scope.selectedTopic.id, 
+                        answers : new Array()
                 };
-    
+            }
+     
+        if ($scope.action === "Edit question" ) 
+             $scope.question = params.question;
+
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
@@ -299,7 +328,6 @@ quizApp.controller('questionCtrl', ["$scope","$cookies", "$uibModalInstance","$u
         };
         
         $scope.openQuestionPresentationModal = function (action, size) {
-           // alert("yo");
             var params = {'action': action};      
             params.question = $scope.question;             
             $uibModal.open({

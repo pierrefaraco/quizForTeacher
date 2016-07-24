@@ -118,12 +118,12 @@ public class TestResultDao extends TestCase {
 		Topic topic = EntitiesCreator.createRandomTopic(professor);
 		topicDao.save(topic);
 		
-		/*Map <Integer, Question>*/ questions = EntitiesCreator.createListOfQuestions(questionDao,30, topic);
+		questions = EntitiesCreator.createListOfQuestions(questionDao,30, topic);
 		
 		Sequence sequence = EntitiesCreator.createSequence("sequencecName", "ceci est une sequence", professor, questions);
 		sequenceDao.save(sequence);
 		
-		/*SessionQuiz*/ sessionQuiz = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);
+		sessionQuiz = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);
 	
 		sessionQuizDao.save(sessionQuiz);		
 	}	

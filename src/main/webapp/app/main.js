@@ -13,8 +13,7 @@ var quizApp = angular.module('quizApp',['ngRoute','ngResource','ngCookies','ui.b
          else 
             $rootScope.user.connected = false;  
          });
-         
-         
+
         if ($cookies.get("selectedCours") !== null)
             $rootScope.selectedCours = coursRestService.get({coursId:$cookies.get("selectedCours")});
  }]);

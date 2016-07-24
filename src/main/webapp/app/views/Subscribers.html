@@ -3,18 +3,13 @@
 
 
     <div class="row">
-
         <div class="col-sm-2">
             <h6>Subscribers :</h6>
             <div class="btn-group-vertical" >              
-                <select ng-options="status.value for status in statusData.statusList" ng-model="selectedStatus"></select> 
-                <button type="button" class="btn btn-primary pull-left"
-                ng-click="updateStatus()"> Apply status </button>
-           
-                <label><input type="checkbox" ng-model="selectAllValue" ng-click="selectAll()"/>  Select all </label>
-              
-                
-               </div>
+                <select class="form-control" ng-options="status.name for status in statusData.statusList" ng-model="selectedStatus"></select> 
+                <button type="button" class="btn btn-primary pull-left btn-sm"  ng-click="updateStatus()">apply <span class="glyphicon glyphicon-ok pull-right "></span></button>
+                <label><input type="checkbox" ng-model="selectAllValue" ng-click="selectAll()"/>Select all</label> 
+              </div>
            </div>
      
 
@@ -42,7 +37,7 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="subscriber in coursWithSubscribers.subscribers| orderBy : 'firstName'"
-                                            ng-click="selectSubscriber(subscriber)" ng-class ="{warning: subscriber.selected  }">  
+                                            ng-click="selectSubscriber(subscriber)" ng-class ="{success: subscriber.selected  }">  
                                             <!-- ng-class ="{warning: subscriber.id == selectedSubscriber.id}">  -->
                                             
                                             <td > {{subscriber.firstName}}</td>

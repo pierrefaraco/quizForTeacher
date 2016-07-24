@@ -6,7 +6,7 @@ quizApp.controller('profilCtrl', ["$scope", "$rootScope", "userRestClient", "$co
         $scope.updateUser = function () {
             var userRestObject = userRestClient.getUserRestObject();
             userRestObject.update({ } , $scope.user , function(res){
-                    alert("Success");
+               
             },function(response){
                     alert("Error : "+ response.status );
             });

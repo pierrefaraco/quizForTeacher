@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
@@ -33,14 +35,29 @@ public class MVCConfig extends WebMvcConfigurerAdapter{
  
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    	
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
-    
-    
+       
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
+    }    
+   
+   // Web-socket config
+    @Bean
+    public WebContentInterceptor webContentInterceptor() {
+      WebContentInterceptor interceptor = new WebContentInterceptor();
+      interceptor.setCacheSeconds(0);
+      interceptor.setUseExpiresHeader(true);
+      interceptor.setUseCacheControlHeader(true);
+      interceptor.setUseCacheControlNoStore(true);
+      return interceptor;
     }
+  
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+      registry.addInterceptor(webContentInterceptor());
+    }
+//*/
 	
 }

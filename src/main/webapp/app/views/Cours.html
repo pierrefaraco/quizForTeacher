@@ -37,8 +37,8 @@ and open the template in the editor.
 										</tr>
 									</thead>
 									<tbody>
-                                                                                   <tr ng-repeat="cours in listOfCours  | orderBy : 'name'"
-                                                                                    ng-click="selectCours(cours)" ng-class ="{warning: cours.id == selectedCours.id}">                                                     
+                                                                                   <tr ng-repeat="cours in listOfCours  | orderBy : 'id'"
+                                                                                    ng-click="selectCours(cours)" ng-class ="{success: cours.id == selectedCours.id}">                                                     
                                                                                             <td >{{cours.name}}</td>
                                                                                             <td>{{cours.description}}</td>
                                                                                             <td>{{cours.active}}</td>
