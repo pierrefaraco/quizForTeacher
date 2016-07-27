@@ -23,8 +23,6 @@ and open the template in the editor.
 				<div class="col-sm-12">
 					<div class="panel-primary panel-default">
 						<div class="panel-heading">Selected cours : {{selectedCours.name}}</div>
-                              
-
 						<div class="panel-body">
 							<div class="table-responsive">
                                                          
@@ -39,12 +37,11 @@ and open the template in the editor.
 									<tbody>
                                                                                    <tr ng-repeat="cours in listOfCours  | orderBy : 'id'"
                                                                                     ng-click="selectCours(cours)" ng-class ="{success: cours.id == selectedCours.id}">                                                     
-                                                                                            <td >{{cours.name}}</td>
+                                                                                            <td>{{cours.name}}</td>
                                                                                             <td>{{cours.description}}</td>
                                                                                             <td>{{cours.active}}</td>
                                                                                     </tr>								
 									</tbody>
-
 								</table>
 							</div>
 

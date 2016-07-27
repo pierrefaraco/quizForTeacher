@@ -1,6 +1,7 @@
-angular.module("chatApp", [
+var chatApp = angular.module("chatApp", [
   "chatApp.controllers",
-  "chatApp.services"
+  "chatApp.services",
+  "ui.bootstrap"
 ]);
 
 angular.module("chatApp.controllers", []);

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!-- Form Cours-->
+
+<script type="text/ng-template" id="questionPresentationModal.html"> 
+        <div class="modal-header">
+            <h3 class="modal-title"> Preview </h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="control-label" ><h5><strong>{{question.title }}</strong></h5></label>
+            </div>
+            <div class="form-group">
+           <!--  <label class="control-label" ><h5>  {{question.question }} </h5></label>-->
+   {{question.question }}
+            </div>
+    
+            <!-- Propositions -->
+            <div class="form-group">
+                    <div >                
+                           <div ng-repeat="proposition in question.answers" class="checkbox ">
+                                    <label class="control-label"><input type="checkbox" > {{proposition.text}} </label>                            
+                           </div>                
+                    </div>
+            </div
+        </div>
+        <div class="modal-footer form-group">
+            <button class="btn btn-primary" type="button" ng-click="cancel()">OK</button>     
+        </div>
+</script>
+

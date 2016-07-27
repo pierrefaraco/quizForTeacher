@@ -13,16 +13,19 @@ import javax.persistence.ManyToOne;
 
 import com.cnam.quiz.server.domain.sessionquiz.SessionQuiz;
 import com.cnam.quiz.server.domain.user.User;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+@JsonDeserialize(using = ResultDtoDeserializer .class)
 public class ResultDto implements Serializable {
 	private long id;
 	long questionId;
 	float answerTime;
 	long userId;
 	long sessionQuizId;	
+	String title;
 	String question;
 	private Map <String,boolean[]> answers;
 	int obtainedPoints;
+	int points;
 	Date date;
 	public long getId() {
 		return id;
@@ -54,51 +57,61 @@ public class ResultDto implements Serializable {
 	public void setSessionQuizId(long sessionQuizId) {
 		this.sessionQuizId = sessionQuizId;
 	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getQuestion() {
 		return question;
 	}
 	public void setQuestion(String question) {
 		this.question = question;
 	}
-	
-
+	public Map<String, boolean[]> getAnswers() {
+		return answers;
+	}
+	public void setAnswers(Map<String, boolean[]> answers) {
+		this.answers = answers;
+	}
+	public int getObtainedPoints() {
+		return obtainedPoints;
+	}
+	public void setObtainedPoints(int obtainedPoints) {
+		this.obtainedPoints = obtainedPoints;
+	}
+	public int getPoints() {
+		return points;
+	}
+	public void setPoints(int points) {
+		this.points = points;
+	}
 	public Date getDate() {
 		return date;
 	}
-	
 	public void setDate(Date date) {
 		this.date = date;
 	}
 	
-	public int getObtainedPoints() {
-		return obtainedPoints;
-	}
-	
-	public void setObtainedPoints(int obtainedPoints) {
-		this.obtainedPoints = obtainedPoints;
-	}
-	
-	public Map<String, boolean[]> getAnswers() {
-		return answers;
-	}
-	
-	public void setAnswers(Map<String, boolean[]> answers) {
-		this.answers = answers;
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Float.floatToIntBits(answerTime);
+		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + obtainedPoints;
+		result = prime * result + points;
 		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		result = prime * result + (int) (questionId ^ (questionId >>> 32));
 		result = prime * result + (int) (sessionQuizId ^ (sessionQuizId >>> 32));
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + (int) (userId ^ (userId >>> 32));
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -110,6 +123,11 @@ public class ResultDto implements Serializable {
 		ResultDto other = (ResultDto) obj;
 		if (Float.floatToIntBits(answerTime) != Float.floatToIntBits(other.answerTime))
 			return false;
+		if (answers == null) {
+			if (other.answers != null)
+				return false;
+		} else if (!answers.equals(other.answers))
+			return false;
 		if (date == null) {
 			if (other.date != null)
 				return false;
@@ -118,6 +136,8 @@ public class ResultDto implements Serializable {
 		if (id != other.id)
 			return false;
 		if (obtainedPoints != other.obtainedPoints)
+			return false;
+		if (points != other.points)
 			return false;
 		if (question == null) {
 			if (other.question != null)
@@ -128,10 +148,17 @@ public class ResultDto implements Serializable {
 			return false;
 		if (sessionQuizId != other.sessionQuizId)
 			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
 		if (userId != other.userId)
 			return false;
 		return true;
 	}
+
+	
 	
 	
 	

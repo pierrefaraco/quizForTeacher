@@ -1,18 +1,18 @@
-quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$cookies", "$uibModal",
-    function ($scope, $rootScope, quizRestClient, $cookies, $uibModal) {
+quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$cookies", "$uibModal", "webSocketService",
+    function ($scope, $rootScope, quizRestClient, $cookies, $uibModal, webSocketService) {
 
         refresh();
 
         function  refresh() {
-       
-            var sessionService = quizRestClient. getListSessionCoursResource();
-            sessionService.query({coursId: $cookies.get("selectedCours")}, function (sessionsQuiz) { 
 
-                for (var i in sessionsQuiz ){            
-                    if ( sessionsQuiz [i].status === "RUNNING"){
-                            $scope.runningSessionQuiz = sessionsQuiz[i];                      
+            var sessionService = quizRestClient.getListSessionCoursResource();
+            sessionService.query({coursId: $cookies.get("selectedCours")}, function (sessionsQuiz) {
+
+                for (var i in sessionsQuiz) {
+                    if (sessionsQuiz [i].status === "RUNNING") {
+                        $scope.runningSessionQuiz = sessionsQuiz[i];
                     }
-                }                 
+                }
                 $scope.chargeSequence();
             }, function (response) {
                 alert("Error : " + response.status);
@@ -22,11 +22,11 @@ quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$c
 
         $scope.startSessionQuiz = function (sessionQuiz) {
             var sessionService = quizRestClient.getSessionResource();
-            sessionService.save(sessionQuiz, function (session) {    
+            sessionService.save(sessionQuiz, function (session) {
                 $scope.runningSessionQuiz = session;
                 $scope.chargeSequence();
             }, function (response) {
-                alert("Error : " +response.status);
+                alert("Error : " + response.status);
             });
         };
 
@@ -52,11 +52,7 @@ quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$c
 
         $scope.selectQuestion = function (question) {
             $scope.selectedQuestion = question;
-        }
-
-        $scope.runQuestion = function (question) {
-            alert(question.title + " run");
-        };
+        }  
 
         $scope.openSessionModal = function (action, size) {
             var params = {'action': action,
@@ -75,6 +71,12 @@ quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$c
                 }
             });
         };
+        
+        
+        $scope.runQuestion = function (question) {
+            webSocketService.sendQuestion(question.id);
+        };
+
     }]);
 
 quizApp.controller('sessionFormCtrl', ["$scope", "$cookies", "$uibModalInstance", "params", function ($scope, $cookies, $uibModalInstance, params) {

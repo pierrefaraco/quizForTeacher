@@ -4,9 +4,9 @@
 
 
 
-<script type="text/ng-template" id="questionPresentationModal.html"> 
+<script type="text/ng-template" id="questionPrewiewModal.html"> 
         <div class="modal-header">
-            <uib-progressbar max= "questionToAnswer.timeToAnswer" value="questionToAnswer.time" type="success" animate="false">
+            <uib-progressbar max= "question.timeToAnswer" value="question.time " type="success" animate="false">
             <span style="color:white; white-space:nowrap;">
               <label class="glyphicon glyphicon-question-sign success"/>
             </span></uib-progressbar>
@@ -14,17 +14,17 @@
         </div>
         <div class="modal-body">
             <div class="form-group">
-                <label class="control-label" ><h5><strong>{{questionToAnswer.title }}</strong></h5></label>
+                <label class="control-label" ><h5><strong>{{question.title }}</strong></h5></label>
             </div>
             <div class="form-group">
-           <label class="control-label" ><h5>  {{questionToAnswer.question }} </h5></label>
+           <!--  <label class="control-label" ><h5>  {{question.question }} </h5></label>-->
    {{question.question }}
             </div>
     
             <!-- Propositions -->
             <div class="form-group">
                     <div >                
-                           <div ng-repeat="proposition in questionToAnswer.answers" class="checkbox ">
+                           <div ng-repeat="proposition in question.answers" class="checkbox ">
                                     <label class="control-label"><input type="checkbox"  ng-click=checkProposition(proposition)> {{proposition.text}} </label>                            
                            </div>                
                     </div>

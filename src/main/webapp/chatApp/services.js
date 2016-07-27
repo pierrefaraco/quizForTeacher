@@ -1,64 +1,54 @@
-angular.module("chatApp.services").service("ChatService", function($q, $timeout) {
-    
+angular.module("chatApp.services").service("ChatService", function ($q, $timeout) {
+
     var service = {}, listener = $q.defer(), socket = {
-      client: null,
-      stomp: null
+        client: null,
+        stomp: null
     }, messageIds = [];
-    
+
     service.RECONNECT_TIMEOUT = 30000;
     service.SOCKET_URL = "/quizForTeacher/all/socket"; // adrese du web socket
     service.CHAT_TOPIC = "/topic/message"; // adresse de la methode de reception du client
     service.CHAT_BROKER = "/app/chat"; // adresse de la methode de reception  du serveur
+    service.QUESTION_DIFFUSE = "/app/question";
+    service.QUESTION = "/topic/show";
     
-    service.receive = function() {
-      return listener.promise;
+    service.receive = function () {
+        return listener.promise;
+    };
+
+    var initialize = function () {
+          socket.client = new SockJS(service.SOCKET_URL);
+          socket.stomp = Stomp.over(socket.client);
+          socket.stomp.connect({}, startListener);
+          socket.stomp.onclose = reconnect;
+      };
+
+    var startListener = function () {
+          socket.stomp.subscribe(service.QUESTION, function (data) {
+              listener.notify(getQuestion(data.body));
+          });
+      };
+
+    var reconnect = function () {
+        $timeout(function () {
+            initialize();
+        }, this.RECONNECT_TIMEOUT);
+    };
+
+    service.sendQuestion = function (id) {
+        socket.stomp.send(service.QUESTION_DIFFUSE, {
+            priority: 9
+        }, JSON.stringify({
+            id: id
+        }));
     };
     
-    service.send = function(message) {
-        
-      var id = Math.floor(Math.random() * 1000000);
-      socket.stomp.send(service.CHAT_BROKER, {
-        priority: 9
-      }, JSON.stringify({
-        message: message,
-        id: id
-      }));
-      messageIds.push(id);
-    };
-    
-    var reconnect = function() {
-      $timeout(function() {
-        initialize();
-      }, this.RECONNECT_TIMEOUT);
-    };
-    
-    var getMessage = function(data) {
-      
-      var message = JSON.parse(data), out = {};
-      out.message = message.message;
-      out.time = new Date(message.time);
-      alert("getMessage " +out.message + " "+ out.time);
-      if (_.contains(messageIds, message.id)) {
-        out.self = true;
-        messageIds = _.remove(messageIds, message.id);
-      }
-     
-      return out;
-    };
-    
-    var startListener = function() {
-      socket.stomp.subscribe(service.CHAT_TOPIC, function(data) {
-        listener.notify(getMessage(data.body));
-      });
-    };
-    
-    var initialize = function() {
-      socket.client = new SockJS(service.SOCKET_URL);
-      socket.stomp = Stomp.over(socket.client);
-      socket.stomp.connect({}, startListener);
-      socket.stomp.onclose = reconnect;
+     var getQuestion = function (data) {
+        var jsonFeedBack = JSON.parse(data), out = {};
+        out.question = jsonFeedBack;
+        return  jsonFeedBack ;
     };
     
     initialize();
     return service;
-  });
+});

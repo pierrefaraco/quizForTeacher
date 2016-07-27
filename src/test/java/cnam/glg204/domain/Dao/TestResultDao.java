@@ -146,7 +146,7 @@ public class TestResultDao extends TestCase {
 				
 				
 				result.setAnswers(generateResult(question.getAnswers()));
-				result.setObtainedPoint((int)( Math.random()*10 ));	
+				result.setObtainedPoints((int)( Math.random()*10 ));	
 				result.setUser(user);
 				result.setSessionQuiz(sessionQuiz);
 				resultDao.save(result);

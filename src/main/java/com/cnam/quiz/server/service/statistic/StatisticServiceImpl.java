@@ -2,6 +2,7 @@ package com.cnam.quiz.server.service.statistic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,13 +38,19 @@ public class StatisticServiceImpl implements StatisticService {
 	@Autowired
 	UserDao userDao;
 	
-
-	
 	
 	@Override
 	public void saveResult(ResultDto resultDto) {
-		Result result = this.resultDtoToResult(resultDto);
+		Result result = this.resultDtoToResult(resultDto);	
 		result.setDate(new java.util.Date());
+		result.setObtainedPoints(resultDto.getPoints());
+		Map <String,boolean[]> results = result.getAnswers();		
+		for(Map.Entry  <String,boolean[]>  e :  results.entrySet()){
+			boolean[] r = e.getValue();
+			System.out.println("=> " + r[0] + " " +r[1] +" " + resultDto.getPoints());
+			if (r[0] != r[1])
+				result.setObtainedPoints(0);	
+		}	
 		resultDao.save( result );
 	}
 	
@@ -112,12 +119,16 @@ public class StatisticServiceImpl implements StatisticService {
 		result.setUser(user);
 		result.setAnswerTime(resultDto.getAnswerTime());
 		result.setQuestionId(resultDto.getQuestionId());
-		result.setQuestion(resultDto.getQuestion());
+		String q = resultDto.getQuestion();
+		q = ( q.length()>255 ) ? q.substring(0,255) : q;			
+		result.setQuestion(q);
 		result.setAnswers(	resultDto.getAnswers());
 		result.setDate(resultDto.getDate());	
 		SessionQuiz sessionQuiz = sessionQuizDao.find(resultDto.getSessionQuizId());
 		result.setSessionQuiz(sessionQuiz );
-		result.setObtainedPoint(resultDto.getObtainedPoints());
+		result.setTitle(resultDto.getTitle());
+		result.setObtainedPoints(resultDto.getObtainedPoints());
+		result.setPoints(resultDto.getPoints());
 		return result;	
 	}
 
@@ -130,8 +141,11 @@ public class StatisticServiceImpl implements StatisticService {
 		resultDto.setQuestion(result.getQuestion());
 		resultDto.setAnswers(	result.getAnswers());
 		resultDto.setDate(result.getDate());
-		resultDto.setSessionQuizId(result.getSessionQuiz().getId());
-		resultDto.setObtainedPoints(result.getObtainedPoint());
+		if (result.getSessionQuiz()!= null)
+			resultDto.setSessionQuizId(result.getSessionQuiz().getId());
+		resultDto.setObtainedPoints(result.getObtainedPoints());
+		resultDto.setTitle(result.getTitle());
+		resultDto.setPoints(result.getPoints());
 		return resultDto;	
 	}
 	

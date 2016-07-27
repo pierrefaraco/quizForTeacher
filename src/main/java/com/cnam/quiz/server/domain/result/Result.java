@@ -37,12 +37,12 @@ import com.cnam.quiz.server.domain.user.User;
 
 @Table(name = "results")
 public class Result extends DomainObject  implements  Serializable {
+
+
 	@Id
 	@GeneratedValue
 	@Column(name="id")
 	private long id;
-	@Column(name="question_Id")
-	long questionId;
 	@Column(name="answer_time")
 	float answerTime;
 	@ManyToOne(fetch =FetchType.LAZY)
@@ -51,38 +51,39 @@ public class Result extends DomainObject  implements  Serializable {
 	@ManyToOne(fetch =FetchType.LAZY)
 	@JoinColumn(name ="sessionQuiz_id", nullable = false)
 	SessionQuiz sessionQuiz;
+	@Column(name="date")
+	Date date;
+	
+	@Column(name="question_Id")
+	long questionId;
+	@Column(name="title")
+	String title;
 	@Column(name="question")
 	String question;
 	@ElementCollection
 	@Column(name="answers" , nullable =   false)
 	private Map <String,boolean[]> answers;
-	
-
-	@Column(name="obtained_point")
+	@Column(name="points")
+	int points;
+	@Column(name="obtained_points")
 	int obtainedPoints;
-	@Column(name="date")
-	Date date;
 	
+	public Result(){
+		super();
+	}
 	
-	
-	public Result(long questionId, int obtainedPoints , float answerTime, User auditor,
+	public Result(long questionId,String title, int obtainedPoints ,int points, float answerTime, User auditor,
 			SessionQuiz sessionQuiz, String  question,Map <String,boolean[]> answers,  Date date) {
 		super();
 		this.questionId = questionId;
-		this.id = id;
 		this.obtainedPoints = obtainedPoints;
 		this.answerTime = answerTime;
 		this.user = auditor;
 		this.sessionQuiz = sessionQuiz;
 		this.question = question;
+		this.title = title;
 		this.answers = answers;
 		this.date = date;
-	}	
-	
-
-
-	public Result() {
-		super();
 	}
 
 
@@ -93,16 +94,6 @@ public class Result extends DomainObject  implements  Serializable {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-
-	public long getQuestionId() {
-		return questionId;
-	}
-
-
-	public void setQuestionId(long questionId) {
-		this.questionId = questionId;
 	}
 
 
@@ -136,26 +127,6 @@ public class Result extends DomainObject  implements  Serializable {
 	}
 
 
-	public String getQuestion() {
-		return question;
-	}
-
-
-	public void setQuestion(String question) {
-		this.question = question;
-	}
-
-
-	public int getObtainedPoint() {
-		return obtainedPoints;
-	}
-
-
-	public void setObtainedPoint(int obtainedPoint) {
-		this.obtainedPoints = obtainedPoint;
-	}
-
-
 	public Date getDate() {
 		return date;
 	}
@@ -166,11 +137,39 @@ public class Result extends DomainObject  implements  Serializable {
 	}
 
 
+	public long getQuestionId() {
+		return questionId;
+	}
+
+
+	public void setQuestionId(long questionId) {
+		this.questionId = questionId;
+	}
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+	public String getQuestion() {
+		return question;
+	}
+
+
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
 
 	public Map<String, boolean[]> getAnswers() {
 		return answers;
 	}
-
 
 
 	public void setAnswers(Map<String, boolean[]> answers) {
@@ -178,11 +177,19 @@ public class Result extends DomainObject  implements  Serializable {
 	}
 
 
+	public int getPoints() {
+		return points;
+	}
+
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
 
 	public int getObtainedPoints() {
 		return obtainedPoints;
 	}
-
 
 
 	public void setObtainedPoints(int obtainedPoints) {
@@ -190,23 +197,22 @@ public class Result extends DomainObject  implements  Serializable {
 	}
 
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Float.floatToIntBits(answerTime);
-		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + obtainedPoints;
+		result = prime * result + points;
 		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		result = prime * result + (int) (questionId ^ (questionId >>> 32));
 		result = prime * result + ((sessionQuiz == null) ? 0 : sessionQuiz.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
-
 
 
 	@Override
@@ -220,11 +226,6 @@ public class Result extends DomainObject  implements  Serializable {
 		Result other = (Result) obj;
 		if (Float.floatToIntBits(answerTime) != Float.floatToIntBits(other.answerTime))
 			return false;
-		if (answers == null) {
-			if (other.answers != null)
-				return false;
-		} else if (!answers.equals(other.answers))
-			return false;
 		if (date == null) {
 			if (other.date != null)
 				return false;
@@ -233,6 +234,8 @@ public class Result extends DomainObject  implements  Serializable {
 		if (id != other.id)
 			return false;
 		if (obtainedPoints != other.obtainedPoints)
+			return false;
+		if (points != other.points)
 			return false;
 		if (question == null) {
 			if (other.question != null)
@@ -246,6 +249,11 @@ public class Result extends DomainObject  implements  Serializable {
 				return false;
 		} else if (!sessionQuiz.equals(other.sessionQuiz))
 			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
 		if (user == null) {
 			if (other.user != null)
 				return false;
@@ -254,10 +262,15 @@ public class Result extends DomainObject  implements  Serializable {
 		return true;
 	}
 
-
-
-	
-
-
 	
 }
+
+	
+	
+	
+
+
+	
+
+
+	

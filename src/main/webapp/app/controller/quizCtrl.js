@@ -327,13 +327,13 @@ quizApp.controller('questionCtrl', ["$scope","$cookies", "$uibModalInstance","$u
             $scope.question.answers= temp ;
         };
         
-        $scope.openQuestionPresentationModal = function (action, size) {
+        $scope.openQuestionPreviewModal = function (action, size) {
             var params = {'action': action};      
             params.question = $scope.question;             
             $uibModal.open({
                 animation: false,
-                templateUrl: "questionPresentationModal.html",
-                controller: "questionPresentationCtrl",
+                templateUrl: "questionPrewiewModal.html",
+                controller: "questionPreviewCtrl",
                 size: size,    
                 scope: $scope,     
                 resolve: {
@@ -346,7 +346,7 @@ quizApp.controller('questionCtrl', ["$scope","$cookies", "$uibModalInstance","$u
     }]);
 
 
-quizApp.controller('questionPresentationCtrl', ["$scope", "$uibModalInstance", "params", function ($scope, $uibModalInstance, params) {     
+quizApp.controller('questionPreviewCtrl', ["$scope", "$uibModalInstance", "params", function ($scope, $uibModalInstance, params) {     
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };

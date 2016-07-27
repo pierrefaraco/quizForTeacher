@@ -206,8 +206,10 @@ public class EntitiesCreator extends TestCase {
 
 		
 		return createResult((long) (Math.random() * 10),
-						(int)(Math.random()*10), 
-						(int)(Math.random()*20), 
+						"title" + (int)(Math.random()*10),
+						(int)(Math.random()*10),					
+						(int)(Math.random()*20),
+						(int)(Math.random()*20),
 						auditor, 
 						sessionQuiz, 
 						"Quel est le "+  (Math.random()*10000000)+" du "+ (Math.random()*10000000) + "?", 
@@ -216,10 +218,10 @@ public class EntitiesCreator extends TestCase {
 	}
 	
 	
-	public static Result createResult(long questionId,int obtainedPoints, float answerTime, User auditor, SessionQuiz sessionQuiz,
+	public static Result createResult(long questionId,String title,int obtainedPoints,int points, float answerTime, User auditor, SessionQuiz sessionQuiz,
 			String question,Map <String,boolean[]> answers, Date date){
-		
-		return new Result(questionId, obtainedPoints  ,answerTime, auditor, sessionQuiz, question, answers, date);
+	
+		return new Result(questionId, title, obtainedPoints,points  ,answerTime, auditor, sessionQuiz, question, answers, date);
 	}
 	
 	

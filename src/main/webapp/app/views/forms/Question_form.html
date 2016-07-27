@@ -20,7 +20,7 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="control-label" for="title">Title :</label>  
+                <label class="control-label" for="title">Question :</label>  
                 <div>
                     <input id="title" name="title" type="text" ng-model="question.title"class="form-control input-md" required="">
                 </div>
@@ -28,7 +28,7 @@
 
             <!-- Textarea -->
             <div class="form-group">
-                <label class="control-label" for="question">Question :</label>
+                <label class="control-label" for="question">States :</label>
                 <div>                     
                     <textarea class="form-control" id="question" ng-model="question.question" name="question" rows="10" >default text</textarea>
                 </div>
@@ -71,7 +71,8 @@
 
         </div>
         <div class="modal-footer">
-            <div ng-include src="'app/views/forms/Question_presentation_form.html'"></div>
+            <div ng-include src="'app/views/forms/Question_prewiew.html'"></div>
+            <button type="button" class="btn btn-primary pull-left btn-sm" ng-click="openQuestionPreviewModal ('Preview')">Preview</button>
             <button class="btn btn-primary" type="button" ng-click="validate()">OK</button>
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
         </div>
