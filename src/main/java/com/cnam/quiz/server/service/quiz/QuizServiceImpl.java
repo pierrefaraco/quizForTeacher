@@ -1,8 +1,10 @@
 package com.cnam.quiz.server.service.quiz;
 import java.util.Map;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cnam.quiz.common.config.Config;
 import com.cnam.quiz.common.dto.CoursDto;
 import com.cnam.quiz.common.dto.CoursWithStatusDto;
 import com.cnam.quiz.common.dto.QuestionDto;
@@ -38,8 +41,8 @@ import com.cnam.quiz.server.domain.user.UserDao;
 @Transactional
 @Rollback(true)
 public class QuizServiceImpl implements  QuizService{
-	private static List<Topic> topics;
-	
+
+
 	 
 	@Autowired
 	TopicDao topicDao;
@@ -112,7 +115,6 @@ public class QuizServiceImpl implements  QuizService{
 			 listTopic.add( topicDtoToTopic(topic) );
 		return	listTopic;	
 	}
-
 
 	public Topic topicDtoToTopic ( TopicDto topicDto){
 		Topic topic = new Topic();
@@ -378,7 +380,9 @@ public class QuizServiceImpl implements  QuizService{
 		sessionQuizDao.save(sessionQuiz );
 		sessionQuizDto.setId(sessionQuiz.getId());
 		sessionQuizDto.setStatus(sessionQuiz.getStatus());
-		sessionQuizDto.setStartDate(sessionQuiz.getStartDate());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT );
+		sessionQuizDto.setStartDate(formatter.format (sessionQuiz.getStartDate()));
 	}
 
 	@Override
@@ -388,7 +392,7 @@ public class QuizServiceImpl implements  QuizService{
 		sessionQuiz.setEndDate(Calendar.getInstance().getTime());
 		sessionQuizDao.update( sessionQuiz );
 		sessionQuizDto.setStatus(sessionQuiz.getStatus());
-		sessionQuizDto.setEndDate(sessionQuiz.getEndDate());
+		sessionQuizDto.setEndDate(sessionQuiz.getEndDate().toString());
 	}
 
 	@Override
@@ -399,7 +403,9 @@ public class QuizServiceImpl implements  QuizService{
 
 	@Override
 	public List<SessionQuizDto> findSessionQuizByCours(long coursId) {
-		Cours cours = coursDao.find(coursId);	
+		Cours cours = coursDao.find(coursId);
+                if (cours ==null)
+                    return null;
 		List<SessionQuiz> listSessionQuiz =  sessionQuizDao.findByCours(cours);		
 		return this.listOfSessionQuizToListOfSessionQuizDto(listSessionQuiz);
 	}
@@ -427,8 +433,22 @@ public class QuizServiceImpl implements  QuizService{
 		Sequence sequence = sequenceDao.find(sessionQuizDto.getSequenceId());
 		sessionQuiz.setCours(cours);
 		sessionQuiz.setSequence(sequence);
-		sessionQuiz.setStartDate(sessionQuizDto.getStartDate());
-		sessionQuiz.setEndDate(sessionQuizDto.getEndDate());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT );
+		if ( sessionQuizDto.getStartDate()!= null)
+			try {
+				sessionQuiz.setStartDate( formatter.parse(sessionQuizDto.getStartDate()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		
+		if ( sessionQuizDto.getEndDate()!= null)
+			try {
+				sessionQuiz.setStartDate( formatter.parse(sessionQuizDto.getEndDate()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		 
 		sessionQuiz.setStatus(sessionQuizDto.getStatus());
 		return sessionQuiz;		
 	}
@@ -438,8 +458,11 @@ public class QuizServiceImpl implements  QuizService{
 		sessionQuizDto.setId(sessionQuiz.getId());
 		sessionQuizDto.setCoursId( sessionQuiz.getCours().getId());
 		sessionQuizDto.setSequenceId(sessionQuiz.getSequence().getId());
-		sessionQuizDto.setStartDate(sessionQuiz.getStartDate());
-		sessionQuizDto.setEndDate(sessionQuiz.getEndDate());
+		SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT );
+		if (sessionQuiz.getStartDate() != null)
+			sessionQuizDto.setStartDate( formatter.format(sessionQuiz.getStartDate()));
+		if (sessionQuiz.getEndDate() != null)
+			sessionQuizDto.setEndDate( formatter.format(sessionQuiz.getEndDate()));
 		sessionQuizDto.setStatus(sessionQuiz.getStatus());
 		return sessionQuizDto;		
 	}

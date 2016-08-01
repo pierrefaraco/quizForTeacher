@@ -1,10 +1,13 @@
-quizApp.controller('mainCtrl', ["$scope", "$window", "$location", "$uibModal", "AuthSharedService", "webSocketService","statisticRestClient","$cookies",
-    function ($scope, $window, $location, $uibModal, AuthSharedService, webSocketService,statisticRestClient,$cookies) {
+quizApp.controller('mainCtrl', ["$scope", "$window", "$location", "$uibModal", "AuthSharedService", "webSocketService","statisticRestClient","$cookies","quizRestClient",
+    function ($scope, $window, $location, $uibModal, AuthSharedService, webSocketService ,statisticRestClient,$cookies,quizRestClient) {
 
         $scope.logout = function logout() {
             AuthSharedService.logout();
             var host = $location.host();
             var port = $location.port();
+            webSocketService.unsubscribe();
+            $cookies.put("userId",null);
+            $cookies.put("JSESSIONID",null);
             $window.location.href = "http://" + host + ":" + port + "/quizForTeacher/index.html";
         };
 
@@ -24,16 +27,18 @@ quizApp.controller('mainCtrl', ["$scope", "$window", "$location", "$uibModal", "
                 if (proposition.isItTrue !== proposition.checked)
                      $scope.result.state = "Wrong";
             }
-            
+           var sessionService = quizRestClient.getListSessionCoursResource();  
+      
            var result = {
                 questionId :$scope.questionToAnswer.id,
                 userId  :$cookies.get("userId"),
-                sessionQuizId : 1,
-                answerTime : 0,
+                sessionQuizId : 0,
+                answerTime : $scope.questionToAnswer.time,
                 title : $scope.questionToAnswer.title,
                 question : $scope.questionToAnswer.question,
                 answers : $scope.questionToAnswer.answers,
-                points : $scope.questionToAnswer.points
+                points : $scope.questionToAnswer.points,
+                coursId : $cookies.get("selectedCours")
            }; 
 
  
@@ -79,6 +84,9 @@ quizApp.controller('mainCtrl', ["$scope", "$window", "$location", "$uibModal", "
 
 
 quizApp.controller('questionPopUpCtrl', ["$scope", "$timeout", "$interval", "$uibModalInstance", "params", function ($scope, $timeout, $interval, $uibModalInstance, params) {
+        
+        var t1 = new Date();
+        var t2 = -1;
        
         $scope.questionToAnswer.time = $scope.questionToAnswer.timeToAnswer;
         for (var i in $scope.questionToAnswer.answers) {
@@ -86,17 +94,18 @@ quizApp.controller('questionPopUpCtrl', ["$scope", "$timeout", "$interval", "$ui
             proposition.checked = false;
         }
         var myVar = $interval(myTimer, 1000);
-        $timeout(checkAnswer, ($scope.questionToAnswer.timeToAnswer + 1) * 1000);
+        $timeout(checkAnswer, ($scope.questionToAnswer.timeToAnswer) * 1000);
 
-        function myTimer() {
-            var d = new Date();
+        function myTimer() {       
             $scope.questionToAnswer.time -= 1;
-        }
-        ;
+        };
 
         function checkAnswer() {
             $uibModalInstance.dismiss('cancel');
             $interval.cancel(myVar);
+            if (t2  == -1)
+                t2 = $scope.questionToAnswer.timeToAnswer * 1000 ;
+            $scope.questionToAnswer.time = t2;              
             $scope.computeResult();
         }
         ;
@@ -104,6 +113,7 @@ quizApp.controller('questionPopUpCtrl', ["$scope", "$timeout", "$interval", "$ui
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
             $interval.cancel(myVar);
+            t2 = new Date() - t1 ;
         };
 
         $scope.checkProposition = function (proposition) {

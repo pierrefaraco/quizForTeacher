@@ -8,7 +8,7 @@ public class UserDto implements Serializable {
 	private long id;
 	private String firstName;
 	private String lastName;
-	private Date birthDay;
+	private String birthDay;
 	private String email;
 	private String presentation;
 	private String password;
@@ -33,10 +33,10 @@ public class UserDto implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Date getBirthDay() {
+	public String  getBirthDay() {
 		return birthDay;
 	}
-	public void setBirthDay(Date birthDay) {
+	public void setBirthDay(String  birthDay) {
 		this.birthDay = birthDay;
 	}
 	public String getEmail() {

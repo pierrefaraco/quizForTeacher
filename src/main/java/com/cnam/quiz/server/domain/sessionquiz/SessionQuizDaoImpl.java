@@ -52,4 +52,14 @@ public class SessionQuizDaoImpl extends AbstractDataAccessObjectImpl<SessionQuiz
 		return query.getResultList();
 	}
 
+	@Override
+	public SessionQuiz findRunningByCours(Cours cours) {
+		Query query = em.createNamedQuery("findRunningSessionsByCours");
+		query.setParameter("coursid", cours.getId());
+		if( query.getResultList().size()>0)
+			return (SessionQuiz) query.getResultList().get(0);
+		else
+			return null;
+	}
+
 }

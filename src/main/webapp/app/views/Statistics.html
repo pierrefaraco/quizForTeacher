@@ -6,24 +6,59 @@ and open the template in the editor.
 -->
 
 <section >
-	<!-- -->
+    <!-- -->
 
-	<div class="row" >
-
-		<div class="col-sm-2">
-                        <h6>Statistics :</h6>
-			
-		</div>
+    <div class="row" >
 
 
-		<!-- listes des questions du Topic  -->
+        <!-- listes des questions du Topic  -->
 
-		<section class="col-sm-10">
-			<div class="row">
-			
+        <section class="col-sm-12">
+            <div class="row">
+                <div  class="col-sm-3" >
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td> Global results  </td>
+                                <td >
+                                    <button  class="btn btn-success btn-sm" ng-click="showCoursResult()"> 
+                                        show
+                                    </button>     
+                                </td> 
+                            </tr>    
+                            <tr ng-repeat="sessionQuiz in sessionsQuizList| orderBy : '-startDate' ">      
 
-			</div>
-		</section>
+                                <td> Results of session of {{sessionQuiz.startDate}} / {{sessionQuiz.endDate}} </td>                      
+                                <td>
+                                    <button  class="btn btn-success btn-sm" ng-click="showSessionResult(sessionQuiz)"> 
+                                        show
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-9">
+                    <table class="table col-sm-6">
+                        <thead>         
+                            <tr>
+                                <th>Auditor</th> 
+                                <th>Total answer Time (ms)</th>
+                                <th>Obtained points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="result in resultList|  orderBy: ['-obtainedPoints', 'answerTime'] " ng-click=""  ng-class ="{
+                                                }">  
+                                <td>{{result.userDto.firstName}} {{result.userDto.lastName}}</td>
+                                <td>{{result.answerTime}} </td>    
+                                <td>{{result.obtainedPoints}} / {{result.points}}</td>         
+                            </tr> 
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+        </section>
 
-	</div>
+    </div>
 </section>

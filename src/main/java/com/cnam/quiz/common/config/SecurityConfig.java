@@ -21,7 +21,7 @@ import com.cnam.security.RestUnauthorizedEntryPoint;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@ComponentScan(basePackages = "com.cnam.security")
+@ComponentScan(basePackages ="com.cnam")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	public static final String REMEMBER_ME_KEY = "rememberme_key";

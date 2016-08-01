@@ -23,6 +23,7 @@ import com.cnam.quiz.server.domain.sequence.Sequence;
 	@NamedQuery(name = "findAllSessions", query="select o from SessionQuiz o"),
 	@NamedQuery(name = "findSessionsByProfessor", query="select o from SessionQuiz o  WHERE o.cours.user.id = :userid "),
 	@NamedQuery(name = "findSessionsByCours", query="select o from SessionQuiz o WHERE o.cours.id = :coursid "),
+	@NamedQuery(name = "findRunningSessionsByCours", query="select o from SessionQuiz o WHERE o.cours.id = :coursid and o.status = 'RUNNING'"),
 	@NamedQuery(name = "findSessionsByAuditor", query="select o from SessionQuiz o  WHERE  :user in o.cours.subscribers "),
 	@NamedQuery(name = "findSessionsByAuditorAndCours", query="select o from SessionQuiz o  WHERE  :user in o.cours.subscribers "
 			+ "and o.cours.id = :coursid"),

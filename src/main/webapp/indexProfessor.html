@@ -53,8 +53,9 @@
 
             <!-- Header -->
 
-            <header class="row">
-                <div class="col-sm-12">No quiz sesion {{user.connected}}</div>
+            <header class="row" ng-show="user.connected" >
+                <div class="col-sm-12"> <div class="alert alert-success" ng-show="selectedCours.active">{{selectedCours.name}} selected and ready for publish questions ! </div></div>
+                <div class="col-sm-12"> <div class="alert alert-danger" ng-show="!selectedCours.active"> No active cours selected </div></div>
             </header>
 
             <!-- Menu navigation -->

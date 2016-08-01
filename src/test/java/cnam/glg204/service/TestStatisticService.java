@@ -25,6 +25,7 @@ import com.cnam.quiz.common.dto.ResultDto;
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.SessionStatus;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.NoRunningSessionQuizForThisCoursException;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
 import com.cnam.quiz.server.domain.cours.CoursDaoImpl;
@@ -51,14 +52,16 @@ import com.cnam.quiz.server.service.quiz.QuizServiceImpl;
 import com.cnam.quiz.server.service.statistic.StatisticService;
 import com.cnam.quiz.server.service.statistic.StatisticServiceImpl;
 import com.cnam.quiz.server.service.user.UserServiceImpl;
+import com.cnam.quiz.server.websocket.WebSocketPoolManager;
 
 import cnam.glg204.domain.Dao.EntitiesCreator;
+import junit.framework.AssertionFailedError;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class, UserDaoImpl.class, TopicDaoImpl.class,
 		SequenceDaoImpl.class, QuestionDaoImpl.class, SessionQuizDaoImpl.class, 
 		CoursDaoImpl.class,SequenceDaoImpl.class, QuizServiceImpl.class,StatisticServiceImpl.class ,
-		CoursServiceImpl.class,UserServiceImpl.class,ResultDaoImpl.class})
+		CoursServiceImpl.class,UserServiceImpl.class,ResultDaoImpl.class, WebSocketPoolManager.class })
 
 @Transactional(rollbackOn = Exception.class)
 @Rollback(false)
@@ -90,6 +93,8 @@ public class TestStatisticService {
 	
 	static long cours1Id = 0 ;
 	static long cours2Id = 0 ;
+	static long cours3Id = 0 ;
+	static long cours4Id = 0 ;
 	static long sessionQuiz1Id = 0 ;
 	static long sessionQuiz2Id = 0 ;
 	static long sessionQuiz3Id = 0 ;
@@ -105,6 +110,10 @@ public class TestStatisticService {
 		coursDao.save(cours1);
 		Cours cours2 = EntitiesCreator.createRandomCours(true, user, null);
 		coursDao.save(cours2);
+		Cours cours3 = EntitiesCreator.createRandomCours(true, user, null);
+		coursDao.save(cours3);
+		Cours cours4 = EntitiesCreator.createRandomCours(true, user, null);
+		coursDao.save(cours4);
 		
 		Sequence sequence = EntitiesCreator.createRandomSequence(user, null);
 		sequenceDao.save(sequence);
@@ -113,17 +122,20 @@ public class TestStatisticService {
 				SessionStatus.RUNNING, cours1, sequence);	
 		sessionQuizDao.save(sessionQuiz1 );
 		SessionQuiz sessionQuiz2 = EntitiesCreator.createRandomSessionQuiz(
-				SessionStatus.RUNNING, cours1, sequence);
+				SessionStatus.RUNNING, cours2, sequence);
 		sessionQuizDao.save(sessionQuiz2 );
 		SessionQuiz sessionQuiz3 = EntitiesCreator.createRandomSessionQuiz(
-				SessionStatus.RUNNING, cours2, sequence);	
+				SessionStatus.RUNNING, cours3, sequence);	
 		sessionQuizDao.save(sessionQuiz3 );
 		SessionQuiz sessionQuiz4 = EntitiesCreator.createRandomSessionQuiz(
-				SessionStatus.RUNNING, cours2, sequence);
+				SessionStatus.RUNNING, cours4, sequence);
 		sessionQuizDao.save(sessionQuiz4 );
 		
 		cours1Id = cours1.getId() ;
 		cours2Id = cours2.getId()  ;
+		cours3Id = cours3.getId() ;
+		cours4Id = cours4.getId()  ;
+		
 		sessionQuiz1Id = sessionQuiz1.getId() ;
 		sessionQuiz2Id = sessionQuiz2.getId() ;
 		sessionQuiz3Id = sessionQuiz3.getId() ;
@@ -140,45 +152,87 @@ public class TestStatisticService {
 	public void testSaveResult(){
 		for (long auditorId : auditorsId){
 			ResultDto resultDto = createResultDto ( auditorId,sessionQuiz1Id);
-			statisticService.saveResult(resultDto);
+			resultDto.setCoursId(cours1Id);
+			try {
+				statisticService.saveResult(resultDto);
+			} catch (NoRunningSessionQuizForThisCoursException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 		assertEquals(20,statisticService.findResultsBySession(sessionQuiz1Id).size());
 		
 		for (int i = 0;i<2 ;i++ )
 			for (long auditorId : auditorsId){
 				ResultDto resultDto = createResultDto ( auditorId,sessionQuiz2Id);
-				statisticService.saveResult(resultDto);
+				resultDto.setCoursId(cours2Id);
+				try {
+					statisticService.saveResult(resultDto);
+				} catch (NoRunningSessionQuizForThisCoursException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-		assertEquals(20,statisticService.findResultsBySession(sessionQuiz1Id).size());
-		assertEquals(40,statisticService.findResultsBySession(sessionQuiz2Id).size());	
-		assertEquals(60, statisticService.findResultsByCours(cours1Id).size());
 		
+		assertEquals(20,statisticService.findResultsBySession(sessionQuiz1Id).size());
+		assertEquals(20,statisticService.findResultsBySession(sessionQuiz2Id).size());	
+		assertEquals(20, statisticService.findResultsByCours(cours1Id).size());
+		assertEquals(20, statisticService.findResultsByCours(cours2Id).size());
 		for (long auditorId : auditorsId){
 			ResultDto resultDto = createResultDto ( auditorId,sessionQuiz3Id);
-			statisticService.saveResult(resultDto);
+			resultDto.setCoursId(cours3Id);
+			try {
+				statisticService.saveResult(resultDto);
+			} catch (NoRunningSessionQuizForThisCoursException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		for (int i = 0;i<2 ;i++ )
 			for (long auditorId : auditorsId){
 				ResultDto resultDto = createResultDto ( auditorId,sessionQuiz4Id);
-				statisticService.saveResult(resultDto);
+				resultDto.setCoursId(cours4Id);
+				try {
+					statisticService.saveResult(resultDto);
+				} catch (NoRunningSessionQuizForThisCoursException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		
 		assertEquals(20,statisticService.findResultsBySession(sessionQuiz1Id).size());
-		assertEquals(40,statisticService.findResultsBySession(sessionQuiz2Id).size());	
+		assertEquals(20,statisticService.findResultsBySession(sessionQuiz2Id).size());	
 		assertEquals(20,statisticService.findResultsBySession(sessionQuiz3Id).size());
-		assertEquals(40,statisticService.findResultsBySession(sessionQuiz4Id).size());	
-		assertEquals(60, statisticService.findResultsByCours(cours1Id).size());
-		assertEquals(60, statisticService.findResultsByCours(cours2Id).size());
+		assertEquals(20,statisticService.findResultsBySession(sessionQuiz4Id).size());	
+		assertEquals(20, statisticService.findResultsByCours(cours1Id).size());
+		assertEquals(20, statisticService.findResultsByCours(cours2Id).size());
+		assertEquals(20, statisticService.findResultsByCours(cours3Id).size());
+		assertEquals(20, statisticService.findResultsByCours(cours4Id).size());
 		
 		for (long auditorId : auditorsId){
-			assertEquals(3,statisticService.findResultsByUserAndCours(auditorId , cours1Id).size());
-			assertEquals(3,statisticService.findResultsByUserAndCours(auditorId , cours2Id).size());
+			assertEquals(1,statisticService.findResultsByUserAndCours(auditorId , cours1Id).size());
+			assertEquals(1,statisticService.findResultsByUserAndCours(auditorId , cours2Id).size());
 			assertEquals(1,statisticService.findResultsByUserAndSession(auditorId, sessionQuiz1Id).size());
-			assertEquals(2,statisticService.findResultsByUserAndSession(auditorId, sessionQuiz2Id).size());
+			assertEquals(1,statisticService.findResultsByUserAndSession(auditorId, sessionQuiz2Id).size());
 			assertEquals(1,statisticService.findResultsByUserAndSession(auditorId, sessionQuiz3Id).size());
-			assertEquals(2,statisticService.findResultsByUserAndSession(auditorId, sessionQuiz4Id).size());
+			assertEquals(1,statisticService.findResultsByUserAndSession(auditorId, sessionQuiz4Id).size());
 		}
+		
+		SessionQuiz session = sessionQuizDao.find(sessionQuiz1Id);
+		session.setStatus(SessionStatus.NOT_RUNNING);
+		sessionQuizDao.save(session);
+		ResultDto resultDto = createResultDto (  auditorsId.get(0),sessionQuiz1Id);
+		resultDto.setCoursId(cours1Id);
+		try {
+			statisticService.saveResult(resultDto);
+			fail();
+		} catch (NoRunningSessionQuizForThisCoursException e) {
+			assertEquals("Oh!", "Some string", "Some string");
+		}
+		
+		
 		
 	}
 	

@@ -86,7 +86,7 @@ quizApp.factory("quizRestClient", ["$resource", "SERVER_URL",
                 {'query': {method: 'GET', isArray: true}            
                 });
             } 
-      //      /all/cours/{coursid}/sessionquiz/
+  
             
         };
 

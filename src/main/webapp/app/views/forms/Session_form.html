@@ -22,8 +22,8 @@
                 <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel </button>
             </div>
     </script>
-    <button type="button" class="btn btn-success pull-right btn-sm"
+    <button ng-show="runningSessionQuiz.status != 'RUNNING'"  type="button" class="btn btn-success pull-right btn-sm"
             ng-click="openSessionModal('Start session')">Start <span class="glyphicon glyphicon-play pull-right"></span></button>
-    <button  type="button" class="btn btn-danger pull-right btn-sm"
+    <button  ng-show="runningSessionQuiz.status == 'RUNNING'"  type="button" class="btn btn-danger pull-right btn-sm"
             ng-click="stopSessionQuiz()">Stop<span class="glyphicon glyphicon-stop pull-right"></span></button>
 </div>

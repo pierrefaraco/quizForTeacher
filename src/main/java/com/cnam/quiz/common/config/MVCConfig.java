@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.cnam")
+@ComponentScan(basePackages ="com.cnam")
 public class MVCConfig extends WebMvcConfigurerAdapter{
 	
 	

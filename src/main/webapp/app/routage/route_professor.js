@@ -14,11 +14,6 @@ quizApp.config(["$routeProvider",function($routeProvider){
                 controller:"subscribersCtrl",
                 templateUrl:"app/views/Subscribers.html"
             })
-   /*         .when("/UsersUI",{
-                controller:"homeCtrl",
-                templateUrl:"app/views/Home.html"
-  
-            })*/
             .when("/QuizUI",{
                 controller:"quizCtrl",
                 templateUrl:"app/views/Quiz.html"

@@ -1,19 +1,19 @@
-quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$cookies", "$uibModal", "webSocketService",
-    function ($scope, $rootScope, quizRestClient, $cookies, $uibModal, webSocketService) {
+quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$cookies", "$uibModal", "webSocketService", "statisticRestClient",
+    function ($scope, $rootScope, quizRestClient, $cookies, $uibModal, webSocketService, statisticRestClient) {
 
         refresh();
 
         function  refresh() {
-
             var sessionService = quizRestClient.getListSessionCoursResource();
             sessionService.query({coursId: $cookies.get("selectedCours")}, function (sessionsQuiz) {
-
+                $scope.runningSessionQuiz = null;
                 for (var i in sessionsQuiz) {
                     if (sessionsQuiz [i].status === "RUNNING") {
                         $scope.runningSessionQuiz = sessionsQuiz[i];
                     }
                 }
-                $scope.chargeSequence();
+                if($scope.runningSessionQuiz != null)
+                     $scope.chargeSequence();
             }, function (response) {
                 alert("Error : " + response.status);
             });
@@ -41,7 +41,6 @@ quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$c
         };
 
 
-
         $scope.chargeSequence = function () {
             var sequenceRestService = quizRestClient.getSequenceResource();
             $scope.selectedSequence = sequenceRestService.get({sequenceId: $scope.runningSessionQuiz.sequenceId}, function (sequence) {
@@ -52,7 +51,7 @@ quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$c
 
         $scope.selectQuestion = function (question) {
             $scope.selectedQuestion = question;
-        }  
+        }
 
         $scope.openSessionModal = function (action, size) {
             var params = {'action': action,
@@ -71,10 +70,24 @@ quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$c
                 }
             });
         };
-        
-        
+
+
         $scope.runQuestion = function (question) {
+            $cookies.put ("lastQuestion" , question.id);
             webSocketService.sendQuestion(question.id);
+        };
+
+
+        $scope.getLastResultList = function () {
+
+            var getResultsByQuestionAndSession = statisticRestClient.getResultsByQuestionAndSessionResource();
+         //   alert($rootScope.lastQuestion.id +" "+$scope.runningSessionQuiz.id);
+            $scope.resultList = getResultsByQuestionAndSession.get(
+                    {
+                        questionId: $cookies.get("lastQuestion"),
+                        sessionId: $scope.runningSessionQuiz.id
+                    });
+
         };
 
     }]);

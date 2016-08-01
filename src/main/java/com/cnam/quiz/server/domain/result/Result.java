@@ -60,7 +60,7 @@ public class Result extends DomainObject  implements  Serializable {
 	String title;
 	@Column(name="question")
 	String question;
-	@ElementCollection
+	@ElementCollection (fetch =FetchType.EAGER)
 	@Column(name="answers" , nullable =   false)
 	private Map <String,boolean[]> answers;
 	@Column(name="points")

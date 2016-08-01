@@ -21,12 +21,13 @@ public class ResultDto implements Serializable {
 	float answerTime;
 	long userId;
 	long sessionQuizId;	
+	long coursId;	
 	String title;
 	String question;
 	private Map <String,boolean[]> answers;
 	int obtainedPoints;
 	int points;
-	Date date;
+	String date;
 	public long getId() {
 		return id;
 	}
@@ -87,19 +88,26 @@ public class ResultDto implements Serializable {
 	public void setPoints(int points) {
 		this.points = points;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
+	}	
+		
+	public long getCoursId() {
+		return coursId;
 	}
 	
+	public void setCoursId(long coursId) {
+		this.coursId = coursId;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Float.floatToIntBits(answerTime);
-		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
+		result = prime * result + (int) (coursId ^ (coursId >>> 32));
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + obtainedPoints;
@@ -111,7 +119,6 @@ public class ResultDto implements Serializable {
 		result = prime * result + (int) (userId ^ (userId >>> 32));
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -123,10 +130,7 @@ public class ResultDto implements Serializable {
 		ResultDto other = (ResultDto) obj;
 		if (Float.floatToIntBits(answerTime) != Float.floatToIntBits(other.answerTime))
 			return false;
-		if (answers == null) {
-			if (other.answers != null)
-				return false;
-		} else if (!answers.equals(other.answers))
+		if (coursId != other.coursId)
 			return false;
 		if (date == null) {
 			if (other.date != null)
@@ -157,6 +161,8 @@ public class ResultDto implements Serializable {
 			return false;
 		return true;
 	}
+	
+	
 
 	
 	

@@ -44,7 +44,7 @@ public class Question extends DomainObject implements  Serializable{
 	private long id;
 	@Column(name="title", nullable = false, length = 255)
 	private String title;	
-	@Column(name="question", nullable = false, length = 2048)
+	@Column(name="question", length = 2048)
 	private String question;	
 	@ElementCollection(fetch =FetchType.EAGER)   
 	@Column(name="answers" , nullable =   false)

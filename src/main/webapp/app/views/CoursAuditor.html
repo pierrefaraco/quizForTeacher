@@ -32,9 +32,11 @@ and open the template in the editor.
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="cours in listOfCours| orderBy : 'id'"
-                                            ng-click="selectCours(cours)" ng-class ="{success: cours.id == selectedCours.id}">                                                     
-                                            <td >{{cours.name}}</td>
-                                            <td>{{cours.description}}</td>          
+                                            ng-click="selectCours(cours)" ng-class ="{success: cours.id == selectedCours.id}">   
+                          
+                                            <td >{{cours.name}}</td>                                           
+                                            <td>{{cours.description}}</td> 
+                                          
                                             <td>
                                                 <button  class="btn btn-success btn-sm" ng-show="cours.status === null" ng-click="subscribe(cours)">
                                                     subscribe                                         

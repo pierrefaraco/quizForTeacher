@@ -7,6 +7,7 @@ import java.util.Map;
 import com.cnam.quiz.common.dto.CoursDto;
 import com.cnam.quiz.common.dto.CoursWithStatusDto;
 import com.cnam.quiz.common.dto.CoursWithSubscribersDto;
+import com.cnam.quiz.common.dto.PoolNumberDto;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
 
@@ -36,4 +37,6 @@ public interface CoursService {
 		void updateCourWithSuscribers(CoursWithSubscribersDto coursWithSubscribersDto);	
 		
 		List<CoursWithStatusDto> findAllCoursWithAuditorStatus(long auditorID);
+		
+		PoolNumberDto getWebSocketMethodeNumber(long coursId,long  userId);
 }

@@ -12,7 +12,7 @@ quizApp.factory("coursRestClient", ["$resource",  "SERVER_URL",
             ,
             getCoursResource: function () {
                 return $resource(SERVER_URL + 'professor/cours/:coursId ', {
-                }, {'get': {method: 'GET'},
+                }, {
                     'save': {method: 'POST'},
                     'update': {method: 'PUT'},
                     'remove': {method: 'DELETE'},
@@ -20,6 +20,13 @@ quizApp.factory("coursRestClient", ["$resource",  "SERVER_URL",
                 });
             }                   
           ,
+          getFreeCoursResource: function () {
+                return $resource(SERVER_URL + 'all/cours/:coursId ', {
+                }, {'get': {method: 'GET'},
+                });
+            }                   
+          ,
+          
           getSubscribersResource: function () {
                 return $resource(SERVER_URL + 'professor/coursAndSubscribers/:coursId ', {
                 }, {
@@ -54,7 +61,14 @@ quizApp.factory("coursRestClient", ["$resource",  "SERVER_URL",
                 }, {
                     'get': {method: 'GET'},
                 });
-            }    
+            }  
+            ,
+            getWebsocketPoolNumberResource : function () {           
+                return $resource(SERVER_URL + 'all/cours/:coursId/user/:userId/getPool/ ', {
+                }, {
+                    'get': {method: 'GET'},
+                });
+            }  
         };
 
 

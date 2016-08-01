@@ -64,13 +64,15 @@ and open the template in the editor.
                             <table class="table">
                                 <thead>         
                                     <tr>
-                                        <th>title</th>
+                                        <th>title</th>                                        
+                                        <th>time</th>
                                         <th>points</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="question in listOfQuestions| orderBy : 'position'" ng-click="selectQuestion(question)" ng-class ="{success: question.id == selectedQuestion.id}">                                                     
                                         <td>{{question.title}}</td>
+                                        <td>{{question.timeToAnswer}}</td>  
                                         <td>{{question.points}}</td>
                                         <td><button id="addToSequence" name="addToSequence" class="btn btn-primary btn-sm pull-right glyphicon glyphicon-arrow-right"  ng-click="addToSequence(question)"/></td>
                                     </tr> 
@@ -92,12 +94,14 @@ and open the template in the editor.
                                 <thead>         
                                     <tr>
                                         <th>title</th>
+                                        <th>time</th>
                                         <th>points</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="question in selectedSequence.questions| orderBy : 'positionInSequence'" ng-click="selectQuestion(question)" ng-class ="{success: question.id == selectedQuestion.id}">                                                     
                                         <td>{{question.title}}</td>
+                                        <td>{{question.timeToAnswer}}</td>  
                                         <td>{{question.points}}</td>
                                         <td><button id="addToSequence" name="addToSequence" class="btn btn-danger btn-sm pull-right glyphicon glyphicon-remove"  ng-click="removeFromSequence(question)"/></td>
                                     </tr> 

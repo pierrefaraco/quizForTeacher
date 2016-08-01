@@ -33,6 +33,7 @@ public class ResultDtoDeserializer extends JsonDeserializer<ResultDto> {
 		long userId = node.get("userId").asLong();
 		long questionId =  node.get("questionId").asLong();
 		long sessionQuizId  =  node.get("sessionQuizId").asLong();
+		long coursId  =  node.get("coursId").asLong();
 		resultDto.setId(id);
 		resultDto.setQuestionId(questionId);
 		resultDto.setUserId(userId);
@@ -41,7 +42,7 @@ public class ResultDtoDeserializer extends JsonDeserializer<ResultDto> {
 		resultDto.setPoints(points);
 		resultDto.setAnswerTime(answerTime);
 		resultDto.setSessionQuizId(sessionQuizId);
-
+		resultDto.setCoursId(coursId);
 		int i = 0;         
 		Map <String, boolean[]> answers =  new  HashMap<String, boolean[]> ();
 		JsonNode answersNode = node.get("answers");

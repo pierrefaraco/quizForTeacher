@@ -49,8 +49,9 @@
         <div ng-include src="'app/views/forms/Result_form.html'"></div>
             <!-- Header -->
 
-            <header class="row">
-                <div class="col-sm-12">No quiz sesion {{user.connected}}</div>
+            <header class="row" ng-show="user.connected" >
+               <div class="col-sm-12"> <div class="alert alert-success" ng-show="selectedCours.status == 'ACCEPTED'">{{selectedCours.name}} selected and ready for receive questions !</div></div>
+               <div class="col-sm-12"> <div class="alert alert-danger" ng-show="selectedCours.status != 'ACCEPTED'"> No cours selected or you don't have been yet accepted for participate   </div></div>
             </header>
 
             <!-- Menu navigation -->

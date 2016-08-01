@@ -1,5 +1,5 @@
-quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$cookies", "$uibModal",
-    function ($scope, $rootScope, coursRestClient, $cookies, $uibModal) {
+quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$cookies", "$uibModal","webSocketService",
+    function ($scope, $rootScope, coursRestClient, $cookies, $uibModal,webSocketService) {
     
        refresh();
         
@@ -14,12 +14,21 @@ quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$co
             else{
                 $rootScope.selectedCours = cours;
                 $cookies.put("selectedCours", $scope.selectedCours.id);
+                var coursRestService = coursRestClient.getWebsocketPoolNumberResource();
+                coursRestService.get({coursId: $rootScope.selectedCours.id, userId: $cookies.get("userId")},function(params){
+                     $rootScope.poolNumber =  params.poolNumber;  
+                     $cookies.put("poolNumber", params.poolNumber);
+                     webSocketService.init();
+                });    
+               
             }
         };
             
         function unSelectCours () {
             $rootScope.selectedCours = null;
             $cookies.put("selectedCours", null);
+            $cookies.put("poolNumber", null);
+            webSocketService.unsubscribe();
         };
            
         $scope.create = function (cours){

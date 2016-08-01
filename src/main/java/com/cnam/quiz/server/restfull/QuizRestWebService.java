@@ -37,8 +37,7 @@ public class QuizRestWebService {
 		quizService.createTopic(topicDto);
 		if (topicDto.getId() == 0)
 			return new ResponseEntity<TopicDto>(HttpStatus.NOT_MODIFIED);
-		return new ResponseEntity<TopicDto>(topicDto,HttpStatus.OK);
-		
+		return new ResponseEntity<TopicDto>(topicDto,HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value = "/professor/topic/", method = RequestMethod.PUT)

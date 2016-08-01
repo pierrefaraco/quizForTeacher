@@ -4,7 +4,7 @@ var quizApp = angular.module('quizApp',['ngRoute','ngResource','ngCookies','ui.b
         
         
  quizApp.run(["$rootScope","$cookies","coursRestClient","userRestClient",function($rootScope,$cookies,coursRestClient,userRestClient){
-         var coursRestService = coursRestClient.getCoursResource();
+         var coursRestService = coursRestClient.getFreeCoursResource();
          var userRestObject = userRestClient.getUserRestObject();
          userRestObject.get({userId:$cookies.get("userId")},function(data){  
              $rootScope.user  = data ; 
@@ -13,9 +13,11 @@ var quizApp = angular.module('quizApp',['ngRoute','ngResource','ngCookies','ui.b
          else 
             $rootScope.user.connected = false;  
          });
-
         if ($cookies.get("selectedCours") !== null)
-            $rootScope.selectedCours = coursRestService.get({coursId:$cookies.get("selectedCours")});
+           coursRestService.get({coursId:$cookies.get("selectedCours")},function(selectedCours){
+                 selectedCours.status = $cookies.get("courStatus");  
+                 $rootScope.selectedCours =selectedCours;
+            });
  }]);
    
 quizApp.config(['$httpProvider',function($httpProvider){    

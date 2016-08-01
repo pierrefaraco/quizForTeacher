@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import static org.junit.Assert.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +57,8 @@ import cnam.glg204.domain.Dao.EntitiesCreator;
 @Transactional(rollbackOn = Exception.class)
 @Rollback(false)
 public class TestQuizService {
+	String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	
 	@Autowired
 	QuizService quizService;
 
@@ -515,8 +518,10 @@ public class TestQuizService {
 		SessionQuizDto sessionQuizDto = new SessionQuizDto();
 		sessionQuizDto.setCoursId( sessionQuiz.getCours().getId());
 		sessionQuizDto.setSequenceId(sessionQuiz.getSequence().getId());
-		sessionQuizDto.setStartDate(sessionQuiz.getStartDate());
-		sessionQuizDto.setEndDate(sessionQuiz.getEndDate());
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT );
+		sessionQuizDto.setStartDate(formatter.format(sessionQuiz.getStartDate()));
+		if (sessionQuiz.getEndDate() != null)
+			sessionQuizDto.setEndDate(formatter.format(sessionQuiz.getEndDate()));
 		sessionQuizDto.setStatus(sessionQuiz.getStatus());
 		return sessionQuizDto;		
 	}

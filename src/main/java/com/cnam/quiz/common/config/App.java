@@ -15,7 +15,7 @@ public class App extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {SecurityConfig.class,WebSocketConfig.class};
+        return new Class[] {Config.class, SecurityConfig.class,WebSocketConfig.class};
     }   
 
     @Override

@@ -1,19 +1,19 @@
 package com.cnam.quiz.server.service.user;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cnam.quiz.common.config.Config;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.AccountType;
-import com.cnam.quiz.common.exceptions.ObjectNotFoundException;
+
 import com.cnam.quiz.server.domain.user.User;
 import com.cnam.quiz.server.domain.user.UserDao;
 
@@ -45,9 +45,15 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(userDto.getEmail());
 		user.setPassword(userDto.getPassword());
 		user.setFirstName(userDto.getFirstName());
-		;
+		
 		user.setLastName(userDto.getLastName());
-		user.setBirthDay(userDto.getBirthDay());
+		SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT2 );		
+		try {
+			user.setBirthDay(formatter.parse(userDto.getBirthDay()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		user.setPresentation(userDto.getPresentation());
 		userDao.save(user);
 		userDto.setAccountType(user.getAccountType());
@@ -65,7 +71,14 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(userDto.getPassword());
 		user.setFirstName(userDto.getFirstName());
 		user.setLastName(userDto.getLastName());
-		user.setBirthDay(userDto.getBirthDay());
+		SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT2 );	
+                if (userDto.getBirthDay() !=null)
+                    if (userDto.getBirthDay() !=null)
+                        try {
+                                user.setBirthDay(formatter.parse(userDto.getBirthDay()));
+                        } catch (ParseException e) {
+                                e.printStackTrace();
+                        }
 		user.setPresentation(userDto.getPresentation());
 		userDao.save(user);
 	}
@@ -78,26 +91,38 @@ public class UserServiceImpl implements UserService {
 
 
 	public UserDto userToUserDto(User user) {
+                if(user ==null)
+                    return null;
 		UserDto userDto = new UserDto();
 		userDto.setId(user.getId());
 		userDto.setEmail(user.getEmail());
 		userDto.setPassword(user.getPassword());
 		userDto.setFirstName(user.getFirstName());
 		userDto.setLastName(user.getLastName());
-		userDto.setBirthDay(user.getBirthDay());
+		SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT2 );	
+                if (user.getBirthDay() !=null)
+                    userDto.setBirthDay(formatter.format(user.getBirthDay()));
 		userDto.setPresentation(user.getPresentation());
 		userDto.setAccountType(user.getAccountType());
 		return userDto;
 	}
 
-	public User userDtoToUser(User userDto) {
+	public User userDtoToUser(UserDto userDto) {
 		User user = new User();
 		user.setAccountType(userDto.getAccountType());
 		user.setEmail(userDto.getEmail());
 		user.setPassword(userDto.getPassword());
 		user.setFirstName(userDto.getFirstName());
 		user.setLastName(userDto.getLastName());
-		user.setBirthDay(userDto.getBirthDay());
+                SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT2 );	
+                if (userDto.getBirthDay() !=null)
+                     if (userDto.getBirthDay() !=null)
+                        try {
+                                user.setBirthDay(formatter.parse(userDto.getBirthDay()));
+                        } catch (ParseException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                        }		
 		user.setPresentation(userDto.getPresentation());
 		return user;
 	}

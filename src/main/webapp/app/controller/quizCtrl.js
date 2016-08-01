@@ -35,7 +35,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         };
             
        $scope.deleteTopic= function (){
-            var topicRestService = quizRestClient.getTopicResource();
+            var topicRestService = quizRestClient.getTopicResource();           
             topicRestService.remove({topicId:$scope.selectedTopic.id}, function(){
                     refreshTopic();
                     $scope.selectedTopic = null;
@@ -99,11 +99,12 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
        
        $scope.chargeSelectedSequence = function (){
             var sequenceRestService = quizRestClient.getSequenceResource();
-            sequenceRestService.get({sequenceId: $scope.selectedSequence.id }, function(sequence){
-                    $scope.selectedSequence = sequence;
-            },function(response){
-                    alert("Error : "+ response.status );
-            });         
+            if ( $scope.selectedSequence != null)
+                sequenceRestService.get({sequenceId: $scope.selectedSequence.id }, function(sequence){
+                        $scope.selectedSequence = sequence;
+                },function(response){
+                        alert("Error : "+ response.status );
+                });         
        };
                    
         $scope.createSequence = function (sequence){

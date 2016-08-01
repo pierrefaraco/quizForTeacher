@@ -51,6 +51,9 @@ import com.cnam.quiz.server.domain.user.UserDaoImpl;
 @Transactional(rollbackOn = Exception.class)
 @Rollback(false)
 public class EntitiesCreator extends TestCase {
+	
+	static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	
 	@Test
 	public void test(){
 		assertTrue(true);		
@@ -227,8 +230,9 @@ public class EntitiesCreator extends TestCase {
 	
 	private static Date createRandomDate(){
 		Date dateFormat = null;
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT );
 		try {
-			dateFormat = new SimpleDateFormat("dd-MM-yyyy").parse("04-02-1981");
+			dateFormat = formatter.parse("04-02-1981 15:32:55");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

@@ -33,10 +33,11 @@ import com.cnam.quiz.server.service.cours.CoursService;
 import com.cnam.quiz.server.service.cours.CoursServiceImpl;
 import cnam.glg204.domain.Dao.EntitiesCreator;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.server.websocket.WebSocketPoolManager;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
-		UserDaoImpl.class, CoursDaoImpl.class,TopicDaoImpl.class,SequenceDaoImpl.class,CoursServiceImpl.class,QuestionDaoImpl.class })
+		UserDaoImpl.class, CoursDaoImpl.class,TopicDaoImpl.class,SequenceDaoImpl.class,CoursServiceImpl.class,QuestionDaoImpl.class, WebSocketPoolManager.class })
 @Transactional(rollbackOn = Exception.class)
 @Rollback(false)
 public class dataInjector extends TestCase  {

@@ -15,8 +15,8 @@ import com.cnam.quiz.server.domain.sequence.Sequence;
 public class SessionQuizDto implements Serializable {
 	long id;
 	SessionStatus status;
-	Date startDate;
-	Date endDate;
+	String startDate;
+	String  endDate;
 	long coursId;
 	long sequenceId;
 	
@@ -24,8 +24,8 @@ public class SessionQuizDto implements Serializable {
 
 	}
 
-	public SessionQuizDto(long id, SessionStatus status, Date startDate,
-			Date endDate, long coursId, long sequenceId) {
+	public SessionQuizDto(long id, SessionStatus status, String  startDate,
+			String endDate, long coursId, long sequenceId) {
 		super();
 		this.id = id;
 		this.status = status;
@@ -51,19 +51,19 @@ public class SessionQuizDto implements Serializable {
 		this.status = status;
 	}
 
-	public Date getStartDate() {
+	public String  getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String  startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String  getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String  endDate) {
 		this.endDate = endDate;
 	}
 

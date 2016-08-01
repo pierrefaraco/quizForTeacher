@@ -1,5 +1,5 @@
-quizApp.controller('coursAuditorCtrl', ["$scope", "$rootScope", "coursRestClient", "$cookies",
-    function ($scope, $rootScope, coursRestClient, $cookies) {
+quizApp.controller('coursAuditorCtrl', ["$scope", "$rootScope", "coursRestClient", "$cookies","webSocketService",
+    function ($scope, $rootScope, coursRestClient, $cookies,webSocketService) {
              
        refresh();
         
@@ -24,6 +24,30 @@ quizApp.controller('coursAuditorCtrl', ["$scope", "$rootScope", "coursRestClient
            }, function (response) {
                 alert("Error : " + response.status);
            });
+        };
+        
+        $scope.selectCours = function (cours) {
+            if ($rootScope.selectedCours === cours)
+                 unSelectCours ();
+            else{
+                $rootScope.selectedCours = cours;
+                $cookies.put("selectedCours",  $rootScope.selectedCours.id);
+                $cookies.put("courStatus",  $rootScope.selectedCours.status);
+                var coursRestService = coursRestClient.getWebsocketPoolNumberResource();
+                coursRestService.get({coursId: $rootScope.selectedCours.id, userId: $cookies.get("userId")},function(params){
+                     $rootScope.poolNumber =  params.poolNumber;  
+                     $cookies.put("poolNumber", params.poolNumber);
+                     webSocketService.init();
+                });    
+               
+            }
+        };
+            
+        function unSelectCours () {
+            $rootScope.selectedCours = null;
+            $cookies.put("selectedCours", null);
+            $cookies.put("courStatus",  null);
+            $cookies.put("poolNumber", null);
         };
 }]);
 

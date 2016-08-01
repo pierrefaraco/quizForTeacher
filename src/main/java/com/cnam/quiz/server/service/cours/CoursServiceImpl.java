@@ -11,11 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cnam.quiz.common.dto.CoursDto;
 import com.cnam.quiz.common.dto.CoursWithStatusDto;
 import com.cnam.quiz.common.dto.CoursWithSubscribersDto;
+import com.cnam.quiz.common.dto.PoolNumberDto;
 import com.cnam.quiz.common.dto.UserDto;
+import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.SubscriberStatus;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
 import com.cnam.quiz.server.domain.user.UserDao;
+import com.cnam.quiz.server.websocket.WebSocketPoolManager;
 import com.cnam.quiz.server.domain.user.User ;
 
 @Service("coursService")
@@ -28,6 +31,9 @@ public class CoursServiceImpl implements CoursService{
 	
 	@Autowired
 	UserDao userDao;
+
+	@Autowired
+	WebSocketPoolManager webSocketPoolManager;
 
 	@Override
 	public CoursDto findCours(long coursId) {
@@ -131,6 +137,9 @@ public class CoursServiceImpl implements CoursService{
 		coursDao.update(cours);
 	}
 	
+
+	
+	
 	@Override
 	public void updateSuscriberStatus(long suscriberId, long coursId, SubscriberStatus status) {
 		Cours cours = coursDao.find(coursId);
@@ -160,6 +169,20 @@ public class CoursServiceImpl implements CoursService{
 		return listCoursDto;
 	}
 	
+	@Override
+	public PoolNumberDto getWebSocketMethodeNumber(long coursId,long  userId) {	
+		Cours cours = coursDao.find(coursId);
+		User user = userDao.find(userId);
+		PoolNumberDto poolNumber = new PoolNumberDto();
+		poolNumber .setPoolNumber(-1);
+		if (cours!=null && user !=null){
+			SubscriberStatus subscriberStatus = cours.getSubscribers().get(user);
+			if (subscriberStatus == SubscriberStatus.ACCEPTED || user.getAccountType() == AccountType.PROFESSOR)
+				poolNumber .setPoolNumber(webSocketPoolManager.getWebSocketMethodeNumber( coursId,userId));			
+		}
+		webSocketPoolManager.print();
+		return  poolNumber ;
+	}
 	
 	public List <CoursDto> listOfcoursToListOfCoursDto (List <Cours> listCours){
 		ArrayList<CoursDto> listCoursDto = new ArrayList<CoursDto>();
@@ -188,6 +211,8 @@ public class CoursServiceImpl implements CoursService{
 	}
 
 	public CoursDto coursToCoursDto ( Cours cours){
+                if(cours == null)
+                    return null;
 		CoursDto coursDto = new CoursDto ();
 		coursDto.setId(cours.getId());
 		coursDto.setActive(cours.isActive());	
@@ -207,5 +232,7 @@ public class CoursServiceImpl implements CoursService{
 		userDto.setAccountType(user.getAccountType());
 		return userDto;
 	}
+
+
 
 }

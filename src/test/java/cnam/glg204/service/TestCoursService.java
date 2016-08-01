@@ -41,12 +41,13 @@ import com.cnam.quiz.server.service.cours.CoursService;
 import com.cnam.quiz.server.service.cours.CoursServiceImpl;
 import com.cnam.quiz.server.service.quiz.QuizService;
 import com.cnam.quiz.server.service.quiz.QuizServiceImpl;
+import com.cnam.quiz.server.websocket.WebSocketPoolManager;
 
 import cnam.glg204.domain.Dao.EntitiesCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class, CoursDaoImpl.class, UserDaoImpl.class,
-		CoursServiceImpl.class })
+		CoursServiceImpl.class, WebSocketPoolManager.class })
 
 @Transactional(rollbackOn = Exception.class)
 @Rollback(true)
