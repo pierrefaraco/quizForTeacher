@@ -1,7 +1,7 @@
 
 quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cookies", "$uibModal",
     function ($scope, $rootScope, quizRestClient, $cookies, $uibModal) {
-     
+ 
        refresh();
        function refresh(){
             refreshTopic () ;     
@@ -75,7 +75,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
                position:0
            },
            function(){        
-                  $scope.chargeSelectedSequence ();
+                  $scope.chargeSelectedSequence ($scope.selectedSequence);
             },function(response){
                     alert("Error : "+ response.status );
             });         
@@ -88,7 +88,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
                position:question.positionInSequence
            },
            function(){        
-                  $scope.chargeSelectedSequence ();
+                  $scope.chargeSelectedSequence ($scope.selectedSequence);
             },function(response){
                     alert("Error : "+ response.status );
             });         
@@ -97,7 +97,8 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
        
        
        
-       $scope.chargeSelectedSequence = function (){
+       $scope.chargeSelectedSequence = function (sequence){
+            $scope.selectedSequence = sequence;
             var sequenceRestService = quizRestClient.getSequenceResource();
             if ( $scope.selectedSequence != null)
                 sequenceRestService.get({sequenceId: $scope.selectedSequence.id }, function(sequence){
@@ -155,10 +156,11 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
             }); 
         }; 
              
-        $scope.refreshQuestions = function (){
+        $scope.refreshQuestions = function (topic){
+            $scope.selectedTopic = topic;
             var questioncRestService = quizRestClient.getListQuestionResource();
             $scope.listOfQuestions = questioncRestService .query({topicId:$scope.selectedTopic.id});   
-            $scope.chargeSelectedSequence();
+            $scope.chargeSelectedSequence($scope.selectedSequence);
            
         }; 
         

@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.cnam.quiz.common.dto.ResultDto;
 import com.cnam.quiz.common.dto.ResultDtoForStatistic;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.NoRunningSessionQuizForThisCoursException;
 
 public interface StatisticService {
-	void saveResult(ResultDto resultDto) throws NoRunningSessionQuizForThisCoursException;
+	void saveResult(ResultDto resultDto) throws NoRunningSessionQuizForThisCoursException , CheckException ;
 
 	List<ResultDtoForStatistic> findResultsByUserQuestionAndSession(long userId, long questionId, long sessionId);
 

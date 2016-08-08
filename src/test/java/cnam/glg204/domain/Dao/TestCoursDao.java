@@ -29,7 +29,7 @@ import com.cnam.quiz.server.domain.user.UserDaoImpl;
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class, CoursDaoImpl.class })
 @Transactional(rollbackOn = Exception.class)
-@Rollback(false)
+@Rollback(true)
 public class TestCoursDao extends TestCase  {
 	@Autowired
 	UserDao userDao;

@@ -1,6 +1,6 @@
 'use strict';
 
-var quizApp = angular.module('quizApp',['ngRoute','ngResource','ngCookies','ui.bootstrap']);
+var quizApp = angular.module('quizApp',['ngRoute','ngResource','ngCookies','ui.bootstrap','hljs','ui.select','ngSanitize']);
         
         
  quizApp.run(["$rootScope","$cookies","coursRestClient","userRestClient",function($rootScope,$cookies,coursRestClient,userRestClient){

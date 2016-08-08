@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.AccountType;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.server.domain.DomainObject;
 import com.cnam.quiz.server.domain.topic.Topic;
 @Entity
@@ -35,17 +36,17 @@ public class User extends DomainObject implements  Serializable{
 	@GeneratedValue
 	@Column(name="id")
 	private long id;
-	@Column(name="firstName", nullable = false, length = 40)
+	@Column(name="firstName", nullable = false)
 	private String firstName;
-	@Column(name="lastName", nullable = false, length = 40)
+	@Column(name="lastName", nullable = false)
 	private String lastName;
 	@Column(name="birthday")
 	private Date birthDay;
-	@Column(name="email", nullable = false, length = 40)
+	@Column(name="email", nullable = false)
 	private String email;
-	@Column(name="presentation")
+	@Column(name="presentation",length = 2048)
 	private String presentation;
-	@Column(name="password", nullable = false, length = 40)
+	@Column(name="password", nullable = false)
 	private String password;
 	@Column(name="account_type", nullable = false, length = 1)
 	private AccountType accountType;	
@@ -200,6 +201,24 @@ public class User extends DomainObject implements  Serializable{
 		} else if (!presentation.equals(other.presentation))
 			return false;
 		return true;
+	}
+
+	@Override
+	public void checkData() throws CheckException {
+		if ( firstName == null ||firstName.equals(""))
+			throw new CheckException("firstName can't be null or empty");
+		
+		if ( lastName == null ||lastName.equals(""))
+			throw new CheckException("lastName can't be null or empty");
+		
+		if ( email == null || email.equals(""))
+			throw new CheckException("email can't be null or empty");
+		
+		if (password == null || password.equals(""))
+			throw new CheckException("password can't be null or empty");
+			
+		if (accountType == null || accountType.name().equals(""))
+			throw new CheckException("accountType can't be null or empty");		
 	}
 
 

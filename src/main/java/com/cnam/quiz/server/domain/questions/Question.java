@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.QuestionType;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.server.domain.DomainObject;
 import com.cnam.quiz.server.domain.topic.Topic;
 import com.cnam.quiz.server.domain.user.User;
@@ -208,6 +209,21 @@ public class Question extends DomainObject implements  Serializable{
 		} else if (!topic.equals(other.topic))
 			return false;
 		return true;
+	}
+
+
+	@Override
+	public void checkData() throws CheckException {
+		
+		if (title == null || title.equals(""))
+			throw new CheckException("title can't be null or empty");
+				
+		if ( topic == null)
+			throw new CheckException("no professor linked to this question");
+		
+		
+		topic.checkData();
+	
 	}
 
 

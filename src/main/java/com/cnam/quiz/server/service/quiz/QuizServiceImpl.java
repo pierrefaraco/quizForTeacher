@@ -4,24 +4,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.cnam.quiz.common.config.Config;
-import com.cnam.quiz.common.dto.CoursDto;
-import com.cnam.quiz.common.dto.CoursWithStatusDto;
 import com.cnam.quiz.common.dto.QuestionDto;
 import com.cnam.quiz.common.dto.SequenceDto;
 import com.cnam.quiz.common.dto.SequenceWithQuestionsDto;
 import com.cnam.quiz.common.dto.SessionQuizDto;
 import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.common.enums.SessionStatus;
-import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.CoursNotActiveException;
 import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 import com.cnam.quiz.server.domain.cours.Cours;
@@ -40,10 +36,7 @@ import com.cnam.quiz.server.domain.user.UserDao;
 @Service("quizService")
 @Transactional
 @Rollback(true)
-public class QuizServiceImpl implements  QuizService{
-
-
-	 
+public class QuizServiceImpl implements  QuizService{ 
 	@Autowired
 	TopicDao topicDao;
 	
@@ -63,8 +56,9 @@ public class QuizServiceImpl implements  QuizService{
 	CoursDao coursDao;
 	
 	@Override
-	public void createTopic(TopicDto topicDto) {	
+	public void createTopic(TopicDto topicDto) throws CheckException {	
 			Topic topic = topicDtoToTopic(topicDto) ;
+			topic.checkData();
 			topicDao.save ( topic );
 			topicDto.setId(topic.getId());
 		}
@@ -76,8 +70,9 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void updateTopic(TopicDto topicDto){
+	public void updateTopic(TopicDto topicDto) throws CheckException {
 				Topic topic = topicDtoToTopic(topicDto);
+				topic.checkData();
 				topicDao.update(topic);		
 	}
 
@@ -137,8 +132,9 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void createQuestion(QuestionDto questionDto) {
+	public void createQuestion(QuestionDto questionDto) throws CheckException {
 		Question question = this.questionDtoToQuestion(questionDto);
+		question.checkData();
 		questionDao.save( question );
 		questionDto.setId(question.getId());
 		
@@ -150,8 +146,10 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void updateQuestion(QuestionDto questionDto) {
-		questionDao.update(this.questionDtoToQuestion(questionDto));		
+	public void updateQuestion(QuestionDto questionDto) throws CheckException {
+		Question  question = this.questionDtoToQuestion(questionDto);
+		question.checkData();
+		questionDao.update(question );		
 	}
 
 	@Override
@@ -215,9 +213,10 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void createSequence(SequenceWithQuestionsDto sequenceDto) {
+	public void createSequence(SequenceWithQuestionsDto sequenceDto) throws CheckException {
 		Sequence sequence = this.sequenceWithQuestionsDtoToSequence(sequenceDto);
-		sequenceDao.save( sequence);
+		sequence .checkData();
+		sequenceDao.save( sequence);		
 		sequenceDto.setId(sequence.getId());		
 	}
 	
@@ -228,8 +227,10 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void updateSequence(SequenceWithQuestionsDto sequenceDto) {
-		sequenceDao.update(this.sequenceWithQuestionsDtoToSequence(sequenceDto));	
+	public void updateSequence(SequenceWithQuestionsDto sequenceDto) throws CheckException {
+		Sequence sequence = this.sequenceWithQuestionsDtoToSequence(sequenceDto);
+		sequence .checkData();
+		sequenceDao.update(sequence);	
 	}
 
 	@Override
@@ -261,7 +262,7 @@ public class QuizServiceImpl implements  QuizService{
 
 	
 	@Override
-	public int addQuestionToSequence(long sequenceId, long questionId ,int pos) {
+	public int addQuestionToSequence(long sequenceId, long questionId ,int pos) throws CheckException {
 		Sequence sequence = sequenceDao.find(sequenceId);
 		Map<Integer, Question> questions  = sequence.getQuestions();
 		if (questions.containsKey(pos)){
@@ -270,13 +271,14 @@ public class QuizServiceImpl implements  QuizService{
 		}	
 		Question question = questionDao.find(questionId);
 		questions.put(pos, question );
+		sequence .checkData();
 		sequenceDao.save(sequence);
 		System.out.println(pos + " !" );
 		return pos;
 	}
 
 	@Override
-	public void removeQuestionFromSequence(long sequenceId , int pos) {
+	public void removeQuestionFromSequence(long sequenceId , int pos) throws CheckException {
 		Sequence sequence = sequenceDao.find(sequenceId);
 		Map<Integer, Question> questions  = sequence.getQuestions();
 		questions.remove(pos);
@@ -291,6 +293,7 @@ public class QuizServiceImpl implements  QuizService{
 				
 		}	
 		sequence.setQuestions(newQuestions);
+		sequence .checkData();
 		sequenceDao.save(sequence);		
 	}
 
@@ -364,7 +367,7 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void startSessionQuiz(SessionQuizDto sessionQuizDto) throws SessionQuizAlreadyRunningException, CoursNotActiveException {
+	public void startSessionQuiz(SessionQuizDto sessionQuizDto) throws SessionQuizAlreadyRunningException, CoursNotActiveException, CheckException {
 		
 		Cours cours =  coursDao.find(sessionQuizDto.getCoursId());
 		if ( !cours.isActive() )
@@ -377,6 +380,7 @@ public class QuizServiceImpl implements  QuizService{
 		SessionQuiz sessionQuiz = this.sessionQuizDtoToSessionQuiz(sessionQuizDto);
 		sessionQuiz.setStatus(SessionStatus.RUNNING);
 		sessionQuiz.setStartDate(Calendar.getInstance().getTime());
+		sessionQuiz .checkData();
 		sessionQuizDao.save(sessionQuiz );
 		sessionQuizDto.setId(sessionQuiz.getId());
 		sessionQuizDto.setStatus(sessionQuiz.getStatus());
@@ -386,10 +390,11 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void stopSessionQuiz(SessionQuizDto sessionQuizDto) {
+	public void stopSessionQuiz(SessionQuizDto sessionQuizDto) throws CheckException {
 		SessionQuiz sessionQuiz = this.sessionQuizDtoToSessionQuiz(sessionQuizDto);
 		sessionQuiz.setStatus(SessionStatus.NOT_RUNNING);
 		sessionQuiz.setEndDate(Calendar.getInstance().getTime());
+		sessionQuiz .checkData();
 		sessionQuizDao.update( sessionQuiz );
 		sessionQuizDto.setStatus(sessionQuiz.getStatus());
 		sessionQuizDto.setEndDate(sessionQuiz.getEndDate().toString());

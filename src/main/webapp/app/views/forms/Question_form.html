@@ -4,86 +4,87 @@
 
 <div class="btn-group-vertical" >
 
-   <script type="text/ng-template" id="questionModal.html">
-        <div class="modal-header">
-            <h3 class="modal-title"> {{action}} </h3>
-        </div>
-        <div class="modal-body">
+    <script type="text/ng-template" id="questionModal.html">
+         <div class="modal-header">
+             <h3 class="modal-title"> {{action}} </h3>
+         </div>
+         <div class="modal-body">
 
-            <!-- Select Basic 
-            <div class="form-group">
-                <label class="control-label" for="questionType">questionType</label>
-                <div >
-                    <select id="questionType" ng-model="question.questionType" name="questionType" class="form-control" >
-                </div>
-            </div>  -->
+             <!-- Select Basic 
+             <div class="form-group">
+                 <label class="control-label" for="questionType">questionType</label>
+                 <div >
+                     <select id="questionType" ng-model="question.questionType" name="questionType" class="form-control" >
+                 </div>
+             </div>  -->
 
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="control-label" for="title">Question :</label>  
-                <div>
-                    <input id="title" name="title" type="text" ng-model="question.title"class="form-control input-md" required="">
-                </div>
-            </div>
+             <!-- Text input-->
+             <div class="form-group">
+                 <label class="control-label" for="title">Question :</label>  
+                 <div>
+                     <input id="title" name="title" type="text" ng-model="question.title"class="form-control input-md" required="">
+                 </div>
+             </div>
 
-            <!-- Textarea -->
-            <div class="form-group">
-                <label class="control-label" for="question">States :</label>
-                <div>                     
-                    <textarea class="form-control" id="question" ng-model="question.question" name="question" rows="10" >default text</textarea>
-                </div>
-            </div>
+             <!-- Textarea -->
+             <div class="form-group">
+                 <label class="control-label" for="question">States :</label>
+                 <div>                     
+                     <textarea class="form-control" id="question" ng-model="question.question" name="question" rows="10" >default text</textarea>
+                 </div>
+             </div>
 
-            <!-- Button -->
-            <div class="form-group">
-                <label class="control-label" for="answer"> Answers : </label>
-                <div>
-                    <input id="proposition" name="proposition" type="text" placeholder="proposition" ng-model="proposition" class="form-control input-md">
-                    <button id="addGood" name="addGood" class="btn btn-primary" ng-click="addProposition(true)">add good proposition</button>
-                    <button id="addBad" name="addBad" class="btn btn-primary" ng-click="addProposition(false)">add bad proposition</button>
-                    <table class="table">
-                            <tbody>
-                                <tr ng-repeat="proposition in question.answers" ng-click="deleteProposition()" ng-class ="{success: proposition.isItTrue,danger: !proposition.isItTrue}" >                                                     
-                                    <td><li>{{proposition.text}} <button id="addBad" name="addBad" class="btn btn-danger btn-sm pull-right glyphicon glyphicon-remove"  ng-click="removeProposition(proposition)"/></li></td>
-                                </tr> 
-                            </tbody>
-                       </table> 
-                </div>
-            </div>
-
-
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="control-label" for="points">Points :</label>  
-                <div >
-                    <input id="points" name="points"  ng-model="question.points" type="text" class="form-control input-md" />
-                </div>
-            </div>
-
-            <!-- Text input-->
-            <div class="form-group">
-                <label class=" control-label" for="timeToAnswer">Time to answer :</label>  
-                <div>
-                    <input id="timeToAnswer" name="timeToAnswer" ng-model="question.timeToAnswer" type="text" class="form-control input-md"/>
-                </div>
-            </div> 
+             <!-- Button -->
+             <div class="form-group">
+                 <label class="control-label" for="answer"> Answers : </label>
+                     <input id="proposition" name="proposition" type="text" placeholder="proposition" ng-model="proposition" class="form-control input-md">
+                     <button id="addGood" name="addGood" class="btn btn-success" ng-click="addProposition(true)">add good proposition</button>
+                     <button id="addBad" name="addBad" class="btn btn-danger" ng-click="addProposition(false)">add bad proposition</button>
+           
+                </div> 
+                 <div class="form-group">    
+                 <table class="table">
+                             <tbody>
+                                 <tr ng-repeat="proposition in question.answers" ng-click="deleteProposition()" ng-class ="{success: proposition.isItTrue,danger: !proposition.isItTrue}" >                                                     
+                                     <td><li>{{proposition.text}} <button id="addBad" name="addBad" class="btn btn-danger btn-sm pull-right glyphicon glyphicon-remove"  ng-click="removeProposition(proposition)"/></li></td>
+                                 </tr> 
+                             </tbody>
+                        </table> 
+             </div>
 
 
-        </div>
-        <div class="modal-footer">
-            <div ng-include src="'app/views/forms/Question_prewiew.html'"></div>
-            <button type="button" class="btn btn-primary pull-left btn-sm" ng-click="openQuestionPreviewModal ('Preview')">Preview</button>
-            <button class="btn btn-primary" type="button" ng-click="validate()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-        </div>
+             <!-- Text input-->
+             <div class="form-group">
+                 <label class="control-label" for="points">Points :</label>  
+                 <div >
+                     <input id="points" name="points"  ng-model="question.points" type="text" class="form-control input-md" />
+                 </div>
+             </div>
+
+             <!-- Text input-->
+             <div class="form-group">
+                 <label class=" control-label" for="timeToAnswer">Time to answer :</label>  
+                 <div>
+                     <input id="timeToAnswer" name="timeToAnswer" ng-model="question.timeToAnswer" type="text" class="form-control input-md"/>
+                 </div>
+             </div> 
+
+
+         </div>
+         <div class="modal-footer">
+             <div ng-include src="'app/views/forms/Question_prewiew.html'"></div>
+             <button type="button" class="btn btn-primary pull-left btn-sm" ng-click="openQuestionPreviewModal ('Preview')">Preview</button>
+             <button class="btn btn-primary" type="button" ng-click="validate()">OK</button>
+             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+         </div>
     </script>
-    
-    
-    <button type="button" class="btn btn-primary pull-right btn-sm"
-            ng-click="openQuestionModal('Create question')">create <span class="glyphicon glyphicon-plus pull-right "></span></button>
-    <button type="button" class="btn btn-primary pull-right btn-sm"
-            ng-click="openQuestionModal('Edit question', null)">edit <span class="glyphicon glyphicon-pencil pull-right "></span></button>
-    <button type="button" class="btn btn-warning pull-right btn-sm"
-            ng-click="deleteQuestion()">remove <span class="glyphicon glyphicon-remove pull-right "></span></button>
 
+    <div class="btn-group-vertical">
+        <button type="button" class="btn btn-default pull-right btn-sm"
+                ng-click="openQuestionModal('Create question')">create <span class="glyphicon glyphicon-plus pull-right "></span></button>
+        <button type="button" class="btn btn-default pull-right btn-sm"
+                ng-click="openQuestionModal('Edit question', null)">edit <span class="glyphicon glyphicon-pencil pull-right "></span></button>
+        <button type="button" class="btn btn-danger pull-right btn-sm"
+                ng-click="deleteQuestion()">remove <span class="glyphicon glyphicon-remove pull-right "></span></button>
+    </div >
 </div>

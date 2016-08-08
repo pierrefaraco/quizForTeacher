@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <!-- Form topic-->
 
-
-<div class="btn-group-vertical">
-
     <script type="text/ng-template" id="topicModal.html">
              <div class="modal-header">
                 <h3 class="modal-title"> {{action}} </h3>
@@ -29,11 +26,4 @@
                 <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
             </div>
     </script>
-    <button type="button" class="btn btn-primary pull-right btn-sm"
-            ng-click="openTopicModal('Create topic')"><span class="glyphicon glyphicon-plus"></span></button>
-    <button type="button" class="btn btn-primary pull-right btn-sm"
-            ng-click="openTopicModal('Edit topic', null)"><span class="glyphicon glyphicon-pencil"></span></button>
-    <button type="button" class="btn btn btn-warning pull-right btn-sm"
-            ng-click="deleteTopic()"><span class="glyphicon glyphicon-remove"></span></button>
 
-</div>

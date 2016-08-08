@@ -10,44 +10,60 @@ and open the template in the editor.
         <div class="col-sm-2">
             <h6>Questions :</h6>
             <div ng-include src="'app/views/forms/Question_form.html'"></div>
-        </div>
+            <div ng-include src="'app/views/forms/Sequence_form.html'"></div>
+            <div ng-include src="'app/views/forms/Topic_form.html'"></div>
+       </div>
 
         <section class="col-sm-10">
             <div class="row">
 
                 <!--  Topics  -->
 
-                <div class="col-sm-5 ">
-                    <div class="form-group ">
-                        <input class="form-control  disabled" id="name" name="name" type="text" value='Topic : {{selectedTopic.name}} ' readonly> 
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <ui-select  ng-model="topicChoosen" theme="bootstrap"  ng-change="refreshQuestions(topicChoosen)">
+                                <ui-select-match placeholder="Select topic...">{{topicChoosen.name}}</ui-select-match>
+                                <ui-select-choices repeat=" topic in listOfTopics | filter: $select.search">
+                                    <span ng-bind-html="topic.name | highlight: $select.search"></span>                              
+                                </ui-select-choices>
+                            </ui-select>    
+                            <div  class="btn btn-primary input-group-addon glyphicon glyphicon-plus" ng-click="openTopicModal('Create topic')"></div> 
+                            <div  class="btn btn-primary input-group-addon glyphicon glyphicon-pencil" ng-click="openTopicModal('Edit topic')"></div>
+                            <div  class="btn btn-danger input-group-addon glyphicon glyphicon-remove" ng-click="deleteTopic()"></div>
+                        </div>
                     </div>
                     <div class="form-group ">
                         <textarea class="form-control disabled" cols="40" id="textarea" name="textarea" rows="4"  readonly>{{selectedTopic.description}}</textarea>       
                     </div>
                 </div> 
 
-                <div class="col-sm-1">
-                    <!-- <label class="control-label pull-left"> <h6>Topic :</h6> </label>style="width:2px" -->
-                    <select class="pull-right form-control"  ng-change="refreshQuestions()" ng-options="topic.name for topic in listOfTopics" ng-model="selectedTopic"></select> 
-                    <div ng-include src="'app/views/forms/Topic_form.html'"></div>
-                </div>
+
+
 
                 <!--  Sequences -->
 
 
-                <div class="col-sm-5 ">
-                    <div class="form-group ">
-                        <input class="form-control  disabled" id="name" name="name" type="text"value='Sequence : {{selectedSequence.name}} ' readonly> 
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <ui-select  ng-model="sequenceChoosen" theme="bootstrap"  ng-change="chargeSelectedSequence(sequenceChoosen)">
+                                <ui-select-match placeholder="Select sequence...">{{sequenceChoosen.name}}</ui-select-match>
+                                <ui-select-choices repeat="sequence in listOfSequences| filter: $select.search">
+                                    <span ng-bind-html="sequence.name | highlight: $select.search"></span>                              
+                                </ui-select-choices>
+                            </ui-select>    
+                            <div  class="btn btn-primary input-group-addon glyphicon glyphicon-plus" ng-click="openSequenceModal('Create sequence')"></div> 
+                            <div  class="btn btn-primary input-group-addon glyphicon glyphicon-pencil" ng-click="openSequenceModal('Edit sequence')"></div>
+                            <div  class="btn btn-danger input-group-addon glyphicon glyphicon-remove" ng-click="deleteSequence()"></div>
+
+                        </div>
                     </div>
                     <div class="form-group ">
                         <textarea class="form-control disabled" cols="40" id="textarea" name="textarea" rows="4"  readonly>{{selectedSequence.description}}</textarea>       
                     </div>
-                </div> 
-
-                <div class="col-sm-1">
-                    <select class="form-control" ng-options="sequence.name for sequence in listOfSequences" ng-model="selectedSequence" ng-change="chargeSelectedSequence()" ></select> 
-                    <div ng-include src="'app/views/forms/Sequence_form.html'"></div>
-                </div>
+                </div>           
+             
 
             </div>
 
@@ -113,6 +129,7 @@ and open the template in the editor.
         </section>
     </div>
 </section>
+
 
 
 

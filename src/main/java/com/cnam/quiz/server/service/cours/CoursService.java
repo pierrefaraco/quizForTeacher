@@ -10,15 +10,16 @@ import com.cnam.quiz.common.dto.CoursWithSubscribersDto;
 import com.cnam.quiz.common.dto.PoolNumberDto;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 
 
 public interface CoursService {	
 	
 		CoursDto findCours(long coursId);
 			
-		void  createCours(CoursDto coursDto );
+		void  createCours(CoursDto coursDto )throws CheckException;
 		
-		void  updateCours(CoursDto coursDto);
+		void  updateCours(CoursDto coursDto)throws CheckException;
 		
 		void deleteCours(long coursId);
 		
@@ -26,15 +27,15 @@ public interface CoursService {
 		
 		List <CoursDto>getAllActiveCours();		
 			
-		void suscribe(long suscriberId, long coursId);
+		void suscribe(long suscriberId, long coursId)throws CheckException;
 		
-		void unSuscribe(long suscriberId, long coursId);
+		void unSuscribe(long suscriberId, long coursId)throws CheckException;
 		
-		void updateSuscriberStatus (long suscriberId, long coursId, SubscriberStatus status);
+		void updateSuscriberStatus (long suscriberId, long coursId, SubscriberStatus status)throws CheckException;
 		
 		CoursWithSubscribersDto getCourWithSuscribers(long coursId);		
 				
-		void updateCourWithSuscribers(CoursWithSubscribersDto coursWithSubscribersDto);	
+		void updateCourWithSuscribers(CoursWithSubscribersDto coursWithSubscribersDto)throws CheckException;	
 		
 		List<CoursWithStatusDto> findAllCoursWithAuditorStatus(long auditorID);
 		

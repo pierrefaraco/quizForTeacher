@@ -14,6 +14,7 @@ import com.cnam.quiz.common.dto.SequenceDto;
 import com.cnam.quiz.common.dto.SequenceWithQuestionsDto;
 import com.cnam.quiz.common.dto.SessionQuizDto;
 import com.cnam.quiz.common.dto.TopicDto;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.CoursNotActiveException;
 import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 import com.cnam.quiz.server.service.quiz.QuizService;
@@ -33,7 +34,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/topic/", method = RequestMethod.POST)
-	public ResponseEntity<TopicDto>  createTopic(@RequestBody TopicDto topicDto) {
+	public ResponseEntity<TopicDto>  createTopic(@RequestBody TopicDto topicDto)throws CheckException  {
 		quizService.createTopic(topicDto);
 		if (topicDto.getId() == 0)
 			return new ResponseEntity<TopicDto>(HttpStatus.NOT_MODIFIED);
@@ -41,7 +42,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/topic/", method = RequestMethod.PUT)
-	public ResponseEntity updateTopic(@RequestBody TopicDto topicDto) {
+	public ResponseEntity updateTopic(@RequestBody TopicDto topicDto) throws CheckException {
 		quizService.updateTopic(topicDto);
 		TopicDto topic = quizService.findTopic(topicDto.getId());
 		if (!topicDto.equals(topic))
@@ -80,7 +81,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/question/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<QuestionDto>createQuestion(@RequestBody QuestionDto questionDto) {
+	public ResponseEntity<QuestionDto>createQuestion(@RequestBody QuestionDto questionDto) throws CheckException {
 		quizService.createQuestion(questionDto);
 		if (questionDto.getId() == 0)
 			return new ResponseEntity<QuestionDto>(HttpStatus.NOT_MODIFIED);
@@ -89,7 +90,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/question/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<QuestionDto>  updateQuestion(@RequestBody QuestionDto questionDto) {
+	public ResponseEntity<QuestionDto>  updateQuestion(@RequestBody QuestionDto questionDto) throws CheckException {
 		quizService.updateQuestion(questionDto);
 		QuestionDto question = quizService.findQuestion(questionDto.getId());
 		if (!questionDto.equals(question))
@@ -120,7 +121,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/sequence/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SequenceWithQuestionsDto>  createSequence(@RequestBody SequenceWithQuestionsDto sequenceDto) {
+	public ResponseEntity<SequenceWithQuestionsDto>  createSequence(@RequestBody SequenceWithQuestionsDto sequenceDto)throws CheckException  {
 		System.out.println(sequenceDto.getId()+" "+ sequenceDto.getName()+" "+ sequenceDto.getDescription());
 		quizService.createSequence(sequenceDto);
 		if (sequenceDto.getId() == 0)
@@ -130,7 +131,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/sequence/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity <SequenceWithQuestionsDto> updateSequence(@RequestBody SequenceWithQuestionsDto sequenceDto) {
+	public ResponseEntity <SequenceWithQuestionsDto> updateSequence(@RequestBody SequenceWithQuestionsDto sequenceDto) throws CheckException {
 		quizService.updateSequence(sequenceDto);
 		SequenceWithQuestionsDto sequence = quizService.findSequence(sequenceDto.getId());
 		if(!sequence.equals(sequenceDto))
@@ -156,7 +157,7 @@ public class QuizRestWebService {
 	
 	@RequestMapping(value = "/professor/sequence/{sequenceid}/question/{questionid}/position/{pos}/add/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public  ResponseEntity  <Integer> addQuestionToSequence(@PathVariable("sequenceid")long sequenceId,
-			@PathVariable("questionid") long questionId,@PathVariable("pos")int pos) {
+			@PathVariable("questionid") long questionId,@PathVariable("pos")int pos) throws CheckException {
 
 		int positionInSequence = quizService.addQuestionToSequence(sequenceId, questionId, pos);	
 		System.out.println("positionInSequence"  + positionInSequence );
@@ -164,7 +165,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/sequence/{sequenceid}/position/{pos}/remove/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity  removeQuestionFromSequence(@PathVariable("sequenceid")long sequenceId,@PathVariable("pos") int pos) {
+	public ResponseEntity  removeQuestionFromSequence(@PathVariable("sequenceid")long sequenceId,@PathVariable("pos") int pos)throws CheckException  {
 		quizService.removeQuestionFromSequence(sequenceId, pos);		
 		return new ResponseEntity  ( HttpStatus.OK);	
 	}
@@ -179,7 +180,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/sessionquiz/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity <SessionQuizDto> startSessionQuiz(@RequestBody SessionQuizDto sessionQuizDto) {
+	public ResponseEntity <SessionQuizDto> startSessionQuiz(@RequestBody SessionQuizDto sessionQuizDto) throws CheckException {
 		
 		try {
 			quizService.startSessionQuiz(sessionQuizDto);
@@ -196,7 +197,7 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/sessionquiz/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity stopSessionQuiz(@RequestBody  SessionQuizDto sessionQuizDto) {
+	public ResponseEntity stopSessionQuiz(@RequestBody  SessionQuizDto sessionQuizDto)throws CheckException {
 		quizService.stopSessionQuiz(sessionQuizDto);
 		SessionQuizDto sessionQuiz = quizService.findSessionQuiz(sessionQuizDto.getId());
 		if(!sessionQuiz.equals(sessionQuizDto))

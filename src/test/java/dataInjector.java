@@ -33,13 +33,14 @@ import com.cnam.quiz.server.service.cours.CoursService;
 import com.cnam.quiz.server.service.cours.CoursServiceImpl;
 import cnam.glg204.domain.Dao.EntitiesCreator;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.server.websocket.WebSocketPoolManager;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class, CoursDaoImpl.class,TopicDaoImpl.class,SequenceDaoImpl.class,CoursServiceImpl.class,QuestionDaoImpl.class, WebSocketPoolManager.class })
 @Transactional(rollbackOn = Exception.class)
-@Rollback(false)
+@Rollback(true)
 public class dataInjector extends TestCase  {
 	@Autowired
 	UserDao userDao;
@@ -60,7 +61,7 @@ public class dataInjector extends TestCase  {
 	CoursService coursService;
 
 	@Test
-	public void testAutoId() {
+	public void testAutoId(){
 		User professor =new User();
 		professor.setAccountType(AccountType.PROFESSOR);	
 		professor.setEmail("pierre.faraco@gmail.com");
@@ -128,10 +129,18 @@ public class dataInjector extends TestCase  {
                     coursDao.save(cours2);
                     
                    if ( cours1.isActive() && (int)(Math.random()*4)==2)
-                    	coursService.suscribe(auditor.getId(),cours1.getId());
+					try {
+						coursService.suscribe(auditor.getId(),cours1.getId());
+					} catch (CheckException e) {					
+						e.printStackTrace();
+					}
                     
                     if ( cours2.isActive() && (int)(Math.random()*4)==2 )
-                    	coursService.suscribe(auditor.getId(),cours2.getId());
+						try {
+							coursService.suscribe(auditor.getId(),cours2.getId());
+						} catch (CheckException e) {		
+							e.printStackTrace();
+						}
                     //creation des subscibers ;
                 	for( int j =0 ;j< 40 ;j++){
                 	    
@@ -139,16 +148,32 @@ public class dataInjector extends TestCase  {
             			user1.setAccountType(AccountType.AUDITOR);
             			user1.setFirstName ("auditor_"+j);
             			userDao.save(user1);
-            			coursService.suscribe(user1.getId(),cours1.getId());
-            			coursService.suscribe(user1.getId(),cours2.getId()); 
+            			try {
+							coursService.suscribe(user1.getId(),cours1.getId());
+						} catch (CheckException e) {
+							e.printStackTrace();
+						}
+            			try {
+							coursService.suscribe(user1.getId(),cours2.getId());
+						} catch (CheckException e) {
+							e.printStackTrace();
+						} 
                                 SubscriberStatus status =null;
                                 switch ((int)(Math.random()*3)){
                                     case 0:status =SubscriberStatus.WAITING_ANSWER; break;
                                     case 1:status =SubscriberStatus.DENIED;break;
                                     case 2:status =  SubscriberStatus.ACCEPTED;break;
                                 }
-                               coursService.updateSuscriberStatus(user1.getId(),cours1.getId(),status);
-                               coursService.updateSuscriberStatus(user1.getId(),cours2.getId(),status);                     
+                               try {
+								coursService.updateSuscriberStatus(user1.getId(),cours1.getId(),status);
+							} catch (CheckException e) {
+								e.printStackTrace();
+							}
+                               try {
+								coursService.updateSuscriberStatus(user1.getId(),cours2.getId(),status);
+							} catch (CheckException e) {
+								e.printStackTrace();
+							}                     
             		}
 
                 }

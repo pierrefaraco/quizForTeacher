@@ -1,19 +1,22 @@
 
 <section >
-
-
     <div class="row">
         <div class="col-sm-2">
+
             <h6>Subscribers :</h6>
-            <div class="btn-group-vertical" >              
-                <select class="form-control" ng-options="status.name for status in statusData.statusList" ng-model="selectedStatus"></select> 
-                <button type="button" class="btn btn-primary pull-left btn-sm"  ng-click="updateStatus()">apply <span class="glyphicon glyphicon-ok pull-right "></span></button>
-                <label><input type="checkbox" ng-model="selectAllValue" ng-click="selectAll()"/>Select all</label> 
-              </div>
-           </div>
-     
-
-
+                    <div class="input-group">
+                        <ui-select  ng-model="statusData.selectedStatus" theme="bootstrap">
+                            <ui-select-match placeholder="Select status...">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="status in statusData.statusList | filter: $select.search">
+                                <span ng-bind-html="status.name | highlight: $select.search"></span>                              
+                            </ui-select-choices>
+                        </ui-select>
+                        <div  class="btn btn-primary input-group-addon" ng-click="updateStatus()"> apply </div>   
+                    </div><!-- /input-group -->            
+         </div><!-- /.row -->
+        
+            
+   
         <!-- listes des questions du Topic  -->
 
         <section class="col-sm-10">
@@ -36,24 +39,22 @@
                                         <tr ng-repeat="subscriber in coursWithSubscribers.subscribers| orderBy : 'firstName'"
                                             ng-click="selectSubscriber(subscriber)" ng-class ="{success: subscriber.selected  }">  
                                             <!-- ng-class ="{warning: subscriber.id == selectedSubscriber.id}">  -->
-                                            
+
                                             <td > {{subscriber.firstName}}</td>
                                             <td > {{subscriber.lastName}}</td>
                                             <td > {{subscriber.email}}</td>   
                                             <td > {{subscriber.status}} </td>             
-                                    </tr>	 							
-                        </tbody>
+                                        </tr>	 							
+                                    </tbody>
 
-                </table>
-        </div>
+                                </table>
+                            </div>
 
-</div>
-</div>
-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-
-</div>
-</section>
-
-</div>
+    </div>
 </section>

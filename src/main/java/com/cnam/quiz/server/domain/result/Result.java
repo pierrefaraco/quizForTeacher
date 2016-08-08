@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 import org.hibernate.Session;
 
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.server.domain.DomainObject;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.questions.Question;
@@ -260,6 +261,31 @@ public class Result extends DomainObject  implements  Serializable {
 		} else if (!user.equals(other.user))
 			return false;
 		return true;
+	}
+
+	@Override
+	public void checkData() throws CheckException {
+		
+			
+		if (user == null)
+			throw new CheckException("no user linked to this result");
+		
+		user.checkData();
+		
+		if (sessionQuiz== null)
+			throw new CheckException("no sessionQuiz linked to this result");
+		
+		sessionQuiz.checkData();
+		
+		if (title == null || title.equals(""))
+			throw new CheckException("title can't be null or empty");
+		
+		if (date == null)
+			throw new CheckException("no date linked to this result");
+
+		
+
+		
 	}
 
 	

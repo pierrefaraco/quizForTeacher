@@ -15,6 +15,7 @@ import com.cnam.quiz.common.dto.PoolNumberDto;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
 import com.cnam.quiz.server.domain.user.UserDao;
@@ -36,23 +37,25 @@ public class CoursServiceImpl implements CoursService{
 	WebSocketPoolManager webSocketPoolManager;
 
 	@Override
-	public CoursDto findCours(long coursId) {
+	public CoursDto findCours(long coursId)  {
 		Cours cours = coursDao.find(coursId);
 		return coursToCoursDto( cours ) ;
 	}
 	
 	@Override
-	public void createCours(CoursDto coursDto) {
+	public void createCours(CoursDto coursDto) throws CheckException {
 		Cours cours  = this.coursDtoToCours(coursDto);
+		cours.checkData();
         coursDao.save(cours);
 		coursDto.setId(cours.getId());
 	}
 
 	@Override
-	public void updateCours(CoursDto coursDto) {
+	public void updateCours(CoursDto coursDto) throws CheckException {
 		Cours cours  = this.coursDtoToCours(coursDto);
 		Cours cours2 = coursDao.find(cours.getId());
 		cours.setSubscribers(cours2.getSubscribers());
+		cours.checkData();
 		coursDao.update(cours);
 	}
 
@@ -77,20 +80,23 @@ public class CoursServiceImpl implements CoursService{
 	}
 	
 	@Override
-	public void suscribe(long suscriberId, long coursId) {
+	public void suscribe(long suscriberId, long coursId) throws CheckException {
 		Cours cours = coursDao.find(coursId);
 		User user = userDao.find(suscriberId);			
 		if	(cours.getSubscribers()==null)
 			cours.setSubscribers(new HashMap <User,SubscriberStatus>());
 		cours.getSubscribers().put(user, SubscriberStatus.WAITING_ANSWER);
+		cours.checkData();
 		coursDao.save(cours );
 	}
 		
 	@Override
-	public void unSuscribe(long suscriberId, long coursId) {
+	public void unSuscribe(long suscriberId, long coursId) throws CheckException {
 		Cours cours = coursDao.find(coursId);
 		User user = userDao.find(suscriberId);	
 		cours.getSubscribers().remove(user);
+		cours .checkData();
+		coursDao.save(cours ); 
 	}
 	
 	@Override
@@ -117,7 +123,7 @@ public class CoursServiceImpl implements CoursService{
 	}
 	
 	@Override
-	public void updateCourWithSuscribers(CoursWithSubscribersDto coursWithSubscribersDto) {
+	public void updateCourWithSuscribers(CoursWithSubscribersDto coursWithSubscribersDto) throws CheckException {
 		Cours cours = new Cours();	
 		cours.setId(coursWithSubscribersDto.getId());
 		cours.setActive(coursWithSubscribersDto.isActive());	
@@ -134,6 +140,7 @@ public class CoursServiceImpl implements CoursService{
 			subscribers.put( auditor,status);		
 			}	
 		cours.setSubscribers(subscribers);
+		cours.checkData();
 		coursDao.update(cours);
 	}
 	
@@ -141,10 +148,11 @@ public class CoursServiceImpl implements CoursService{
 	
 	
 	@Override
-	public void updateSuscriberStatus(long suscriberId, long coursId, SubscriberStatus status) {
+	public void updateSuscriberStatus(long suscriberId, long coursId, SubscriberStatus status) throws CheckException {
 		Cours cours = coursDao.find(coursId);
 		User user = userDao.find(suscriberId);	
 		cours.getSubscribers().put(user, status);
+		cours.checkData();
 		coursDao.save(cours );	
 	}
 	

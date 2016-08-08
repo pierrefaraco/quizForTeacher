@@ -16,6 +16,7 @@ import com.cnam.quiz.common.dto.CoursWithSubscribersDto;
 import com.cnam.quiz.common.dto.PoolNumberDto;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.server.service.cours.CoursService;
 
 @RestController
@@ -43,13 +44,13 @@ public class CoursRestWebService {
 	}
 	
 	@RequestMapping(value = "professor/coursAndSubscribers/ ", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity <CoursWithSubscribersDto> updateCoursWithSubscribersDto (@RequestBody CoursWithSubscribersDto coursWithSubscribersDto) {
+	public ResponseEntity <CoursWithSubscribersDto> updateCoursWithSubscribersDto (@RequestBody CoursWithSubscribersDto coursWithSubscribersDto) throws CheckException {
 		coursService.updateCourWithSuscribers( coursWithSubscribersDto);
 		return new ResponseEntity<CoursWithSubscribersDto>(coursWithSubscribersDto, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/professor/cours/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CoursDto> createCours(@RequestBody CoursDto coursDto){
+	public ResponseEntity<CoursDto> createCours(@RequestBody CoursDto coursDto) throws CheckException{
 		coursDto.setId(0);
 		coursService.createCours(coursDto);
 		if ( coursDto.getId() == 0 )
@@ -58,7 +59,7 @@ public class CoursRestWebService {
 	}
 
 	@RequestMapping(value = "/professor/cours/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity  updateCours(@RequestBody CoursDto coursDto) {
+	public ResponseEntity  updateCours(@RequestBody CoursDto coursDto) throws CheckException {
 		coursService.updateCours(coursDto);
 		CoursDto cours = coursService.findCours(coursDto.getId());
 		if (!cours.equals( coursDto ))
@@ -91,20 +92,20 @@ public class CoursRestWebService {
 	}
 
 	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/subscribe/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity  suscribe(@PathVariable("userid")long suscriberId,@PathVariable("coursid") long coursId) {
+	public ResponseEntity  suscribe(@PathVariable("userid")long suscriberId,@PathVariable("coursid") long coursId) throws CheckException{
 		coursService.suscribe(suscriberId, coursId);
 		return new ResponseEntity  ( HttpStatus.OK );
 	}
 
 	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/unsubscribe/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity  unSuscribe(@PathVariable("userid")long suscriberId,@PathVariable("coursid") long coursId) {
+	public ResponseEntity  unSuscribe(@PathVariable("userid")long suscriberId,@PathVariable("coursid") long coursId) throws CheckException{
 		coursService.unSuscribe(suscriberId, coursId);
 		return new ResponseEntity  ( HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/professor/user/{userid}/cours/{coursid}/updatesubscriberstatus/{status}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity  updateSuscriberStatus(@PathVariable("userid")long suscriberId, 
-			@PathVariable("coursid")long coursId,@PathVariable("status") SubscriberStatus status) {
+			@PathVariable("coursid")long coursId,@PathVariable("status") SubscriberStatus status) throws CheckException{
 		coursService.updateSuscriberStatus(suscriberId, coursId, status);
 		return new ResponseEntity  ( HttpStatus.OK);
 	}

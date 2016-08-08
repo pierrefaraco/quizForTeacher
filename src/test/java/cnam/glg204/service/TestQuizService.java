@@ -25,6 +25,7 @@ import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.QuestionType;
 import com.cnam.quiz.common.enums.SessionStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.CoursNotActiveException;
 import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 import com.cnam.quiz.server.domain.cours.Cours;
@@ -55,7 +56,7 @@ import cnam.glg204.domain.Dao.EntitiesCreator;
 		CoursDaoImpl.class,SequenceDaoImpl.class, QuizServiceImpl.class })
 
 @Transactional(rollbackOn = Exception.class)
-@Rollback(false)
+@Rollback(true)
 public class TestQuizService {
 	String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	
@@ -81,7 +82,11 @@ public class TestQuizService {
 	public void testCreateTopic() {
 
 		TopicDto topicDto = createTopicDto();
-		quizService.createTopic(topicDto);
+		try {
+			quizService.createTopic(topicDto);
+		} catch (CheckException e) {
+			fail();
+		}
 
 		long id = topicDto.getId();
 		TopicDto topicDto2 = quizService.findTopic(id);
@@ -96,11 +101,19 @@ public class TestQuizService {
 	@Test
 	public void testUpdateTopic() {
 		TopicDto topicDto = createTopicDto();
-		quizService.createTopic(topicDto);
+		try {
+			quizService.createTopic(topicDto);
+		} catch (CheckException e) {
+			fail();
+		}
 		long id = topicDto.getId();
 		TopicDto topicDto2 = quizService.findTopic(id);
 		topicDto.setName("ceci est un topic");
-		quizService.updateTopic(topicDto);
+		try {
+			quizService.updateTopic(topicDto);
+		} catch (CheckException e) {
+			fail();
+		}
 		assertNotEquals(topicDto.getName(), topicDto2.getName());
 		topicDto2 = quizService.findTopic(id);
 		assertEquals(topicDto.getName(), topicDto2.getName());
@@ -109,7 +122,11 @@ public class TestQuizService {
 	@Test
 	public void testDeleteTopic() {
 		TopicDto topicDto = createTopicDto();
-		quizService.createTopic(topicDto);
+		try {
+			quizService.createTopic(topicDto);
+		} catch (CheckException e) {
+			fail();
+		}
 		long id = topicDto.getId();
 		int t = quizService.findAllTopics().size();
 		quizService.deleteTopic(id);
@@ -139,7 +156,11 @@ public class TestQuizService {
 	public void testCRUDQuestion() {
 
 		QuestionDto questionDto = createQuestionDto();
-		quizService.createQuestion(questionDto);
+		try {
+			quizService.createQuestion(questionDto);
+		} catch (CheckException e) {
+			fail();
+		}
 		long id = questionDto.getId();
 		long topicId = questionDto.getTopicId();
 		QuestionDto questionDto2 = quizService.findQuestion(id);
@@ -154,7 +175,11 @@ public class TestQuizService {
 		assertEquals(questionDto.getTopicId(), questionDto2.getTopicId());
 
 		questionDto.setQuestion("ceci est une question");
-		quizService.updateQuestion(questionDto);
+		try {
+			quizService.updateQuestion(questionDto);
+		} catch (CheckException e) {
+			fail();
+		}
 
 		questionDto2 = null;
 		questionDto2 = quizService.findQuestion(id);
@@ -208,7 +233,11 @@ public class TestQuizService {
 		Map<Integer, Question> mapQuestions = EntitiesCreator.createListOfQuestions(questionDao, topics);
 		SequenceWithQuestionsDto sequenceDto = createSequenceWithQuestionsDto(user,mapQuestions);
 
-		quizService.createSequence(sequenceDto);
+		try {
+			quizService.createSequence(sequenceDto);
+		} catch (CheckException e1) {
+			e1.printStackTrace();
+		}
 
 		long id = sequenceDto.getId();
 		SequenceWithQuestionsDto sequenceDto2 = quizService.findSequence(id);
@@ -236,7 +265,11 @@ public class TestQuizService {
 
 		sequenceDto.setName("ceci est une sequence");
 
-		quizService.updateSequence(sequenceDto);
+		try {
+			quizService.updateSequence(sequenceDto);
+		} catch (CheckException e1) {
+			e1.printStackTrace();
+		}
 		sequenceDto2 = null;
 		sequenceDto2 = quizService.findSequence(id);
 
@@ -272,7 +305,11 @@ public class TestQuizService {
 		for (int i =0 ;i<50;i++){
 	
 			SequenceWithQuestionsDto sequenceDto = createSequenceWithQuestionsDto(user,mapQuestions);
-			quizService.createSequence(sequenceDto);	
+			try {
+				quizService.createSequence(sequenceDto);
+			} catch (CheckException e) {
+				fail();
+			}	
 
 		}	
 		
@@ -298,13 +335,21 @@ public class TestQuizService {
 		topicDao.save(topic2);	
 		SequenceWithQuestionsDto sequenceDto = createSequenceWithQuestionsDto(user, null);
 		
-		quizService.createSequence(sequenceDto);
+		try {
+			quizService.createSequence(sequenceDto);
+		} catch (CheckException e) {
+			fail();
+		}
 		long id = sequenceDto.getId();
 		
 		for (int i = 0; i<12 ; i++){	
 			Question question = EntitiesCreator.createRandomQuestion(topic1 , QuestionType.QUIZ);
 			questionDao.save(question);
-			quizService.addQuestionToSequence(sequenceDto.getId() , question.getId(),1);
+			try {
+				quizService.addQuestionToSequence(sequenceDto.getId() , question.getId(),1);
+			} catch (CheckException e) {
+				fail();
+			}
 		}
 		SequenceWithQuestionsDto sequenceDto2 = quizService.findSequence(id);
 		assertEquals(12 ,sequenceDto2.getQuestions().size());
@@ -312,7 +357,11 @@ public class TestQuizService {
 		Map<Integer, QuestionDto> questions = sequenceDto2.getQuestions();
 	
 		
-		quizService.removeQuestionFromSequence( id , 4 );
+		try {
+			quizService.removeQuestionFromSequence( id , 4 );
+		} catch (CheckException e) {
+			fail();
+		}
 		
 		sequenceDto2 = quizService.findSequence(id);
 		assertEquals(11 ,sequenceDto2.getQuestions().size());
@@ -325,7 +374,11 @@ public class TestQuizService {
 		topics.put(topic2,20);	
 		Map<Integer, Question> mapQuestions = EntitiesCreator.createListOfQuestions(questionDao, topics);
 		sequenceDto = createSequenceWithQuestionsDto(user,mapQuestions);
-		quizService.createSequence(sequenceDto);
+		try {
+			quizService.createSequence(sequenceDto);
+		} catch (CheckException e) {
+			fail();
+		}
 		id = sequenceDto.getId();
 	    sequenceDto2 = quizService.findSequence(id);
 		assertEquals(sequenceDto.getName() , sequenceDto2.getName());
@@ -334,8 +387,16 @@ public class TestQuizService {
 		questionDao.save(question);
 		Question question2 = EntitiesCreator.createRandomQuestion(topic2 , QuestionType.QUIZ);
 		questionDao.save(question2);
-		quizService.addQuestionToSequence(sequenceDto.getId() , question.getId(),1);
-		quizService.addQuestionToSequence(sequenceDto.getId() , question2.getId(),1);
+		try {
+			quizService.addQuestionToSequence(sequenceDto.getId() , question.getId(),1);
+		} catch (CheckException e) {
+			fail();
+		}
+		try {
+			quizService.addQuestionToSequence(sequenceDto.getId() , question2.getId(),1);
+		} catch (CheckException e) {
+			fail();
+		}
 		
 		sequenceDto2 = null ; 
 		
@@ -375,11 +436,15 @@ public class TestQuizService {
 		SessionQuiz sessionQuiz = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);
 		SessionQuizDto sessionQuizDto = sessionQuizToSessionQuizDto ( sessionQuiz ) ; 
 		try {
-			quizService.startSessionQuiz(sessionQuizDto);
+			try {
+				quizService.startSessionQuiz(sessionQuizDto);
+			} catch (CheckException e) {
+				fail();
+			}
 		} catch (SessionQuizAlreadyRunningException e) {
-			e.printStackTrace();
+			fail();
 		} catch (CoursNotActiveException e) {
-			e.printStackTrace();
+			fail();
 		}
 		long id = sessionQuizDto.getId();
 		
@@ -392,7 +457,11 @@ public class TestQuizService {
 		assertEquals( SessionStatus.RUNNING , sessionQuizDto2.getStatus());
 
 		sessionQuizDto.setStatus(SessionStatus.NOT_RUNNING);
-		quizService.stopSessionQuiz(sessionQuizDto);
+		try {
+			quizService.stopSessionQuiz(sessionQuizDto);
+		} catch (CheckException e) {
+			fail();
+		}
 		
 		sessionQuizDto2 = quizService.findSessionQuiz(id);
 		assertEquals( SessionStatus.NOT_RUNNING , sessionQuizDto2.getStatus());
@@ -408,7 +477,11 @@ public class TestQuizService {
 		user.setAccountType(AccountType.PROFESSOR);
 		userDao.save(user);
 		for (int i = 0; i < t; i++)
-			quizService.createTopic(createTopicDto(user));
+			try {
+				quizService.createTopic(createTopicDto(user));
+			} catch (CheckException e) {
+				fail();
+			}
 		return user;
 	}
 
@@ -432,7 +505,11 @@ public class TestQuizService {
 		Topic topic = EntitiesCreator.createRandomTopic(user);
 		topicDao.save(topic);
 		for (int i = 0; i < t; i++)
-			quizService.createQuestion(createQuestionDto(topic));
+			try {
+				quizService.createQuestion(createQuestionDto(topic));
+			} catch (CheckException e) {
+				fail();
+			}
 		return topic;
 	}
 

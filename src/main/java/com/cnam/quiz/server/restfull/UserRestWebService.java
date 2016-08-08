@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cnam.quiz.common.dto.UserDto;
-
+import com.cnam.quiz.common.exceptions.CheckException;
+import com.cnam.quiz.common.exceptions.CreateException;
 import com.cnam.quiz.server.service.user.UserService;
 
 @RestController
@@ -38,7 +39,7 @@ public class UserRestWebService {
 
 	@RequestMapping(value = "/all/user/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity< UserDto > updateProfil(@RequestBody UserDto userDto,
-			UriComponentsBuilder ucBuilder) {
+			UriComponentsBuilder ucBuilder) throws CheckException {
 		userService.updateProfil(userDto);
 		UserDto user = userService.findUser(userDto.getId());
 		if (!userDto.equals(user))
@@ -47,7 +48,7 @@ public class UserRestWebService {
 	}
 
 	@RequestMapping(value = "/unsecured/user/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDto> createAccount(@RequestBody UserDto userDto ) {
+	public ResponseEntity<UserDto> createAccount(@RequestBody UserDto userDto ) throws CheckException, CreateException {
 		userService.createAccount(userDto);
 		if (userDto.getId() == 0 )
 			return new ResponseEntity<UserDto>(HttpStatus.NOT_MODIFIED);

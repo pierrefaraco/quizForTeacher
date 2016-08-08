@@ -25,6 +25,7 @@ import com.cnam.quiz.common.dto.ResultDto;
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.SessionStatus;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.NoRunningSessionQuizForThisCoursException;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
@@ -64,7 +65,7 @@ import junit.framework.AssertionFailedError;
 		CoursServiceImpl.class,UserServiceImpl.class,ResultDaoImpl.class, WebSocketPoolManager.class })
 
 @Transactional(rollbackOn = Exception.class)
-@Rollback(false)
+@Rollback(true)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestStatisticService {
 	
@@ -146,18 +147,18 @@ public class TestStatisticService {
 			userDao.save( auditor );	
 			auditorsId.add(auditor.getId());
 		} 		
-	}
-	
-	@Test
-	public void testSaveResult(){
+
 		for (long auditorId : auditorsId){
 			ResultDto resultDto = createResultDto ( auditorId,sessionQuiz1Id);
 			resultDto.setCoursId(cours1Id);
 			try {
 				statisticService.saveResult(resultDto);
-			} catch (NoRunningSessionQuizForThisCoursException e) {
-				// TODO Auto-generated catch block
+			} catch (NoRunningSessionQuizForThisCoursException e) {	
 				e.printStackTrace();
+				fail();
+			} catch (CheckException e) {
+				e.printStackTrace();
+				fail();
 			}
 		}
 		
@@ -169,9 +170,10 @@ public class TestStatisticService {
 				resultDto.setCoursId(cours2Id);
 				try {
 					statisticService.saveResult(resultDto);
-				} catch (NoRunningSessionQuizForThisCoursException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (NoRunningSessionQuizForThisCoursException e) {		
+					fail();
+				} catch (CheckException e) {
+					fail();
 				}
 			}
 		
@@ -185,8 +187,9 @@ public class TestStatisticService {
 			try {
 				statisticService.saveResult(resultDto);
 			} catch (NoRunningSessionQuizForThisCoursException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				fail();
+			} catch (CheckException e) {
+				fail();
 			}
 		}
 		
@@ -197,8 +200,9 @@ public class TestStatisticService {
 				try {
 					statisticService.saveResult(resultDto);
 				} catch (NoRunningSessionQuizForThisCoursException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					fail();
+				} catch (CheckException e) {
+					fail();
 				}
 			}
 		
@@ -230,16 +234,16 @@ public class TestStatisticService {
 			fail();
 		} catch (NoRunningSessionQuizForThisCoursException e) {
 			assertEquals("Oh!", "Some string", "Some string");
-		}
-		
-		
-		
+		} catch (CheckException e) {
+			fail();
+		}		
 	}
 	
 
 	public ResultDto createResultDto (long auditorId,long sessionId){
 		ResultDto resultDto = new ResultDto ();
 		resultDto.setUserId(auditorId);
+		resultDto.setTitle("title");
 		resultDto.setAnswerTime((int) (Math.random()*20 ));
 		resultDto.setQuestionId((long) (Math.random()*2000000 ) );
 		resultDto.setQuestion("question " + (int) (Math.random()*2000000 ));

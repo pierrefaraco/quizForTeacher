@@ -53,7 +53,7 @@ import com.cnam.quiz.server.domain.user.UserDaoImpl;
 		TopicDaoImpl.class, QuestionDaoImpl.class, SequenceDaoImpl.class ,ResultDaoImpl.class })
 
 @Transactional(rollbackOn = Exception.class)
-@Rollback(false)
+@Rollback(true)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestResultDao extends TestCase {
 	@Autowired
@@ -126,10 +126,7 @@ public class TestResultDao extends TestCase {
 		sessionQuiz = EntitiesCreator.createRandomSessionQuiz(SessionStatus.RUNNING, cours, sequence);
 	
 		sessionQuizDao.save(sessionQuiz);		
-	}	
 
-	@Test
-	public void  testCInjectData(){
 		resultsNumber = resultDao.findResultsBySession(sessionQuiz.getId()).size();
 		for (Map.Entry <Integer , Question> q : questions.entrySet()){
 			int pos = q.getKey();
@@ -152,20 +149,7 @@ public class TestResultDao extends TestCase {
 				resultDao.save(result);
 			}		
 		}
-	}
-	private Map <String,boolean[]> generateResult (	Map <String,Boolean> toGiveResult){
-		Map <String,boolean[]> results = new  HashMap <String,boolean[]> ();
-		for (Map.Entry<String,Boolean> v : toGiveResult.entrySet() ){
-			String key = v.getKey();
-			boolean [] value ={v.getValue(),new Random().nextBoolean()};
-			results.put(key, value);
-		}
-			
-		return 	results;
-	}
-	
-	@Test
-	public void  testDInjectData(){
+
 		assertEquals(resultsNumber + 30 * 20 ,resultDao.findResultsBySession(sessionQuiz.getId()).size());
 		
 		for (Map.Entry <User, SubscriberStatus> a : auditors.entrySet()){
@@ -182,6 +166,17 @@ public class TestResultDao extends TestCase {
 				assertEquals(1  ,resultDao.findResultsByUserQuestionAndSession(user.getId(),question.getId(), sessionQuiz.getId()).size());			
 			}
 		}
+	}
+	
+	private Map <String,boolean[]> generateResult (	Map <String,Boolean> toGiveResult){
+		Map <String,boolean[]> results = new  HashMap <String,boolean[]> ();
+		for (Map.Entry<String,Boolean> v : toGiveResult.entrySet() ){
+			String key = v.getKey();
+			boolean [] value ={v.getValue(),new Random().nextBoolean()};
+			results.put(key, value);
+		}
+			
+		return 	results;
 	}
 	
 	private List <String>  getGivenAnswer(List<String> propositions ){	

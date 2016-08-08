@@ -2,13 +2,11 @@
 <!-- Form Cours-->
 
 
-
-
 <script type="text/ng-template" id="questionPrewiewModal.html"> 
-        <div class="modal-header">
+               <div class="modal-header">
             <uib-progressbar max= "question.timeToAnswer" value="question.time " type="success" animate="false">
             <span style="color:white; white-space:nowrap;">
-              <label class="glyphicon glyphicon-question-sign success"/>
+              <label class="glyp hicon glyphicon-question-sign success"/>
             </span></uib-progressbar>
           
         </div>
@@ -17,10 +15,9 @@
                 <label class="control-label" ><h5><strong>{{question.title }}</strong></h5></label>
             </div>
             <div class="form-group">
-           <!--  <label class="control-label" ><h5>  {{question.question }} </h5></label>-->
-   {{question.question }}
+               <div ng-show = "question.question != '' && question.question != null " hljs hljs-source="question.question"></div>
             </div>
-    
+
             <!-- Propositions -->
             <div class="form-group">
                     <div >                

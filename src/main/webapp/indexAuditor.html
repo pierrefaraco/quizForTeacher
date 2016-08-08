@@ -1,4 +1,4 @@
-<!DOCTYPE html  >
+
 <html>
     <!-- ng-strict-di -->
     <!--
@@ -20,6 +20,11 @@
     <script src="node_modules/lodash/dist/lodash.min.js"></script>
     <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
     <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+    <script src="node_modules/highlightjs/highlight.pack.js"></script>
+    <script >hljs.initHighlightingOnLoad();</script>
+    <script src="node_modules/angular-highlightjs/angular-highlightjs.js"></script>   
+    <script src="node_modules/ui-select/dist/select.js"></script>
+    <script src="node_modules/angular-sanitize/angular-sanitize.js"></script>   
     <script src="app/main.js"></script>
     <script src="app/constants.js"></script>
     <script src="app/routage/route_auditor.js"></script>
@@ -40,18 +45,20 @@
         <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
         <link rel="shortcut icon" href="">
+        <link rel="stylesheet" href="node_modules/highlightjs/styles/tomorrow.css">      
+        <link rel="stylesheet" href="node_modules/ui-select/dist/select.css">
     </head>
 
     <body ng-app="quizApp" ng-strict-di>
 
         <div class="container" ng-controller="mainCtrl">
-        <div ng-include src="'app/views/forms/Question_presentation_form.html'"></div>
-        <div ng-include src="'app/views/forms/Result_form.html'"></div>
+            <div ng-include src="'app/views/forms/Question_presentation_form.html'"></div>
+            <div ng-include src="'app/views/forms/Result_form.html'"></div>
             <!-- Header -->
 
             <header class="row" ng-show="user.connected" >
-               <div class="col-sm-12"> <div class="alert alert-success" ng-show="selectedCours.status == 'ACCEPTED'">{{selectedCours.name}} selected and ready for receive questions !</div></div>
-               <div class="col-sm-12"> <div class="alert alert-danger" ng-show="selectedCours.status != 'ACCEPTED'"> No cours selected or you don't have been yet accepted for participate   </div></div>
+                <div class="col-sm-12"> <div class="alert alert-success" ng-show="selectedCours.status == 'ACCEPTED'">{{selectedCours.name}} selected and ready for receive questions !</div></div>
+                <div class="col-sm-12"> <div class="alert alert-danger" ng-show="selectedCours.status != 'ACCEPTED'"> No cours selected or you don't have been yet accepted for participate   </div></div>
             </header>
 
             <!-- Menu navigation -->
@@ -92,8 +99,11 @@
             <!-- footer -->
 
             <footer class="row">
-                <div class="col-sm-12">A GLG-204 Project developped by Pierre
-                    faraco</div>
+                <div class="col-sm-12">A GLG-204 Project developped by Pierre faraco 
+                    <a href="https://fr.linkedin.com/pub/pierre-faraco/49/881/30">
+                        <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_profile_bluetxt_80x15_fr_FR.png?locale=" width="80" height="15" border="0" alt="Voir le profil de Pierre Faraco sur LinkedIn">
+                    </a>
+                </div>
             </footer>
 
         </div>

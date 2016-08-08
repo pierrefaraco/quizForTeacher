@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.cnam.quiz.common.dto.ResultDto;
 import com.cnam.quiz.common.dto.ResultDtoForStatistic;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.NoRunningSessionQuizForThisCoursException;
 import com.cnam.quiz.server.service.statistic.StatisticService;
 
@@ -23,7 +24,7 @@ public class StatistsicsRestWebService {
 	StatisticService statisticService;
 	
 	@RequestMapping(value = "/all/result/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<ResultDto> saveResult(@RequestBody ResultDto resultDto) throws NoRunningSessionQuizForThisCoursException{
+	ResponseEntity<ResultDto> saveResult(@RequestBody ResultDto resultDto) throws NoRunningSessionQuizForThisCoursException, CheckException{
 
 		statisticService.saveResult(resultDto);
 		if(resultDto.getId()==0)

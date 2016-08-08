@@ -33,7 +33,7 @@ import com.cnam.quiz.server.domain.user.UserDaoImpl;
 		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })
 
 @Transactional(rollbackOn = Exception.class)
-@Rollback(false)
+@Rollback(true)
 public class TestQuestionDao  extends TestCase {
 	
 	

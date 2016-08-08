@@ -13,6 +13,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.server.domain.DomainObject;
 import com.cnam.quiz.server.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -30,9 +31,9 @@ public class Topic  extends DomainObject  implements  Serializable {
 	@GeneratedValue
 	@Column(name="id")
 	private long id;
-	@Column(name="name", nullable = false, length = 40)
+	@Column(name="name", nullable = false)
 	private String name;
-	@Column(name="description")
+	@Column(name="description", length = 2048)
 	private String description;
 	//@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@ManyToOne(fetch =FetchType.LAZY)
@@ -106,6 +107,17 @@ public class Topic  extends DomainObject  implements  Serializable {
             return false;
         return true;
     }
+
+	@Override
+	public void checkData() throws CheckException {
+		if ( name == null || name.equals(""))
+			throw new CheckException("name can't be null or empty");
+		
+		if ( user == null)
+			throw new CheckException("no professor linked to this topic");
+		
+		user.checkData();	
+	}
 
  
 	

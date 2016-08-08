@@ -15,30 +15,36 @@ and open the template in the editor.
 
         <section class="col-sm-12">
             <div class="row">
-                <div  class="col-sm-3" >
+                <div  class="col-sm-5" >
                     <table class="table">
-                        <tbody>
+                        <thead>         
                             <tr>
-                                <td> Global results  </td>
-                                <td >
-                                    <button  class="btn btn-success btn-sm" ng-click="showCoursResult()"> 
-                                        show
-                                    </button>     
-                                </td> 
-                            </tr>    
-                            <tr ng-repeat="sessionQuiz in sessionsQuizList| orderBy : '-startDate' ">      
-
-                                <td> Results of session of {{sessionQuiz.startDate}} / {{sessionQuiz.endDate}} </td>                      
-                                <td>
-                                    <button  class="btn btn-success btn-sm" ng-click="showSessionResult(sessionQuiz)"> 
-                                        show
-                                    </button>
-                                </td>
+                                <th>results periods</th> 
                             </tr>
+                        </thead>
+                    
+                        <tbody>
+                        <tr>
+                            <td> Global results  </td>
+                            <td >
+                                <button  class="btn btn-info btn-sm" ng-click="showCoursResult()"> 
+                                    show
+                                </button>     
+                            </td> 
+                        </tr>    
+                        <tr ng-repeat="sessionQuiz in sessionsQuizList| orderBy : '-startDate' ">      
+
+                            <td> Results of session of {{sessionQuiz.startDate}} / {{sessionQuiz.endDate}} </td>                      
+                            <td>
+                                <button  class="btn btn-default btn-sm" ng-click="showSessionResult(sessionQuiz)"> 
+                                    show
+                                </button>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-7">
                     <table class="table col-sm-6">
                         <thead>         
                             <tr>

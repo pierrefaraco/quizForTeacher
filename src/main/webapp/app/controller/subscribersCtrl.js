@@ -6,8 +6,9 @@ quizApp.controller('subscribersCtrl', ["$scope", "coursRestClient", "$cookies",
                 {value: "ACCEPTED", name: "Accepted"},
                 {value: "DENIED", name: "Denied"},
                 {value: "WAITING_ANSWER", name: "Waiting"
-                }]};
-        $scope.selectedStatus = $scope.statusData.statusList[0];
+                }],
+            selectedStatus :null
+        };   
         $scope.selectAllValue = false;
         refresh();
 
@@ -38,7 +39,7 @@ quizApp.controller('subscribersCtrl', ["$scope", "coursRestClient", "$cookies",
         $scope.updateStatus = function () {
             for (var i in  $scope.coursWithSubscribers.subscribers)
                 if ($scope.coursWithSubscribers.subscribers[i].selected) 
-                        $scope.coursWithSubscribers.subscribers[i].status  =  $scope.selectedStatus.value;
+                        $scope.coursWithSubscribers.subscribers[i].status  =  $scope.statusData.selectedStatus.value;
             
          var subscribersRestService = coursRestClient.getSubscribersResource();
          subscribersRestService.update({coursId:""}, $scope.coursWithSubscribers); 

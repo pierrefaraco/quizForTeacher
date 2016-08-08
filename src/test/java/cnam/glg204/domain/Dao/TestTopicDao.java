@@ -46,7 +46,7 @@ import com.cnam.quiz.server.util.persistence.AbstractDataAccessObject;
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class, TopicDaoImpl.class, QuestionDaoImpl.class })
 @Transactional(rollbackOn = Exception.class)
-@Rollback(false)
+@Rollback(true)
 public class TestTopicDao extends TestCase {
 
 	@Autowired

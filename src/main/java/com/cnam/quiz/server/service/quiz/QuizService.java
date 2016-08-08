@@ -11,6 +11,7 @@ import com.cnam.quiz.common.dto.SequenceWithQuestionsDto;
 import com.cnam.quiz.common.dto.SessionQuizDto;
 import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.CoursNotActiveException;
 import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 
@@ -19,9 +20,9 @@ public interface QuizService {
 	
 	   TopicDto findTopic(long id) ;
 	     	     
-	    void createTopic(TopicDto topicDto);
+	    void createTopic(TopicDto topicDto) throws CheckException ;
 	     
-	    void updateTopic(TopicDto topicDto);
+	    void updateTopic(TopicDto topicDto) throws CheckException ;
 	     
 	    void deleteTopic(long id);
 	 
@@ -31,9 +32,9 @@ public interface QuizService {
 	    
         QuestionDto findQuestion(long id) ;
 	     
-	    void createQuestion(QuestionDto  questionDto);
+	    void createQuestion(QuestionDto  questionDto) throws CheckException ;
 	     
-	    void updateQuestion(QuestionDto  questionDto);
+	    void updateQuestion(QuestionDto  questionDto)  throws CheckException ;
 	     
 	    void deleteQuestion(long id)  ;
 	 
@@ -41,23 +42,23 @@ public interface QuizService {
 	     
 	    SequenceWithQuestionsDto findSequence(long id) ;
 	     
-	    void createSequence(SequenceWithQuestionsDto sequenceDto);
+	    void createSequence(SequenceWithQuestionsDto sequenceDto) throws CheckException ;
 	     
-	    void updateSequence(SequenceWithQuestionsDto sequenceDto);
+	    void updateSequence(SequenceWithQuestionsDto sequenceDto)  throws CheckException ;
 	     
 	    void deleteSequence(long id)  ;
 	    
 	    List<SequenceDto> findSequenceByProfessor(long userId);   
 	    
-	    int addQuestionToSequence(long sequenceId, long questionId ,int pos);
+	    int addQuestionToSequence(long sequenceId, long questionId ,int pos) throws CheckException ;
 	    
-	    void removeQuestionFromSequence(long sequenceId,int pos);
+	    void removeQuestionFromSequence(long sequenceId,int pos) throws CheckException ;
 	   
         SessionQuizDto findSessionQuiz(long id) ;
 	     
-	    void startSessionQuiz(SessionQuizDto sessionDto)throws SessionQuizAlreadyRunningException, CoursNotActiveException;
+	    void startSessionQuiz(SessionQuizDto sessionDto)throws SessionQuizAlreadyRunningException, CoursNotActiveException, CheckException ;
 	     
-	    void stopSessionQuiz(SessionQuizDto sessionDto);
+	    void stopSessionQuiz(SessionQuizDto sessionDto) throws CheckException ;
 	     
 	    void deleteSessionQuiz(long id);
 	    

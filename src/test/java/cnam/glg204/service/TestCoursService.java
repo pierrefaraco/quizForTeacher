@@ -23,6 +23,7 @@ import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.QuestionType;
 import com.cnam.quiz.common.enums.SubscriberStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
 import com.cnam.quiz.server.domain.cours.CoursDaoImpl;
@@ -69,7 +70,11 @@ public class TestCoursService {
 		Cours cours = EntitiesCreator.createRandomCours(true, user, null);
 		CoursDto coursDto = coursToCoursDto(cours);
 
-		coursService.createCours(coursDto);
+		try {
+			coursService.createCours(coursDto);
+		} catch (CheckException e) {
+			fail();
+		}
 		long id = coursDto.getId();
 
 		CoursDto coursDto2 = coursService.findCours(id);
@@ -88,14 +93,22 @@ public class TestCoursService {
 		Cours cours = EntitiesCreator.createRandomCours(true, user, null);
 		CoursDto coursDto = coursToCoursDto(cours);
 
-		coursService.createCours(coursDto);
+		try {
+			coursService.createCours(coursDto);
+		} catch (CheckException e) {	
+			fail();
+		}
 		long id = coursDto.getId();
 
 		CoursDto coursDto2 = coursService.findCours(id);
 		assertEquals(coursDto.getName(), coursDto2.getName());
 
 		coursDto.setName("Ceci est mon nom");
-		coursService.updateCours(coursDto);
+		try {
+			coursService.updateCours(coursDto);
+		} catch (CheckException e) {
+			fail();
+		}
 
 		assertNotEquals(coursDto.getName(), coursDto2.getName());
 
@@ -117,7 +130,11 @@ public class TestCoursService {
 		for (int j = 0; j < 20; j++) {
 			Cours cours = EntitiesCreator.createRandomCours(true, user, null);
 			CoursDto coursDto = coursToCoursDto(cours);
-			coursService.createCours(coursDto);
+			try {
+				coursService.createCours(coursDto);
+			} catch (CheckException e) {
+				fail();
+			}
 			if (j == c)
 				toDelete = coursDto.getId();
 		}
@@ -138,14 +155,22 @@ public class TestCoursService {
 		for (int j = 0; j < 18; j++) {
 			Cours cours = EntitiesCreator.createRandomCours(true, user, null);
 			CoursDto coursDto = coursToCoursDto(cours);
-			coursService.createCours(coursDto);
+			try {
+				coursService.createCours(coursDto);
+			} catch (CheckException e) {
+				fail();
+			}
 			if (j == c)
 				toDelete = coursDto.getId();
 		}
 		for (int j = 0; j < 37; j++) {
 			Cours cours = EntitiesCreator.createRandomCours(false, user, null);
 			CoursDto coursDto = coursToCoursDto(cours);
-			coursService.createCours(coursDto);
+			try {
+				coursService.createCours(coursDto);
+			} catch (CheckException e) {
+				fail();
+			}
 			if (j == c)
 				toDelete = coursDto.getId();
 		}
@@ -163,7 +188,11 @@ public class TestCoursService {
 		
 		Cours cours = EntitiesCreator.createRandomCours(true, professor , null);
 		CoursDto coursDto = coursToCoursDto(cours);
-		coursService.createCours(coursDto);
+		try {
+			coursService.createCours(coursDto);
+		} catch (CheckException e) {
+			fail();
+		}
 		long coursId1 = coursDto.getId();
 		
 		for( int i =0 ;i< 25 ;i++){
@@ -171,12 +200,20 @@ public class TestCoursService {
 			user.setAccountType(AccountType.AUDITOR);
 			user.setFirstName ("auditor_"+i);
 			userDao.save(user);
-			coursService.suscribe(user.getId(),coursId1);
+			try {
+				coursService.suscribe(user.getId(),coursId1);
+			} catch (CheckException e) {
+				fail();
+			}
 		}
 		
 		Cours cours2 = EntitiesCreator.createRandomCours(true, professor , null);
 		CoursDto coursDto2 = coursToCoursDto(cours2);
-		coursService.createCours(coursDto2);
+		try {
+			coursService.createCours(coursDto2);
+		} catch (CheckException e) {
+			fail();
+		}
 		long coursId2 = coursDto2.getId();
 		
 		for( int i =0 ;i< 15 ;i++){
@@ -184,7 +221,11 @@ public class TestCoursService {
 			user.setAccountType(AccountType.AUDITOR);
 			user.setFirstName ("auditor_"+i);
 			userDao.save(user);
-			coursService.suscribe(user.getId(),coursId2);
+			try {
+				coursService.suscribe(user.getId(),coursId2);
+			} catch (CheckException e) {
+				fail();
+			}
 		}
 		
 	
@@ -204,7 +245,11 @@ public class TestCoursService {
 		
 		Cours cours = EntitiesCreator.createRandomCours(true, professor , null);
 		CoursDto coursDto = coursToCoursDto(cours);
-		coursService.createCours(coursDto);
+		try {
+			coursService.createCours(coursDto);
+		} catch (CheckException e1) {
+			e1.printStackTrace();
+		}
 		long coursId = coursDto.getId();
 		int c = (int) (Math.random() * 20);
 		long toUpdate = -1;
@@ -212,11 +257,20 @@ public class TestCoursService {
 			User user = EntitiesCreator.createRandomUser();
 			user.setAccountType(AccountType.AUDITOR);
 			userDao.save(user);	
-			coursService.suscribe(user.getId(),coursId);
+			try {
+				coursService.suscribe(user.getId(),coursId);
+			} catch (CheckException e1) {
+				e1.printStackTrace();
+			}
 			if (c == i)
 				toUpdate = user.getId();
 		}
-		coursService.updateSuscriberStatus(toUpdate, coursId, SubscriberStatus.ACCEPTED);
+		try {
+			coursService.updateSuscriberStatus(toUpdate, coursId, SubscriberStatus.ACCEPTED);
+		} catch (CheckException e1) {
+			
+			e1.printStackTrace();
+		}
 		Map <UserDto, SubscriberStatus> suscribers = coursService.getCourWithSuscribers(coursId).getSubscribers();
 		
 		for (Map.Entry<UserDto,SubscriberStatus> e :   suscribers.entrySet()) {
@@ -245,9 +299,17 @@ public class TestCoursService {
 		for (int i =0 ;i <20 ;i++ ){
 			Cours cours = EntitiesCreator.createRandomCours(true, professor , null);
 			CoursDto coursDto = coursToCoursDto(cours);
-			coursService.createCours(coursDto);
+			try {
+				coursService.createCours(coursDto);
+			} catch (CheckException e) {
+				fail();
+			}
 			if(x>i)
-				coursService.suscribe(auditor .getId(),	 coursDto.getId());
+				try {
+					coursService.suscribe(auditor .getId(),	 coursDto.getId());
+				} catch (CheckException e) {
+					fail();
+				}
 		}
 		
 		

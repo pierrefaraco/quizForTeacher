@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.cnam.quiz.common.enums.SessionStatus;
+import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.server.domain.DomainObject;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.sequence.Sequence;
@@ -175,6 +176,26 @@ public class SessionQuiz extends DomainObject  implements  Serializable {
 		if (status != other.status)
 			return false;
 		return true;
+	}
+
+	@Override
+	public void checkData() throws CheckException {
+		if (status == null || status.name().equals(""))
+			throw new CheckException("status can't be null or empty");
+
+		if (startDate == null)
+			throw new CheckException("No start date for this session quiz ");
+		
+		if (cours == null)
+			throw new CheckException("no cours  linked to this session quiz ");
+		
+		cours.checkData();
+		
+		if (cours == null)
+			throw new CheckException("no sequence linked to this session quiz ");
+		
+		sequence.checkData();
+
 	}
 
 
