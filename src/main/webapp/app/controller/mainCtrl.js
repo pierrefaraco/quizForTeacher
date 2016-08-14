@@ -31,8 +31,9 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
             }
         };
 
-        $rootScope.selectCours = function (cours) {     
-            if ($rootScope.selectedCours === cours) { 
+        $rootScope.selectCours = function (cours) {  
+       
+            if ($rootScope.selectedCours != null && $rootScope.selectedCours.id == cours.id) { 
                 unSelectCours();
             } 
             else
