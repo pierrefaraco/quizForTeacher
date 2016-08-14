@@ -7,30 +7,7 @@ quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$co
              var coursRestService = coursRestClient.getListCoursResource();
              $scope.listOfCours = coursRestService.query({userId: $cookies.get("userId")});    
         };
-
-        $scope.selectCours = function (cours) {
-            if ($rootScope.selectedCours === cours)
-                 unSelectCours ();
-            else{
-                $rootScope.selectedCours = cours;
-                $cookies.put("selectedCours", $scope.selectedCours.id);
-                var coursRestService = coursRestClient.getWebsocketPoolNumberResource();
-                coursRestService.get({coursId: $rootScope.selectedCours.id, userId: $cookies.get("userId")},function(params){
-                     $rootScope.poolNumber =  params.poolNumber;  
-                     $cookies.put("poolNumber", params.poolNumber);
-                     webSocketService.init();
-                });    
-               
-            }
-        };
-            
-        function unSelectCours () {
-            $rootScope.selectedCours = null;
-            $cookies.put("selectedCours", null);
-            $cookies.put("poolNumber", null);
-            webSocketService.unsubscribe();
-        };
-           
+          
         $scope.create = function (cours){
               var coursResource = coursRestClient.getCoursResource();
               cours.subscribers = null;

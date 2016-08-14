@@ -1,15 +1,5 @@
 <!DOCTYPE html  >
-<html>
-    <!-- ng-strict-di -->
-    <!--
-        <script src="js/jquery.js"></script>
-        <script src="js/angular.min.js"></script>
-        <script src="js/angular-route.js"></script>
-        <script src="js/angular-resource.js"></script>
-        <script src="js/angular-cookies.min.js"></script>
-        <script src="js/ui-bootstrap.min.js"></script>
-    -->
-
+<html>   
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/angular/angular.js"></script>
     <script src="node_modules/angular-route/angular-route.js"></script>
@@ -33,6 +23,7 @@
     <script src="app/services/rest/userRestClient.js"></script>
     <script src="app/services/rest/statisticRestClient.js"></script>
     <script src="app/services/sessionService.js"></script>
+    <script src="app/services/interceptor/interceptor.js"></script>
     <script src="app/services/websocket/webSocketServices.js" type="text/javascript"></script>
     <script src="app/controller/mainCtrl.js"></script>
     <script src="app/controller/homeCtrl.js"></script>
@@ -42,6 +33,7 @@
     <script src="app/controller/profilCtrl.js"></script>
     <script src="app/controller/subscribersCtrl.js"></script>
     <script src="app/controller/statisticsCtrl.js"></script>
+    
     <head>
         <title>Main page</title>
         <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
@@ -54,8 +46,8 @@
     <body ng-app="quizApp" ng-strict-di>
 
         <div class="container" ng-controller="mainCtrl">
-            <div ng-include src="'app/views/forms/Question_presentation_form.html'"></div>
             <div ng-include src="'app/views/forms/Result_form.html'"></div>
+            <div ng-include src="'app/views/forms/Question_presentation_form.html'"></div>
 
             <!-- Header -->
 
@@ -65,7 +57,7 @@
             </header>
 
             <!-- Menu navigation -->
-
+       
             <div class="row">
                 <div class="col-sm-12">
                     <nav class="navbar navbar-default">
@@ -111,6 +103,19 @@
                         <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_profile_bluetxt_80x15_fr_FR.png?locale=" width="80" height="15" border="0" alt="Voir le profil de Pierre Faraco sur LinkedIn">
                     </a>
             </footer>   
+        </div>
+                <script type="text/ng-template" id="messageModal.html">
+        <div class="modal-header">
+        <h3 class="modal-title"> {{response.status}}   </h3>
+        </div>
+        <div class="modal-body">
+        <h3 class="modal-title"> {{response.statusText}}  </h3>
+
+        </div>
+        <div class="modal-footer">
+        <button class="btn btn-info" type="acknowledge" ng-click="acknowledge()">acknowledge</button>
+        </div>
+    </script> 
     </body>
 </html>
 

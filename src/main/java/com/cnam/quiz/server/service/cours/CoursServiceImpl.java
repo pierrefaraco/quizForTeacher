@@ -16,6 +16,7 @@ import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.AccountType;
 import com.cnam.quiz.common.enums.SubscriberStatus;
 import com.cnam.quiz.common.exceptions.CheckException;
+import com.cnam.quiz.common.exceptions.NoWebSocketMethodToSubscribeException;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
 import com.cnam.quiz.server.domain.user.UserDao;
@@ -178,7 +179,7 @@ public class CoursServiceImpl implements CoursService{
 	}
 	
 	@Override
-	public PoolNumberDto getWebSocketMethodeNumber(long coursId,long  userId) {	
+	public PoolNumberDto getWebSocketMethodeNumber(long coursId,long  userId)throws NoWebSocketMethodToSubscribeException {	
 		Cours cours = coursDao.find(coursId);
 		User user = userDao.find(userId);
 		PoolNumberDto poolNumber = new PoolNumberDto();

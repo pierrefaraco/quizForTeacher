@@ -27,6 +27,7 @@ import com.cnam.quiz.common.enums.QuestionType;
 import com.cnam.quiz.common.enums.SessionStatus;
 import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.CoursNotActiveException;
+import com.cnam.quiz.common.exceptions.NoCoursSelectedException;
 import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
@@ -438,7 +439,7 @@ public class TestQuizService {
 		try {
 			try {
 				quizService.startSessionQuiz(sessionQuizDto);
-			} catch (CheckException e) {
+			} catch (CheckException | NoCoursSelectedException e) {
 				fail();
 			}
 		} catch (SessionQuizAlreadyRunningException e) {

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +47,8 @@ public class UserRestWebService {
 			return new ResponseEntity< UserDto >( HttpStatus.NOT_MODIFIED );		
 		return new ResponseEntity< UserDto >(user, HttpStatus.ACCEPTED);
 	}
-
+	
+	@ExceptionHandler(CreateException.class)
 	@RequestMapping(value = "/unsecured/user/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto> createAccount(@RequestBody UserDto userDto ) throws CheckException, CreateException {
 		userService.createAccount(userDto);

@@ -19,6 +19,7 @@ import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.common.enums.SessionStatus;
 import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.CoursNotActiveException;
+import com.cnam.quiz.common.exceptions.NoCoursSelectedException;
 import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 import com.cnam.quiz.server.domain.cours.Cours;
 import com.cnam.quiz.server.domain.cours.CoursDao;
@@ -367,9 +368,10 @@ public class QuizServiceImpl implements  QuizService{
 	}
 
 	@Override
-	public void startSessionQuiz(SessionQuizDto sessionQuizDto) throws SessionQuizAlreadyRunningException, CoursNotActiveException, CheckException {
-		
+	public void startSessionQuiz(SessionQuizDto sessionQuizDto) throws SessionQuizAlreadyRunningException, CoursNotActiveException, CheckException, NoCoursSelectedException {           
 		Cours cours =  coursDao.find(sessionQuizDto.getCoursId());
+                if (cours == null)
+                    throw new NoCoursSelectedException ("no cours selected");
 		if ( !cours.isActive() )
 			throw new CoursNotActiveException("The cours " +cours.getName()  + " is not active");
 		

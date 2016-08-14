@@ -4,11 +4,12 @@ quizApp.factory("webSocketService", ["$q", "$timeout", "$cookies",
             client: null,
             stomp: null
         }, messageIds = [];
-        var subscription;
+        var subscription = null;
         service.RECONNECT_TIMEOUT = 30000;
         service.SOCKET_URL = "/quizForTeacher/all/socket"; // adrese du web socket
         service.COURS = "/app/cours"; // adresse de la methode sur le server
-        service.COURS_SUSCRIBERS = "/auditors/cours";// adresse de la methodesur le client   
+        service.COURS_SUSCRIBERS = "/auditors/cours";// adresse de la methode sur le client   
+        
        
         var initialize = function () {
             socket.client = new SockJS(service.SOCKET_URL);
@@ -37,15 +38,15 @@ quizApp.factory("webSocketService", ["$q", "$timeout", "$cookies",
 
     
 
-        initialize();
+        //initialize();
 
         return{
             unsubscribe: function () {
-                subscription .unsubscribe();
+                if ( subscription != null)
+                    subscription.unsubscribe();
             }
             ,    
             init: function () {
-                subscription .unsubscribe();
                 initialize();
             }
             ,

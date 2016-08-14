@@ -4,7 +4,8 @@ quizApp.controller('statisticsCtrl', ["$scope", "$rootScope", "$cookies", "quizR
         refresh();
         function refresh() {
             var getListSessionCours = quizRestClient.getListSessionCoursResource();
-            $scope.sessionsQuizList = getListSessionCours.query({coursId: $cookies.get("selectedCours")});
+            if($cookies.get("selectedCours") != null && $cookies.get("selectedCours") !="")
+                $scope.sessionsQuizList = getListSessionCours.query({coursId: $cookies.get("selectedCours")});
         };
         
          $scope.showSessionResult =  function (sessionQuiz){

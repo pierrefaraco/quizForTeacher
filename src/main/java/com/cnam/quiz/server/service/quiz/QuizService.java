@@ -13,6 +13,7 @@ import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
 import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.CoursNotActiveException;
+import com.cnam.quiz.common.exceptions.NoCoursSelectedException;
 import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 
 
@@ -56,7 +57,7 @@ public interface QuizService {
 	   
         SessionQuizDto findSessionQuiz(long id) ;
 	     
-	    void startSessionQuiz(SessionQuizDto sessionDto)throws SessionQuizAlreadyRunningException, CoursNotActiveException, CheckException ;
+	    void startSessionQuiz(SessionQuizDto sessionDto)throws SessionQuizAlreadyRunningException, CoursNotActiveException, CheckException, NoCoursSelectedException ;
 	     
 	    void stopSessionQuiz(SessionQuizDto sessionDto) throws CheckException ;
 	     

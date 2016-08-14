@@ -1,26 +1,18 @@
 'use strict';
 
 var quizApp = angular.module('quizApp',['ngRoute','ngResource','ngCookies','ui.bootstrap','hljs','ui.select','ngSanitize']);
+
+quizApp.config(['$httpProvider',function($httpProvider){    
+   
+       $httpProvider.defaults.withCredentials = true;  
+       $httpProvider.interceptors.push('httpRequestInterceptor');
+    
+}]);
+      
+quizApp.run(["$rootScope","$cookies","coursRestClient","userRestClient",function($rootScope,$cookies,coursRestClient,userRestClient){
         
-        
- quizApp.run(["$rootScope","$cookies","coursRestClient","userRestClient",function($rootScope,$cookies,coursRestClient,userRestClient){
-         var coursRestService = coursRestClient.getFreeCoursResource();
-         var userRestObject = userRestClient.getUserRestObject();
-         userRestObject.get({userId:$cookies.get("userId")},function(data){  
-             $rootScope.user  = data ; 
-         if ($rootScope.user !== null)
-            $rootScope.user.connected = true;
-         else 
-            $rootScope.user.connected = false;  
-         });
-        if ($cookies.get("selectedCours") !== null)
-           coursRestService.get({coursId:$cookies.get("selectedCours")},function(selectedCours){
-                 selectedCours.status = $cookies.get("courStatus");  
-                 $rootScope.selectedCours =selectedCours;
-            });
+    
  }]);
    
-quizApp.config(['$httpProvider',function($httpProvider){    
-          $httpProvider.defaults.withCredentials = true;  
-}]);
+
 

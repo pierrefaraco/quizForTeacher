@@ -11,6 +11,7 @@ import com.cnam.quiz.common.dto.PoolNumberDto;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
 import com.cnam.quiz.common.exceptions.CheckException;
+import com.cnam.quiz.common.exceptions.NoWebSocketMethodToSubscribeException;
 
 
 public interface CoursService {	
@@ -39,5 +40,5 @@ public interface CoursService {
 		
 		List<CoursWithStatusDto> findAllCoursWithAuditorStatus(long auditorID);
 		
-		PoolNumberDto getWebSocketMethodeNumber(long coursId,long  userId);
+		PoolNumberDto getWebSocketMethodeNumber(long coursId,long  userId) throws NoWebSocketMethodToSubscribeException;
 }

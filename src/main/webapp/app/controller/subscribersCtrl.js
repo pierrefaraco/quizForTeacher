@@ -14,7 +14,8 @@ quizApp.controller('subscribersCtrl', ["$scope", "coursRestClient", "$cookies",
 
         function refresh() {
             var subscribersRestService = coursRestClient.getSubscribersResource();
-            $scope.coursWithSubscribers = subscribersRestService.get({coursId: $cookies.get("selectedCours")});
+            if($cookies.get("selectedCours") != null && $cookies.get("selectedCours") !="")
+                $scope.coursWithSubscribers = subscribersRestService.get({coursId: $cookies.get("selectedCours")});
         }
         ;
 

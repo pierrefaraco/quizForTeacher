@@ -1,10 +1,11 @@
-quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$cookies", "$uibModal", "webSocketService", "statisticRestClient",
-    function ($scope, $rootScope, quizRestClient, $cookies, $uibModal, webSocketService, statisticRestClient) {
+quizApp.controller('sessionCtrl', ["$scope", "quizRestClient", "$cookies", "$uibModal", "webSocketService", "statisticRestClient",
+    function ($scope,  quizRestClient, $cookies, $uibModal, webSocketService, statisticRestClient) {
 
         refresh();
 
         function  refresh() {
             var sessionService = quizRestClient.getListSessionCoursResource();
+            if ($cookies.get("selectedCours") != null &&  $cookies.get("selectedCours") != '')
             sessionService.query({coursId: $cookies.get("selectedCours")}, function (sessionsQuiz) {
                 $scope.runningSessionQuiz = null;
                 for (var i in sessionsQuiz) {
@@ -15,7 +16,7 @@ quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$c
                 if($scope.runningSessionQuiz != null)
                      $scope.chargeSequence();
             }, function (response) {
-                alert("Error : " + response.status);
+            
             });
         }
         ;
@@ -26,7 +27,7 @@ quizApp.controller('sessionCtrl', ["$scope", "$rootScope", "quizRestClient", "$c
                 $scope.runningSessionQuiz = session;
                 $scope.chargeSequence();
             }, function (response) {
-                alert("Error : " + response.status);
+         
             });
         };
 

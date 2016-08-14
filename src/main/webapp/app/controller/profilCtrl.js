@@ -16,7 +16,7 @@ quizApp.controller('profilCtrl', ["$scope", "$rootScope", "userRestClient", "$co
             userRestObject.update({ } , $scope.user , function(res){
                
             },function(response){
-                    alert("Error : "+ response.status );
+                  
             });
         };
 
@@ -24,6 +24,8 @@ quizApp.controller('profilCtrl', ["$scope", "$rootScope", "userRestClient", "$co
             var unsecuredRestObject = userRestClient.getUnsecuredUserRestObject();
             unsecuredRestObject.save({},$scope.user,function(){
                  $location.path('');
+            },function(response){
+              
             });
             $scope.user = null;
         };

@@ -2,15 +2,14 @@
 quizApp.controller('homeCtrl',
 		[
 				"$scope",
+                                "$rootScope",
                                 "$location",
-				"$cookies",
-				"AuthSharedService",
-				function($scope,$location,$cookies, AuthSharedService) {
+				"AuthSharedService",  
+				function($scope,$rootScope,$location, AuthSharedService) {
 					
                                         $scope.login = function() {
 						AuthSharedService.login($scope.Email, $scope.Password,
-								'false');    
-                                                //$scope.$parent.connected = true;
+								'false');
 					};
 					
 					$scope.signup = function () {                                   

@@ -16,6 +16,7 @@ import com.cnam.quiz.common.dto.SessionQuizDto;
 import com.cnam.quiz.common.dto.TopicDto;
 import com.cnam.quiz.common.exceptions.CheckException;
 import com.cnam.quiz.common.exceptions.CoursNotActiveException;
+import com.cnam.quiz.common.exceptions.NoCoursSelectedException;
 import com.cnam.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 import com.cnam.quiz.server.service.quiz.QuizService;
 
@@ -180,17 +181,8 @@ public class QuizRestWebService {
 	}
 	
 	@RequestMapping(value = "/professor/sessionquiz/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity <SessionQuizDto> startSessionQuiz(@RequestBody SessionQuizDto sessionQuizDto) throws CheckException {
-		
-		try {
-			quizService.startSessionQuiz(sessionQuizDto);
-		} catch (SessionQuizAlreadyRunningException e) {
-			e.printStackTrace();
-			return new ResponseEntity( HttpStatus.INTERNAL_SERVER_ERROR);	
-		} catch (CoursNotActiveException e) {
-			e.printStackTrace();
-			return new ResponseEntity( HttpStatus.INTERNAL_SERVER_ERROR);	
-		}
+	public ResponseEntity <SessionQuizDto> startSessionQuiz(@RequestBody SessionQuizDto sessionQuizDto) throws CheckException, NoCoursSelectedException, SessionQuizAlreadyRunningException, CoursNotActiveException {
+		quizService.startSessionQuiz(sessionQuizDto);	
 		if(sessionQuizDto.getId() == 0 )
 			return new ResponseEntity <SessionQuizDto>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<SessionQuizDto>(sessionQuizDto, HttpStatus.OK);

@@ -17,6 +17,7 @@ import com.cnam.quiz.common.dto.PoolNumberDto;
 import com.cnam.quiz.common.dto.UserDto;
 import com.cnam.quiz.common.enums.SubscriberStatus;
 import com.cnam.quiz.common.exceptions.CheckException;
+import com.cnam.quiz.common.exceptions.NoWebSocketMethodToSubscribeException;
 import com.cnam.quiz.server.service.cours.CoursService;
 
 @RestController
@@ -123,7 +124,7 @@ public class CoursRestWebService {
 	}
 
 	@RequestMapping(value = "/all/cours/{coursid}/user/{userid}/getPool/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PoolNumberDto> getWebSocketMethodeNumber(@PathVariable("coursid")long coursId,@PathVariable("userid")long  userId) {
+	public ResponseEntity<PoolNumberDto> getWebSocketMethodeNumber(@PathVariable("coursid")long coursId,@PathVariable("userid")long  userId) throws NoWebSocketMethodToSubscribeException{
 		PoolNumberDto poolNumber = coursService.getWebSocketMethodeNumber(coursId, userId);
 		return new ResponseEntity<PoolNumberDto>(poolNumber, HttpStatus.OK);
 	}

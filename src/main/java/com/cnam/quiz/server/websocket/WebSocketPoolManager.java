@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 
+import com.cnam.quiz.common.exceptions.NoWebSocketMethodToSubscribeException;
+
 @Component("webSocketPoolManager")
 public class WebSocketPoolManager {
 	public static int POOLSIZE = 10;
@@ -27,11 +29,17 @@ public class WebSocketPoolManager {
 			pool[i].remove(userId);
 	}
 
-	public int getWebSocketMethodeNumber(long coursId, long userId) {
+	public int getWebSocketMethodeNumber(long coursId, long userId) throws NoWebSocketMethodToSubscribeException {
 		
 		// j'enleve l'utilisateur de toutes les méthodes avant de le placer ailleur.
 		remove(userId);
-
+		
+		
+		//la valeur du cours à  =-1   est considéré comme un  unsuscribe
+		
+		if ( coursId == -1 )
+			return -1;
+		
 		// test si une web socket methode est deja reservé pour ce cours
 		// rajout de l'utilisateur le cas echeant
 
@@ -50,8 +58,10 @@ public class WebSocketPoolManager {
 				pool[i].add(userId);
 				return i;
 			}
+		
+		throw new NoWebSocketMethodToSubscribeException("no methode  to suscribe for receive or push questions");
+		
 
-		return -1;
 	}
 	
 	public void print(){
