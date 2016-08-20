@@ -7,7 +7,7 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
 
         $rootScope.init = function () {
           
-            if ($cookies.get("userId") != null && $cookies.get("userId") != "") {
+            if ($cookies.get("userId") != null && $cookies.get("userId") != "null") {
                 var userRestObject = userRestClient.getUserRestObject();
                 userRestObject.get({userId: $cookies.get("userId")}, function (data) {
                     $rootScope.user = data;
@@ -17,7 +17,7 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
                         $rootScope.user.connected = false;
                 });
               
-                if ($cookies.get("selectedCours") !== "null") {
+                if ($cookies.get("selectedCours") != null && $cookies.get("selectedCours") != "null") {
                     var freeCoursResource = coursRestClient.getFreeCoursResource();
                     freeCoursResource.get({coursId: $cookies.get("selectedCours")}, function (cours) {
                         cours.status = $cookies.get("courStatus");
@@ -34,7 +34,7 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
         $rootScope.selectCours = function (cours) {  
        
             if ($rootScope.selectedCours != null && $rootScope.selectedCours.id == cours.id) { 
-                unSelectCours();
+                 $rootScope.unSelectCours();
             } 
             else
             {            
@@ -46,9 +46,8 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
             }
         };
 
-        function unSelectCours() {
-            freeSlotOnPool().then(function () {
-             
+        $rootScope.unSelectCours = function() {
+            freeSlotOnPool().then(function () {       
                 $rootScope.selectedCours = null;
                 $cookies.put("selectedCours", null);
                 $cookies.put("courStatus", null);

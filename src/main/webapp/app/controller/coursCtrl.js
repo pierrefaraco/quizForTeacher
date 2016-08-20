@@ -12,9 +12,9 @@ quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$co
               var coursResource = coursRestClient.getCoursResource();
               cours.subscribers = null;
               coursResource.save({ } , cours , function(res){
-                    refresh();
+              refresh();
             },function(response){
-                    alert("Error : "+ response.status );
+                
             });
         };
         
@@ -24,7 +24,7 @@ quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$co
                     $scope.selectCours (cours);
                     refresh();           
             },function(response){
-                    alert("Error : "+ response.status );
+              
             });
             
         };
@@ -32,11 +32,10 @@ quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$co
        $scope.delete = function (){
            var coursResource  = coursRestClient.getCoursResource();
            coursResource.delete({coursId:$scope.selectedCours.id} ,  function(res){
-                       unSelectCours();
-                       refresh();
-                      
+                       $rootScope.unSelectCours();
+                       refresh();                     
                },function(response){
-                       alert("Error : "+ response.status );
+                      
                });
        }
        

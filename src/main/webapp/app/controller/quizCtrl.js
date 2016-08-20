@@ -20,7 +20,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
                     $scope.selectedTopic = createdTopic;
                     $scope.listOfQuestions = null;
             },function(response){
-                    alert("Error : "+ response.status );
+               
             });      
         };
         
@@ -30,7 +30,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
                    refreshTopic();
                    $scope.selectedTopic = editedTopic;
             },function(response){
-                    alert("Error : "+ response.status );
+               
             });         
         };
             
@@ -40,7 +40,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
                     refreshTopic();
                     $scope.selectedTopic = null;
             },function(response){
-                    alert("Error : "+ response.status );
+                   
             });         
        };
        
@@ -77,7 +77,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
            function(){        
                   $scope.chargeSelectedSequence ($scope.selectedSequence);
             },function(response){
-                    alert("Error : "+ response.status );
+                  
             });         
        };
        
@@ -90,7 +90,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
            function(){        
                   $scope.chargeSelectedSequence ($scope.selectedSequence);
             },function(response){
-                    alert("Error : "+ response.status );
+                  
             });         
        };
        
@@ -104,7 +104,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
                 sequenceRestService.get({sequenceId: $scope.selectedSequence.id }, function(sequence){
                         $scope.selectedSequence = sequence;
                 },function(response){
-                        alert("Error : "+ response.status );
+                        
                 });         
        };
                    
@@ -114,7 +114,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
                     refreshSequence();
                     $scope.selectedSequence = createdSequence;
             },function(response){
-                    alert("Error : "+ response.status );
+                   
             });      
         };
         
@@ -124,7 +124,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
                     refreshSequence();
                     $scope.selectedSequence = editedSequence;
             },function(response){
-                    alert("Error : "+ response.status );
+                  
             });          
         };
             
@@ -134,7 +134,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
                     refreshSequence();
                     $scope.selectedSequence = null;
             },function(response){
-                    alert("Error : "+ response.status );
+                   
             });         
        };
        
@@ -157,7 +157,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         }; 
              
         $scope.refreshQuestions = function (topic){
-            $scope.selectedTopic = topic;
+            $scope.selectedTopic = topic;          
             var questioncRestService = quizRestClient.getListQuestionResource();
             $scope.listOfQuestions = questioncRestService .query({topicId:$scope.selectedTopic.id});   
             $scope.chargeSelectedSequence($scope.selectedSequence);
@@ -172,30 +172,30 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         $scope.createQuestion = function (question){
             var questionRestService = quizRestClient.getQuestionResource();
             questionRestService.save({},question, function(createdQuestion){
-                     $scope.refreshQuestions();
+                     $scope.refreshQuestions($scope.selectedTopic);
                      $scope.selectedQuestion = createdQuestion;
             },function(response){
-                    alert("Error : "+ response.status );
+                   
             });   
         };
         
         $scope.editQuestion= function (question){ 
             var questionRestService = quizRestClient.getQuestionResource();
             questionRestService.update({},question, function(editedQuestion){
-                   $scope.refreshQuestions();
+                   $scope.refreshQuestions($scope.selectedTopic);
                    $scope.selectedQuestion = editedQuestion ;
             },function(response){
-                    alert("Error : "+ response.status );
+                 
             });  
         };
             
        $scope.deleteQuestion = function (){
             var questionRestService = quizRestClient.getQuestionResource();
             questionRestService.remove({questionId : $scope.selectedQuestion.id},function(res){
-                    $scope.refreshQuestions();
+                    $scope.refreshQuestions($scope.selectedTopic);
                     $scope.selectedQuestion = null ;
             },function(response){
-                    alert("Error : "+ response.status );
+                  
             });  
        };
           

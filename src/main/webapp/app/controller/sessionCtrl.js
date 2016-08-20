@@ -5,7 +5,7 @@ quizApp.controller('sessionCtrl', ["$scope", "quizRestClient", "$cookies", "$uib
 
         function  refresh() {
             var sessionService = quizRestClient.getListSessionCoursResource();
-            if ($cookies.get("selectedCours") != null &&  $cookies.get("selectedCours") != '')
+            if ($cookies.get("selectedCours") != null  && $cookies.get("selectedCours") != "null")
             sessionService.query({coursId: $cookies.get("selectedCours")}, function (sessionsQuiz) {
                 $scope.runningSessionQuiz = null;
                 for (var i in sessionsQuiz) {
