@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<section >
+<section>
 	<div>
 		<form class="form-horizontal" name="registerForm">
 
@@ -62,7 +62,7 @@ and open the template in the editor.
 				<label class="col-sm-3 control-label" for="BirthDay">Birth
 					Day</label>
 				<div class="col-sm-4">
-					<input id="birthDay" type="date"  class="form-control"
+					<input id="birthDay" type="date" class="form-control"
 						name="LastName" ng-model="user.birthDay" />
 				</div>
 			</div>
@@ -76,11 +76,10 @@ and open the template in the editor.
 
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-9">
-					<input ng-show="user.connected" type="submit" class="btn btn-default" value="Update"
-						ng-click="updateUser()" /> 
-                                        <input ng-show="!user.connected" type="submit"
-						class="btn btn-default" value="Create" ng-click="createUser()"            
-                                                />
+					<input ng-show="user.connected" type="submit"
+						class="btn btn-default" value="Update" ng-click="updateUser()" />
+					<input ng-show="!user.connected" type="submit"
+						class="btn btn-default" value="Create" ng-click="createUser()" />
 				</div>
 			</div>
 		</form>

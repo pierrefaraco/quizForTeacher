@@ -25,25 +25,25 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.cnam.quiz.common.config.PersistenceJPAConfig;
-import com.cnam.quiz.common.dto.QuestionDto;
-import com.cnam.quiz.common.enums.AccountType;
-import com.cnam.quiz.common.enums.QuestionType;
-import com.cnam.quiz.common.enums.SessionStatus;
-import com.cnam.quiz.common.enums.SubscriberStatus;
-import com.cnam.quiz.server.domain.cours.Cours;
-import com.cnam.quiz.server.domain.questions.Question;
-import com.cnam.quiz.server.domain.questions.QuestionDao;
-import com.cnam.quiz.server.domain.questions.QuestionDaoImpl;
-import com.cnam.quiz.server.domain.result.Result;
-import com.cnam.quiz.server.domain.sequence.Sequence;
-import com.cnam.quiz.server.domain.sessionquiz.SessionQuiz;
-import com.cnam.quiz.server.domain.topic.Topic;
-import com.cnam.quiz.server.domain.topic.TopicDao;
-import com.cnam.quiz.server.domain.topic.TopicDaoImpl;
-import com.cnam.quiz.server.domain.user.User;
-import com.cnam.quiz.server.domain.user.UserDao;
-import com.cnam.quiz.server.domain.user.UserDaoImpl;
+import cnam.glg204.quiz.common.config.PersistenceJPAConfig;
+import cnam.glg204.quiz.common.dto.QuestionDto;
+import cnam.glg204.quiz.common.enums.AccountType;
+import cnam.glg204.quiz.common.enums.QuestionType;
+import cnam.glg204.quiz.common.enums.SessionStatus;
+import cnam.glg204.quiz.common.enums.SubscriberStatus;
+import cnam.glg204.quiz.server.domain.cours.Cours;
+import cnam.glg204.quiz.server.domain.questions.Question;
+import cnam.glg204.quiz.server.domain.questions.QuestionDao;
+import cnam.glg204.quiz.server.domain.questions.QuestionDaoImpl;
+import cnam.glg204.quiz.server.domain.result.Result;
+import cnam.glg204.quiz.server.domain.sequence.Sequence;
+import cnam.glg204.quiz.server.domain.sessionquiz.SessionQuiz;
+import cnam.glg204.quiz.server.domain.topic.Topic;
+import cnam.glg204.quiz.server.domain.topic.TopicDao;
+import cnam.glg204.quiz.server.domain.topic.TopicDaoImpl;
+import cnam.glg204.quiz.server.domain.user.User;
+import cnam.glg204.quiz.server.domain.user.UserDao;
+import cnam.glg204.quiz.server.domain.user.UserDaoImpl;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,
 		UserDaoImpl.class,TopicDaoImpl.class ,QuestionDaoImpl.class })

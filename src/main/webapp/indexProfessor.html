@@ -1,111 +1,128 @@
 <!DOCTYPE html  >
-<html>   
-    <script src="node_modules/jquery/dist/jquery.js"></script>
-    <script src="node_modules/angular/angular.js"></script>
-    <script src="node_modules/angular-route/angular-route.js"></script>
-    <script src="node_modules/angular-resource/angular-resource.js"></script>
-    <script src="node_modules/angular-cookies/angular-cookies.min.js"></script>
-    <script src="node_modules/sockjs/sockjs-0.3.4.min.js" type="text/javascript"></script>
-    <script src="node_modules/stompjs/lib/stomp.min.js" type="text/javascript"></script>
-    <script src="node_modules/lodash/dist/lodash.min.js"></script>
-    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
-    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
-    <script src="node_modules/highlightjs/highlight.pack.js"></script>
-    <script >hljs.initHighlightingOnLoad();</script>
-    <script src="node_modules/angular-highlightjs/angular-highlightjs.js"></script>
-    <script src="node_modules/ui-select/dist/select.js"></script>
-    <script src="node_modules/angular-sanitize/angular-sanitize.js"></script>   
-    <script src="app/main.js"></script>
-    <script src="app/constants.js"></script>
-    <script src="app/routage/route_professor.js"></script>
-    <script src="app/services/rest/quizRestClient.js"></script>
-    <script src="app/services/rest/coursRestClient.js"></script>
-    <script src="app/services/rest/userRestClient.js"></script>
-    <script src="app/services/rest/statisticRestClient.js"></script>
-    <script src="app/services/sessionService.js"></script>
-    <script src="app/services/interceptor/interceptor.js"></script>
-    <script src="app/services/websocket/webSocketServices.js" type="text/javascript"></script>
-    <script src="app/controller/mainCtrl.js"></script>
-    <script src="app/controller/homeCtrl.js"></script>
-    <script src="app/controller/coursCtrl.js"></script>
-    <script src="app/controller/quizCtrl.js"></script>
-    <script src="app/controller/sessionCtrl.js"></script>
-    <script src="app/controller/profilCtrl.js"></script>
-    <script src="app/controller/subscribersCtrl.js"></script>
-    <script src="app/controller/statisticsCtrl.js"></script>
-    
-    <head>
-        <title>Main page</title>
-        <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet">
-        <link rel="shortcut icon" href="">
-        <link rel="stylesheet" href="node_modules/highlightjs/styles/tomorrow.css">
-        <link rel="stylesheet" href="node_modules/ui-select/dist/select.css">
-    </head>
+<html>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/angular/angular.js"></script>
+<script src="node_modules/angular-route/angular-route.js"></script>
+<script src="node_modules/angular-resource/angular-resource.js"></script>
+<script src="node_modules/angular-cookies/angular-cookies.min.js"></script>
+<script src="node_modules/sockjs/sockjs-0.3.4.min.js"
+	type="text/javascript"></script>
+<script src="node_modules/stompjs/lib/stomp.min.js"
+	type="text/javascript"></script>
+<script src="node_modules/lodash/dist/lodash.min.js"></script>
+<script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+<script
+	src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+<script src="node_modules/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="node_modules/angular-highlightjs/angular-highlightjs.js"></script>
+<script src="node_modules/ui-select/dist/select.js"></script>
+<script src="node_modules/angular-sanitize/angular-sanitize.js"></script>
+<script src="app/main.js"></script>
+<script src="app/constants.js"></script>
+<script src="app/routage/route_professor.js"></script>
+<script src="app/services/rest/quizRestClient.js"></script>
+<script src="app/services/rest/coursRestClient.js"></script>
+<script src="app/services/rest/userRestClient.js"></script>
+<script src="app/services/rest/statisticRestClient.js"></script>
+<script src="app/services/sessionService.js"></script>
+<script src="app/services/interceptor/interceptor.js"></script>
+<script src="app/services/websocket/webSocketServices.js"
+	type="text/javascript"></script>
+<script src="app/controller/mainCtrl.js"></script>
+<script src="app/controller/homeCtrl.js"></script>
+<script src="app/controller/coursCtrl.js"></script>
+<script src="app/controller/quizCtrl.js"></script>
+<script src="app/controller/sessionCtrl.js"></script>
+<script src="app/controller/profilCtrl.js"></script>
+<script src="app/controller/subscribersCtrl.js"></script>
+<script src="app/controller/statisticsCtrl.js"></script>
 
-    <body ng-app="quizApp" ng-strict-di>
-        
-        <div class="container" ng-controller="mainCtrl">
-            <div ng-include src="'app/views/forms/Result_form.html'"></div>
-            <div ng-include src="'app/views/forms/Question_presentation_form.html'"></div>
+<head>
+<title>Main page</title>
+<link href="node_modules/bootstrap/dist/css/bootstrap.css"
+	rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link rel="shortcut icon" href="">
+<link rel="stylesheet"
+	href="node_modules/highlightjs/styles/tomorrow.css">
+<link rel="stylesheet" href="node_modules/ui-select/dist/select.css">
+</head>
 
-            <!-- Header -->
+<body ng-app="quizApp" ng-strict-di>
 
-            <header class="row" ng-show="user.connected" >
-                <div class="col-sm-12"> <div class="alert alert-success" ng-show="selectedCours.active">{{selectedCours.name}} selected and ready for publish questions ! </div></div>
-                <div class="col-sm-12"> <div class="alert alert-danger" ng-show="!selectedCours.active"> No active cours selected </div></div>
-            </header>
+	<div class="container" ng-controller="mainCtrl">
+		<div ng-include src="'app/views/forms/Result_form.html'"></div>
+		<div ng-include
+			src="'app/views/forms/Question_presentation_form.html'"></div>
 
-            <!-- Menu navigation -->
-       
-            <div class="row">
-               
-                <div class="col-sm-12">
-                    <nav class="navbar navbar-inverse">
-                        <div class="container-fluid">
-                            <div class="navbar-header">
-                                <a class="navbar-brand">Quiz for teacher</a>
-                            </div>
-                            <ul class="nav navbar-nav">
-                                <li><a href="#/">Home</a></li>
-                                <li ng-show="user.connected"><a href="#/CoursUI">Cours</a></li>
-                                <li ng-show="user.connected"><a href="#/SubscribersUI">Subscribers</a></li>
-                                <li ng-show="user.connected"><a href="#/QuizUI">Quiz Builder</a></li>
-                                <li ng-show="user.connected"><a href="#/SessionUI">Quiz Executor</a></li>
-                                <li ng-show="user.connected"><a href="#/StatisticsUI">Statistics</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li ng-show="user.connected" ><a>{{user.name}}</a></li>
-                                <li ng-show="user.connected" ><a href="#/ProfilUI"><span
-                                            class="glyphicon glyphicon-user"></span>Profil</a></li>
-                                <li><a ng-show="user.connected" ng-click="logout()" ><span class="glyphicon glyphicon-log-in"></span>
-                                        Logout</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            </div>
+		<!-- Header -->
+
+		<header class="row" ng-show="user.connected">
+			<div class="col-sm-12">
+				<div class="alert alert-success" ng-show="selectedCours.active">{{selectedCours.name}}
+					selected and ready for publish questions !</div>
+			</div>
+			<div class="col-sm-12">
+				<div class="alert alert-danger" ng-show="!selectedCours.active">
+					No active cours selected</div>
+			</div>
+		</header>
+
+		<!-- Menu navigation -->
+
+		<div class="row">
+
+			<div class="col-sm-12">
+				<nav class="navbar navbar-inverse">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<a class="navbar-brand">Quiz for teacher</a>
+						</div>
+						<ul class="nav navbar-nav">
+							<li><a href="#/">Home</a></li>
+							<li ng-show="user.connected"><a href="#/CoursUI">Cours</a></li>
+							<li ng-show="user.connected"><a href="#/SubscribersUI">Subscribers</a></li>
+							<li ng-show="user.connected"><a href="#/QuizUI">Quiz
+									Builder</a></li>
+							<li ng-show="user.connected"><a href="#/SessionUI">Quiz
+									Executor</a></li>
+							<li ng-show="user.connected"><a href="#/StatisticsUI">Statistics</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li ng-show="user.connected"><a>{{user.name}}</a></li>
+							<li ng-show="user.connected"><a href="#/ProfilUI"><span
+									class="glyphicon glyphicon-user"></span>Profil</a></li>
+							<li><a ng-show="user.connected" ng-click="logout()"><span
+									class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</div>
 
 
-            <!--  main container -->
+		<!--  main container -->
 
-            <div ng-view>
-                <!--
+		<div ng-view>
+			<!--
    This DIV loads templates depending upon route.
                 -->
-            </div>
+		</div>
 
-            <!-- footer -->
+		<!-- footer -->
 
-            <footer class="row">
-                <div class="col-sm-12">A GLG-204 Project developped by Pierre
-                    faraco
-                    <a href="https://fr.linkedin.com/pub/pierre-faraco/49/881/30">
-                        <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_profile_bluetxt_80x15_fr_FR.png?locale=" width="80" height="15" border="0" alt="Voir le profil de Pierre Faraco sur LinkedIn">
-                    </a>
-            </footer>   
-        </div>
-                <script type="text/ng-template" id="messageModal.html">
+		<footer class="row">
+			<div class="col-sm-12">
+				A GLG-204 Project developped by Pierre faraco <a
+					href="https://fr.linkedin.com/pub/pierre-faraco/49/881/30"> <img
+					src="https://static.licdn.com/scds/common/u/img/webpromo/btn_profile_bluetxt_80x15_fr_FR.png?locale="
+					width="80" height="15" border="0"
+					alt="Voir le profil de Pierre Faraco sur LinkedIn">
+				</a>
+		</footer>
+	</div>
+	<script type="text/ng-template" id="messageModal.html">
         <div class="modal-header">
         <h3 class="modal-title"> {{response.status}}   </h3>
         </div>
@@ -116,8 +133,8 @@
         <div class="modal-footer">
         <button class="btn btn-info" type="acknowledge" ng-click="acknowledge()">acknowledge</button>
         </div>
-    </script> 
-    </body>
+    </script>
+</body>
 </html>
 
 

@@ -2,7 +2,7 @@ body {
 	padding-top: 10px;
 }
 
-[class*="col-"],footer {
+[class*="col-"], footer {
 	/*  background-color: lightblue;
   border: 1px black;*/
 	line-height: 40px;
@@ -16,8 +16,6 @@ body {
 	margin-left: auto;
 }
 
-
-
 @media ( min-width : 768px) {
 	.container {
 		width: 768px;
@@ -30,14 +28,11 @@ body {
 	}
 }
 
-
 @media ( min-width : 1200px) {
 	.container {
 		width: 1200px;
 	}
 }
-
-
 
 .pull-right {
 	float: right !important;

@@ -36,9 +36,7 @@ quizApp.factory("webSocketService", ["$q", "$timeout", "$cookies",
             return  jsonFeedBack;
         };
 
-    
 
-        //initialize();
 
         return{
             unsubscribe: function () {

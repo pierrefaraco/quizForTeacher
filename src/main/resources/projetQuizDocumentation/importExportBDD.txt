@@ -1,0 +1,17 @@
+### Entrer dans le prompt mysql 
+mysql -u root -proot
+
+
+###supprimerla table quiz for teacher 
+mysql DROP SCHEMA quiz_for_teacher;
+
+### creer la table quiz for teacher 
+CREATE SCHEMA quiz_for_teacher CHARACTER SET latin1 COLLATE latin1_bin;
+
+
+### importer un backup
+mysql -h localhost -u root -p quiz_for_teacher < C:\quiz_for_teacher.sql
+
+### exporter un backup
+mysqldump -h localhost -u root -p quiz_for_teacher -r C:\quiz_for_teacher.sql
+

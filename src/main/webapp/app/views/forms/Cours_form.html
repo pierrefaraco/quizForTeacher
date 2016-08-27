@@ -2,9 +2,9 @@
 <!-- Form Cours-->
 
 
-<div class="btn-group-vertical" >
+<div class="btn-group-vertical">
 
-    <script type="text/ng-template" id="coursModal.html">
+	<script type="text/ng-template" id="coursModal.html">
         <div class="modal-header">
         <h3 class="modal-title"> {{action}} </h3>
         </div>
@@ -41,15 +41,21 @@
         <button class="btn btn-primary" type="button" ng-click="validate()">OK</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
         </div>
-    </script> 
-    <div class="btn-group-vertical">
-        <button type="button" class="btn btn-default pull-right btn-sm"
-                ng-click="open('Create cours')">create <span class="glyphicon glyphicon-plus pull-right "></span></button>
-        <button type="button" class="btn btn-default pull-right btn-sm"
-                ng-click="open('Edit cours', null)">edit <span class="glyphicon glyphicon-pencil pull-right "></span></button>
-        <button type="button" class="btn btn-danger pull-right btn-sm"
-                ng-click="delete()">remove <span class="glyphicon glyphicon-remove pull-right "></span></button>
+    </script>
+	<div class="btn-group-vertical">
+		<button type="button" class="btn btn-default pull-right btn-sm"
+			ng-click="open('Create cours')">
+			create <span class="glyphicon glyphicon-plus pull-right "></span>
+		</button>
+		<button type="button" class="btn btn-default pull-right btn-sm"
+			ng-click="open('Edit cours', null)">
+			edit <span class="glyphicon glyphicon-pencil pull-right "></span>
+		</button>
+		<button type="button" class="btn btn-danger pull-right btn-sm"
+			ng-click="delete()">
+			remove <span class="glyphicon glyphicon-remove pull-right "></span>
+		</button>
 
 
-    </div>
+	</div>
 </div>

@@ -1,11 +1,8 @@
 package cnam.glg204.domain.Dao;
 
 import static org.junit.Assert.*;
-
 import java.util.Map;
-
 import javax.transaction.Transactional;
-
 import junit.framework.TestCase;
 
 import org.junit.Test;
@@ -15,15 +12,15 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.cnam.quiz.common.config.PersistenceJPAConfig;
-import com.cnam.quiz.common.enums.AccountType;
-import com.cnam.quiz.common.enums.SubscriberStatus;
-import com.cnam.quiz.server.domain.cours.Cours;
-import com.cnam.quiz.server.domain.cours.CoursDao;
-import com.cnam.quiz.server.domain.cours.CoursDaoImpl;
-import com.cnam.quiz.server.domain.user.User;
-import com.cnam.quiz.server.domain.user.UserDao;
-import com.cnam.quiz.server.domain.user.UserDaoImpl;
+import cnam.glg204.quiz.common.config.PersistenceJPAConfig;
+import cnam.glg204.quiz.common.enums.AccountType;
+import cnam.glg204.quiz.common.enums.SubscriberStatus;
+import cnam.glg204.quiz.server.domain.cours.Cours;
+import cnam.glg204.quiz.server.domain.cours.CoursDao;
+import cnam.glg204.quiz.server.domain.cours.CoursDaoImpl;
+import cnam.glg204.quiz.server.domain.user.User;
+import cnam.glg204.quiz.server.domain.user.UserDao;
+import cnam.glg204.quiz.server.domain.user.UserDaoImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPAConfig.class,

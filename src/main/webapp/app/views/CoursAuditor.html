@@ -5,55 +5,56 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 
-<section >
-    <!-- -->
+<section>
+	<!-- -->
 
-    <div class="row" >
+	<div class="row">
 
-        <!-- listes des questions du Topic  -->
+		<!-- listes des questions du Topic  -->
 
-        <section class="col-sm-12">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="panel-primary panel-default">                                        
-                        <div class="panel-body">
-                            <div class="table-responsive">                                                        
-                                <table class="table">
-                                    <thead>         
-                                        <tr>
-                                            <th>name</th>
-                                            <th>description</th>											
-                                            <th>status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="cours in listOfCours| orderBy : 'id'"
-                                            ng-click="selectCours(cours)" ng-class ="{success: cours.id == selectedCours.id}">   
-                          
-                                            <td >{{cours.name}}</td>                                           
-                                            <td>{{cours.description}}</td> 
-                                          
-                                            <td>
-                                                <button  class="btn btn-success btn-sm" ng-show="cours.status === null" ng-click="subscribe(cours)">
-                                                    subscribe                                         
-                                                </button>{{cours.status}}
-                                               
-                                            </td>
-                                            <td>
-                                                <button  class="btn btn-warning btn-sm" ng-show="cours.status !== null" ng-click="unSubscribe(cours)"> 
-                                                     unsubscribe  
-                                                </button>
-                                            </td>
-                                        </tr>								
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+		<section class="col-sm-12">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel-primary panel-default">
+						<div class="panel-body">
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>name</th>
+											<th>description</th>
+											<th>status</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="cours in listOfCours| orderBy : 'id'"
+											ng-click="selectCours(cours)"
+											ng-class="{success: cours.id == selectedCours.id}">
 
-    </div>
+											<td>{{cours.name}}</td>
+											<td>{{cours.description}}</td>
+
+											<td>
+												<button class="btn btn-success btn-sm"
+													ng-show="cours.status === null" ng-click="subscribe(cours)">
+													subscribe</button>{{cours.status}}
+
+											</td>
+											<td>
+												<button class="btn btn-warning btn-sm"
+													ng-show="cours.status !== null"
+													ng-click="unSubscribe(cours)">unsubscribe</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</div>
 </section>
 

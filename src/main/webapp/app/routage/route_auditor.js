@@ -4,7 +4,7 @@ quizApp.config(["$routeProvider",function($routeProvider){
     $routeProvider.
             when("/",{
                 controller:"homeCtrl",
-                templateUrl:"app/views/Home.html"
+                templateUrl:"app/views/HomeUI.html"
             })
             .when("/CoursAuditorUI",{
                 controller:"coursAuditorCtrl",

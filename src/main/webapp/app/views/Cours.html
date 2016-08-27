@@ -5,13 +5,13 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 
-<section >
+<section>
 	<!-- -->
 
-	<div class="row" >
+	<div class="row">
 
 		<div class="col-sm-2">
-                        <h6>Cours :</h6>
+			<h6>Cours :</h6>
 			<div ng-include src="'app/views/forms/Cours_form.html'"></div>
 		</div>
 		<!-- listes des questions du Topic  -->
@@ -19,12 +19,12 @@ and open the template in the editor.
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="panel-primary panel-default">
-						
+
 						<div class="panel-body">
 							<div class="table-responsive">
-                                                         
+
 								<table class="table">
-									<thead>         
+									<thead>
 										<tr>
 											<th>name</th>
 											<th>description</th>
@@ -32,12 +32,13 @@ and open the template in the editor.
 										</tr>
 									</thead>
 									<tbody>
-                                                                                   <tr ng-repeat="cours in listOfCours  | orderBy : 'id'"
-                                                                                    ng-click="selectCours(cours)" ng-class ="{success: cours.id == selectedCours.id}">                                                     
-                                                                                            <td>{{cours.name}}</td>
-                                                                                            <td>{{cours.description}}</td>
-                                                                                            <td>{{cours.active}}</td>
-                                                                                    </tr>								
+										<tr ng-repeat="cours in listOfCours  | orderBy : 'id'"
+											ng-click="selectCours(cours)"
+											ng-class="{success: cours.id == selectedCours.id}">
+											<td>{{cours.name}}</td>
+											<td>{{cours.description}}</td>
+											<td>{{cours.active}}</td>
+										</tr>
 									</tbody>
 								</table>
 							</div>
