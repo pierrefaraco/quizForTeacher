@@ -24,10 +24,18 @@
 		<springframework.security>4.1.0.RELEASE</springframework.security>
 		<jackson.version>2.5.3</jackson.version>
 		<mysql-version>5.1.6</mysql-version>
-
-		<hibernate.version>4.3.6.Final</hibernate.version>
-		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
-		<jstl.version>1.2</jstl.version>
+                
+            
+                <maven-compiler-plugin.version> 3.5.1 </maven-compiler-plugin.version>
+                <maven-javadoc-plugin.version>2.10.4 </maven-javadoc-plugin.version>
+                <maven-war-plugin.version>3.0.0 </maven-war-plugin.version>
+                <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
+		
+                <hibernate.version>4.3.6.Final</hibernate.version>
+		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>	
+                <jstl.version>1.2</jstl.version>
+                
+                <!--
 		<hibernate.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.dialect>
 		<jdbc.url>jdbc:mysql://localhost:3306/quiz_for_teacher</jdbc.url>
 		<jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
@@ -36,6 +44,9 @@
 		<jdbc.format_sql>false</jdbc.format_sql>
 		<jdbc.show_sql>true</jdbc.show_sql>
 		<jdbc.hbm2ddl.auto>create</jdbc.hbm2ddl.auto>
+                -->
+                
+              
 
 	</properties>
 
@@ -177,6 +188,8 @@
             <artifactId>spring-test</artifactId>
             <version>${springframework.version}</version>
         </dependency>
+        
+  
     </dependencies>
 
     <!-- =================================================================== -->
@@ -196,6 +209,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java-version}</source>
                     <target>${java-version}</target>
@@ -204,7 +218,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.4</version>
+                <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <warName>quizForTeacher</warName>
@@ -212,9 +226,17 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                 <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <version>${tomcat7-maven-plugin.version}</version>
                 <configuration>
                     <url>http://localhost:8080/manager/text</url>
                     <path>/quizForTeacher</path>
