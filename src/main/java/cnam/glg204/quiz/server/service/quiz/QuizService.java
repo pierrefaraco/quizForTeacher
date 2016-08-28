@@ -19,7 +19,7 @@ import cnam.glg204.quiz.common.exceptions.SessionQuizAlreadyRunningException;
 
 public interface QuizService {
 	
-            TopicDto findTopic(long id) ;
+        TopicDto findTopic(long id) ;
 	     	     
 	    void createTopic(TopicDto topicDto) throws CheckException ;
 	     
@@ -31,7 +31,7 @@ public interface QuizService {
 	    
 	    List<TopicDto> findTopicsByProfessor(long userId) ;   
 	    
-            QuestionDto findQuestion(long id) ;
+        QuestionDto findQuestion(long id) ;
 	     
 	    void createQuestion(QuestionDto  questionDto) throws CheckException ;
 	     
@@ -55,7 +55,7 @@ public interface QuizService {
 	    
 	    void removeQuestionFromSequence(long sequenceId,int pos) throws CheckException ;
 	   
-            SessionQuizDto findSessionQuiz(long id) ;
+        SessionQuizDto findSessionQuiz(long id) ;
 	     
 	    void startSessionQuiz(SessionQuizDto sessionDto)throws SessionQuizAlreadyRunningException, CoursNotActiveException, CheckException, NoCoursSelectedException ;
 	     
@@ -63,7 +63,7 @@ public interface QuizService {
 	     
 	    void deleteSessionQuiz(long id);
 	    
-            List <SessionQuizDto>findSessionQuizByCours(long coursId);
+        List <SessionQuizDto>findSessionQuizByCours(long coursId);
         
         	    
 }

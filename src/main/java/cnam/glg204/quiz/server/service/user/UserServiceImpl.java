@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         user.setPresentation(userDto.getPresentation());
         user.checkData();
 
-        if (userDao.findUserByMail(userDto.getEmail()) != null) {
+        if (userDao.findByMail(userDto.getEmail()) != null) {
             throw new CreateException("An user with the  mail " + userDto.getEmail() + " already exist in the database");
         }
 

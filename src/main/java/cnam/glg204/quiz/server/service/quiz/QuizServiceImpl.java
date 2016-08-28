@@ -163,7 +163,7 @@ public class QuizServiceImpl implements  QuizService{
 	@Override
 	public List<QuestionDto> findQuestionsByTopic(long topicId) {
 		Topic topic = topicDao.find(topicId);	
-		List<Question> questions = questionDao.findQuestionsByTopic(topic);		
+		List<Question> questions = questionDao.findByTopic(topic);		
 		List<QuestionDto > questionsDto = this.listOfQuestionsToListOfQuestionsDto(questions);
 		return questionsDto;
 	}

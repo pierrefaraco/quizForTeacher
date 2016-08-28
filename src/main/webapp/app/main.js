@@ -8,11 +8,11 @@ quizApp.config(['$httpProvider',function($httpProvider){
        $httpProvider.interceptors.push('httpRequestInterceptor');
     
 }]);
-      
-quizApp.run(["$rootScope","$cookies","coursRestClient","userRestClient",function($rootScope,$cookies,coursRestClient,userRestClient){
+
+
+quizApp.run(["$rootScope","$cookies","coursRestService","userRestService",function($rootScope,$cookies,coursRestService,userRestService){
         
     
  }]);
    
-
 

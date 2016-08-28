@@ -68,15 +68,15 @@ public class CoursServiceImpl implements CoursService{
 	}
 
 	@Override
-	public List<CoursDto> getAllProfessorCours(long professorId) {		
-		User user = userDao.find(professorId);	
-		List<Cours> listCours = coursDao.getCoursProfessor(user);
+	public List<CoursDto> findCoursByProfessor(long professorId) {		
+		User professor = userDao.find(professorId);	
+		List<Cours> listCours = coursDao.findByProfessor(professor);
 		return listOfcoursToListOfCoursDto(listCours);
 	}
 
 	@Override
 	public List<CoursDto> getAllActiveCours() {
-		List<Cours> listCours = coursDao.getActiveCours();
+		List<Cours> listCours = coursDao.findActiveCours();
 		return listOfcoursToListOfCoursDto(listCours);
 	}
 	
@@ -160,7 +160,7 @@ public class CoursServiceImpl implements CoursService{
 	
 	@Override
 	public List<CoursWithStatusDto> findAllCoursWithAuditorStatus(long auditorId) {	
-		List<Cours> listCours = coursDao.getActiveCours();
+		List<Cours> listCours = coursDao.findActiveCours();
 		User  auditor = userDao.find(auditorId);
 		List<CoursWithStatusDto> listCoursDto = new ArrayList <CoursWithStatusDto> ();
 		for (Cours cours :  listCours){
@@ -189,7 +189,7 @@ public class CoursServiceImpl implements CoursService{
 			if (subscriberStatus == SubscriberStatus.ACCEPTED || user.getAccountType() == AccountType.PROFESSOR)
 				poolNumber .setPoolNumber(webSocketPoolManager.getWebSocketMethodeNumber( coursId,userId));			
 		}
-		webSocketPoolManager.print();
+		//webSocketPoolManager.print();
 		return  poolNumber ;
 	}
 	

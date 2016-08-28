@@ -1,4 +1,4 @@
-package cnam.glg204.quiz.server.restfull;
+package cnam.glg204.quiz.server.rest;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import cnam.glg204.quiz.common.dto.ResultDto;
-import cnam.glg204.quiz.common.dto.ResultDtoForStatistic;
+import cnam.glg204.quiz.common.dto.ResultWithUserDto;
 import cnam.glg204.quiz.common.exceptions.CheckException;
 import cnam.glg204.quiz.common.exceptions.NoRunningSessionQuizForThisCoursException;
 import cnam.glg204.quiz.server.service.statistic.StatisticService;
@@ -33,52 +33,52 @@ public class StatistsicsRestWebService {
 	}
 	
 	@RequestMapping(value = "/all/user/{userid}/question/{questionid}/session/{sessionid}/result", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<List<ResultDtoForStatistic>>findResultsByUserQuestionAndSession(@PathVariable("userid")long userId 
+	ResponseEntity<List<ResultWithUserDto>>findResultsByUserQuestionAndSession(@PathVariable("userid")long userId 
 			,@PathVariable("questionid")long questionId, @PathVariable("sessionid")long sessionId ){
-		List<ResultDtoForStatistic> results = statisticService.findResultsByUserQuestionAndSession(userId, questionId, sessionId);
+		List<ResultWithUserDto> results = statisticService.findResultsByUserQuestionAndSession(userId, questionId, sessionId);
 		if (results.isEmpty()) 
-			return new ResponseEntity<List<ResultDtoForStatistic>>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<ResultDtoForStatistic>>(results, HttpStatus.OK);
+			return new ResponseEntity<List<ResultWithUserDto>>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<ResultWithUserDto>>(results, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/all/user/{userid}/session/{sessionid}/result", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<List<ResultDtoForStatistic>> findResultsByUserAndSession(@PathVariable("userid")long userId ,@PathVariable("sessionid") long sessionId ){
-		List<ResultDtoForStatistic> results = statisticService.findResultsByUserAndSession(userId, sessionId);
+	ResponseEntity<List<ResultWithUserDto>> findResultsByUserAndSession(@PathVariable("userid")long userId ,@PathVariable("sessionid") long sessionId ){
+		List<ResultWithUserDto> results = statisticService.findResultsByUserAndSession(userId, sessionId);
 		if (results.isEmpty()) 
-			return new ResponseEntity<List<ResultDtoForStatistic>>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<ResultDtoForStatistic>>(results, HttpStatus.OK);
+			return new ResponseEntity<List<ResultWithUserDto>>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<ResultWithUserDto>>(results, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/all/user/{userid}/cours/{coursid}/result", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<List<ResultDtoForStatistic>>findResultsByUserAndCours(@PathVariable("userid")long userId,
+	ResponseEntity<List<ResultWithUserDto>>findResultsByUserAndCours(@PathVariable("userid")long userId,
 			@PathVariable("coursid")long coursId){
-		List<ResultDtoForStatistic> results = statisticService.findResultsByUserAndCours(userId, coursId);
+		List<ResultWithUserDto> results = statisticService.findResultsByUserAndCours(userId, coursId);
 		if (results.isEmpty()) 
-			return new ResponseEntity<List<ResultDtoForStatistic>>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<ResultDtoForStatistic>>(results, HttpStatus.OK);
+			return new ResponseEntity<List<ResultWithUserDto>>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<ResultWithUserDto>>(results, HttpStatus.OK);
 	}	
 	
 	@RequestMapping(value = "/professor/cours/{coursid}/result", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<List<ResultDtoForStatistic>> findResultsByCours(@PathVariable("coursid")long coursId){
-		List<ResultDtoForStatistic> results = statisticService. findResultsByCours(coursId);
+	ResponseEntity<List<ResultWithUserDto>> findResultsByCours(@PathVariable("coursid")long coursId){
+		List<ResultWithUserDto> results = statisticService. findResultsByCours(coursId);
 		if (results.isEmpty()) 
-			return new ResponseEntity<List<ResultDtoForStatistic>>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<ResultDtoForStatistic>>(results, HttpStatus.OK);
+			return new ResponseEntity<List<ResultWithUserDto>>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<ResultWithUserDto>>(results, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/professor/session/{sessionid}/result", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<List<ResultDtoForStatistic>> findResultsBySession(@PathVariable("sessionid")long sessionId){
-		List<ResultDtoForStatistic> results = statisticService.findResultsBySession(sessionId);
+	ResponseEntity<List<ResultWithUserDto>> findResultsBySession(@PathVariable("sessionid")long sessionId){
+		List<ResultWithUserDto> results = statisticService.findResultsBySession(sessionId);
 		if (results.isEmpty()) 
-			return new ResponseEntity<List<ResultDtoForStatistic>>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<ResultDtoForStatistic>>(results, HttpStatus.OK);
+			return new ResponseEntity<List<ResultWithUserDto>>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<ResultWithUserDto>>(results, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/professor/question/{questionid}/session/{sessionid}/result", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<List<ResultDtoForStatistic>> findResultsByQuestionAndSession(@PathVariable("questionid")long questionId ,@PathVariable("sessionid") long sessionId ){
-		List<ResultDtoForStatistic> results = statisticService.findResultsByQuestionAndSession(questionId, sessionId);
+	ResponseEntity<List<ResultWithUserDto>> findResultsByQuestionAndSession(@PathVariable("questionid")long questionId ,@PathVariable("sessionid") long sessionId ){
+		List<ResultWithUserDto> results = statisticService.findResultsByQuestionAndSession(questionId, sessionId);
 		if (results.isEmpty()) 
-			return new ResponseEntity<List<ResultDtoForStatistic>>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<ResultDtoForStatistic>>(results, HttpStatus.OK);
+			return new ResponseEntity<List<ResultWithUserDto>>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<ResultWithUserDto>>(results, HttpStatus.OK);
 	}	
 }

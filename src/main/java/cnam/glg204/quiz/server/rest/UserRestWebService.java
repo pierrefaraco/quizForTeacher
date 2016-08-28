@@ -1,4 +1,4 @@
-package cnam.glg204.quiz.server.restfull;
+package cnam.glg204.quiz.server.rest;
 
 import java.util.List;
 

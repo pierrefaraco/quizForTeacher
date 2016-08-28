@@ -1,4 +1,4 @@
-package cnam.glg204.security;
+package cnam.glg204.quiz.server.security;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
  public void onAuthenticationSuccess(HttpServletRequest request, 
   HttpServletResponse response, Authentication authentication)
 		  throws ServletException, IOException {
-	 		User user =  userDao.findUserByMail(authentication.getName());
+	 		User user =  userDao.findByMail(authentication.getName());
 	 		SecurityUtils.sendResponse(response, HttpServletResponse.SC_OK, user);
  }
 }

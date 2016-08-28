@@ -1,10 +1,10 @@
-quizApp.controller('sessionCtrl', ["$scope", "quizRestClient", "$cookies", "$uibModal", "webSocketService", "statisticRestClient",
-    function ($scope,  quizRestClient, $cookies, $uibModal, webSocketService, statisticRestClient) {
+quizApp.controller('sessionController', ["$scope", "quizRestService", "$cookies", "$uibModal", "webSocketService", "statisticRestService",
+    function ($scope,  quizRestService, $cookies, $uibModal, webSocketService, statisticRestService) {
 
         refresh();
 
         function  refresh() {
-            var sessionService = quizRestClient.getListSessionCoursResource();
+            var sessionService = quizRestService.getListSessionCoursResource();
             if ($cookies.get("selectedCours") != null  && $cookies.get("selectedCours") != "null")
             sessionService.query({coursId: $cookies.get("selectedCours")}, function (sessionsQuiz) {
                 $scope.runningSessionQuiz = null;
@@ -22,7 +22,7 @@ quizApp.controller('sessionCtrl', ["$scope", "quizRestClient", "$cookies", "$uib
         ;
 
         $scope.startSessionQuiz = function (sessionQuiz) {
-            var sessionService = quizRestClient.getSessionResource();
+            var sessionService = quizRestService.getSessionResource();
             sessionService.save(sessionQuiz, function (session) {
                 $scope.runningSessionQuiz = session;
                 $scope.chargeSequence();
@@ -32,7 +32,7 @@ quizApp.controller('sessionCtrl', ["$scope", "quizRestClient", "$cookies", "$uib
         };
 
         $scope.stopSessionQuiz = function () {
-            var sessionService = quizRestClient.getSessionResource();
+            var sessionService = quizRestService.getSessionResource();
             sessionService.update($scope.runningSessionQuiz, function () {
                 $scope.runningSessionQuiz = null;
                 $scope.selectedSequence = null;
@@ -43,10 +43,10 @@ quizApp.controller('sessionCtrl', ["$scope", "quizRestClient", "$cookies", "$uib
 
 
         $scope.chargeSequence = function () {
-            var sequenceRestService = quizRestClient.getSequenceResource();
+            var sequenceRestService = quizRestService.getSequenceResource();
             $scope.selectedSequence = sequenceRestService.get({sequenceId: $scope.runningSessionQuiz.sequenceId}, function (sequence) {
             }, function (response) {
-                alert("Error : " + response.status);
+               
             });
         };
 
@@ -56,7 +56,7 @@ quizApp.controller('sessionCtrl', ["$scope", "quizRestClient", "$cookies", "$uib
 
         $scope.openSessionModal = function (action, size) {
             var params = {'action': action,
-                'quizRestClient': quizRestClient
+                'quizRestService': quizRestService
             };
             var modalInstance = $uibModal.open({
                 animation: false,
@@ -81,7 +81,7 @@ quizApp.controller('sessionCtrl', ["$scope", "quizRestClient", "$cookies", "$uib
 
         $scope.getLastResultList = function () {
 
-            var getResultsByQuestionAndSession = statisticRestClient.getResultsByQuestionAndSessionResource();
+            var getResultsByQuestionAndSession = statisticRestService.getResultsByQuestionAndSessionResource();
          //   alert($rootScope.lastQuestion.id +" "+$scope.runningSessionQuiz.id);
             $scope.resultList = getResultsByQuestionAndSession.get(
                     {
@@ -98,7 +98,7 @@ quizApp.controller('sessionFormCtrl', ["$scope", "$cookies", "$uibModalInstance"
         refreshSequences();
 
         function refreshSequences() {
-            var sequenceRestService = params.quizRestClient.getListSequenceResource();
+            var sequenceRestService = params.quizRestService.getListSequenceResource();
             $scope.listOfSequences = sequenceRestService.query({userId: $cookies.get("userId")});
         }
         ;

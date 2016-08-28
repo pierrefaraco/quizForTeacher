@@ -1,5 +1,5 @@
 'use strict';
-quizApp.controller('homeCtrl',
+quizApp.controller('homeController',
         [
             "$scope",
             "$rootScope",

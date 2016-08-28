@@ -1,17 +1,17 @@
-quizApp.controller('coursAuditorCtrl', ["$scope", "$rootScope", "coursRestClient", "$cookies","webSocketService",
-    function ($scope, $rootScope, coursRestClient, $cookies,webSocketService) {
+quizApp.controller('coursController', ["$scope", "$rootScope", "coursRestService", "$cookies","webSocketService",
+    function ($scope, $rootScope, coursRestService, $cookies,webSocketService) {
              
        refresh();
         
        function refresh (){
-             var coursRestService = coursRestClient.getListCoursWithAuditorStatusResource();
-             $scope.listOfCours = coursRestService.query({userId: $cookies.get("userId")},function(){
+             var coursResource = coursRestService.getListCoursWithAuditorStatusResource();
+             $scope.listOfCours = coursResource.query({userId: $cookies.get("userId")},function(){
        
              });    
         };
       
         $scope.subscribe = function (cours){    
-           var subscribeResource = coursRestClient.getSubscribeResource();
+           var subscribeResource = coursRestService.getSubscribeResource();
            subscribeResource.get({userId:  $cookies.get("userId"),coursId:cours.id}, function () {
                refresh ();
            }, function (response) {
@@ -20,7 +20,7 @@ quizApp.controller('coursAuditorCtrl', ["$scope", "$rootScope", "coursRestClient
         };
         
         $scope.unSubscribe = function (cours){    
-           var unSubscribeResource = coursRestClient.getUnSubscribeResource();
+           var unSubscribeResource = coursRestService.getUnSubscribeResource();
            unSubscribeResource.get({userId:  $cookies.get("userId"),coursId:cours.id}, function () {
                refresh ();
            }, function (response) {

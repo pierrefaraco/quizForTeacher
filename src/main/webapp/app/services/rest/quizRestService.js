@@ -1,5 +1,5 @@
 
-quizApp.factory("quizRestClient", ["$resource", "SERVER_URL",
+quizApp.factory("quizRestService", ["$resource", "SERVER_URL",
     function ($resource,  SERVER_URL) {
 
         return {

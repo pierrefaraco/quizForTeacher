@@ -1,15 +1,15 @@
-quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$cookies", "$uibModal","webSocketService",
-    function ($scope, $rootScope, coursRestClient, $cookies, $uibModal,webSocketService) {
+quizApp.controller('coursController', ["$scope", "$rootScope", "coursRestService", "$cookies", "$uibModal","webSocketService",
+    function ($scope, $rootScope, coursRestService, $cookies, $uibModal,webSocketService) {
     
        refresh();
         
        function refresh (){
-             var coursRestService = coursRestClient.getListCoursResource();
-             $scope.listOfCours = coursRestService.query({userId: $cookies.get("userId")});    
+             var coursResource = coursRestService.getListCoursResource();
+             $scope.listOfCours = coursResource.query({userId: $cookies.get("userId")});    
         };
           
         $scope.create = function (cours){
-              var coursResource = coursRestClient.getCoursResource();
+              var coursResource = coursRestService.getCoursResource();
               cours.subscribers = null;
               coursResource.save({ } , cours , function(res){
               refresh();
@@ -19,7 +19,7 @@ quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$co
         };
         
          $scope.edit= function (cours){ 
-             var coursResource  = coursRestClient.getCoursResource();      
+             var coursResource  = coursRestService.getCoursResource();      
              coursResource.update({ } , cours , function(res){
                     $scope.selectCours (cours);
                     refresh();           
@@ -30,7 +30,7 @@ quizApp.controller('coursCtrl', ["$scope", "$rootScope", "coursRestClient", "$co
         };
             
        $scope.delete = function (){
-           var coursResource  = coursRestClient.getCoursResource();
+           var coursResource  = coursRestService.getCoursResource();
            coursResource.delete({coursId:$scope.selectedCours.id} ,  function(res){
                        $rootScope.unSelectCours();
                        refresh();                     

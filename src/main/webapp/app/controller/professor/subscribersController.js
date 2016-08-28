@@ -1,5 +1,5 @@
-quizApp.controller('subscribersCtrl', ["$scope", "coursRestClient", "$cookies",
-    function ($scope, coursRestClient, $cookies) {
+quizApp.controller('subscribersController', ["$scope", "coursRestService", "$cookies",
+    function ($scope, coursRestService, $cookies) {
 
         $scope.statusData = {
             statusList: [
@@ -13,7 +13,7 @@ quizApp.controller('subscribersCtrl', ["$scope", "coursRestClient", "$cookies",
         refresh();
 
         function refresh() {
-            var subscribersRestService = coursRestClient.getSubscribersResource();
+            var subscribersRestService = coursRestService.getSubscribersResource();
             if($cookies.get("selectedCours") != null && $cookies.get("selectedCours") !="null")
                 $scope.coursWithSubscribers = subscribersRestService.get({coursId: $cookies.get("selectedCours")});
         }
@@ -42,7 +42,7 @@ quizApp.controller('subscribersCtrl', ["$scope", "coursRestClient", "$cookies",
                 if ($scope.coursWithSubscribers.subscribers[i].selected) 
                         $scope.coursWithSubscribers.subscribers[i].status  =  $scope.statusData.selectedStatus.value;
             
-         var subscribersRestService = coursRestClient.getSubscribersResource();
+         var subscribersRestService = coursRestService.getSubscribersResource();
          subscribersRestService.update({coursId:""}, $scope.coursWithSubscribers); 
         };
 

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cnam.glg204.quiz.common.config.Config;
 import cnam.glg204.quiz.common.dto.ResultDto;
-import cnam.glg204.quiz.common.dto.ResultDtoForStatistic;
+import cnam.glg204.quiz.common.dto.ResultWithUserDto;
 import cnam.glg204.quiz.common.dto.UserDto;
 import cnam.glg204.quiz.common.enums.SessionStatus;
 import cnam.glg204.quiz.common.exceptions.CheckException;
@@ -73,7 +73,7 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     @Override
-    public List<ResultDtoForStatistic> findResultsByUserQuestionAndSession(long userId, long questionId,
+    public List<ResultWithUserDto> findResultsByUserQuestionAndSession(long userId, long questionId,
             long sessionId) {
         List<Result> listResult = resultDao.findResultsByUserQuestionAndSession(userId, questionId, sessionId);
         return this.listOfresultToListOfResultDto(listResult);
@@ -81,17 +81,17 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     @Override
-    public List<ResultDtoForStatistic> findResultsByUserAndSession(long userId, long sessionId) {
+    public List<ResultWithUserDto> findResultsByUserAndSession(long userId, long sessionId) {
         List<Result> listResult = resultDao.findResultsByUserAndSession(userId, sessionId);
-        List<ResultDtoForStatistic> results = this.listOfresultToListOfResultDto(listResult);
+        List<ResultWithUserDto> results = this.listOfresultToListOfResultDto(listResult);
         return groupList(results);
     }
 
     @Override
-    public List<ResultDtoForStatistic> findResultsByUserAndCours(long userId, long coursId) {
+    public List<ResultWithUserDto> findResultsByUserAndCours(long userId, long coursId) {
         Cours cours = coursDao.find(coursId);
         List<SessionQuiz> sessions = sessionQuizDao.findByCours(cours);
-        List<ResultDtoForStatistic> results = new ArrayList<ResultDtoForStatistic>();
+        List<ResultWithUserDto> results = new ArrayList<ResultWithUserDto>();
         for (SessionQuiz sessionQuiz : sessions) {
             results.addAll(findResultsByUserAndSession(userId, sessionQuiz.getId()));
         }
@@ -99,32 +99,32 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     @Override
-    public List<ResultDtoForStatistic> findResultsByQuestionAndSession(long questionId, long sessionId) {
+    public List<ResultWithUserDto> findResultsByQuestionAndSession(long questionId, long sessionId) {
         List<Result> listResult = resultDao.findResultsByQuestionAndSession(questionId, sessionId);
-        List<ResultDtoForStatistic> listDto = this.getJustLastestAnswers(this.listOfresultToListOfResultDto(listResult));
+        List<ResultWithUserDto> listDto = this.getJustLastestAnswers(this.listOfresultToListOfResultDto(listResult));
         return listDto;
     }
 
     @Override
-    public List<ResultDtoForStatistic> findResultsBySession(long sessionId) {
+    public List<ResultWithUserDto> findResultsBySession(long sessionId) {
         List<Result> listResult = resultDao.findResultsBySession(sessionId);
-        List<ResultDtoForStatistic> results = this.listOfresultToListOfResultDto(listResult);
+        List<ResultWithUserDto> results = this.listOfresultToListOfResultDto(listResult);
         return groupList(results);
     }
 
     @Override
-    public List<ResultDtoForStatistic> findResultsByCours(long coursId) {
+    public List<ResultWithUserDto> findResultsByCours(long coursId) {
         Cours cours = coursDao.find(coursId);
         List<SessionQuiz> sessions = sessionQuizDao.findByCours(cours);
-        List<ResultDtoForStatistic> results = new ArrayList<ResultDtoForStatistic>();
+        List<ResultWithUserDto> results = new ArrayList<ResultWithUserDto>();
         for (SessionQuiz sessionQuiz : sessions) {
             results.addAll(findResultsBySession(sessionQuiz.getId()));
         }
         return groupList(results);
     }
 
-    public List<ResultDtoForStatistic> listOfresultToListOfResultDto(List<Result> listResult) {
-        ArrayList<ResultDtoForStatistic> listResultDto = new ArrayList<ResultDtoForStatistic>();
+    public List<ResultWithUserDto> listOfresultToListOfResultDto(List<Result> listResult) {
+        ArrayList<ResultWithUserDto> listResultDto = new ArrayList<ResultWithUserDto>();
         for (Result result : listResult) {
             listResultDto.add(resultToResultDto(result));
         }
@@ -169,8 +169,8 @@ public class StatisticServiceImpl implements StatisticService {
         return result;
     }
 
-    public ResultDtoForStatistic resultToResultDto(Result result) {
-        ResultDtoForStatistic resultDto = new ResultDtoForStatistic();
+    public ResultWithUserDto resultToResultDto(Result result) {
+        ResultWithUserDto resultDto = new ResultWithUserDto();
         resultDto.setId(result.getId());
         resultDto.setUserDto(userToUserDto(result.getUser()));
         resultDto.setAnswerTime(result.getAnswerTime());
@@ -198,11 +198,11 @@ public class StatisticServiceImpl implements StatisticService {
         return userDto;
     }
 
-    public List<ResultDtoForStatistic> groupList(List<ResultDtoForStatistic> list) {
-        List<ResultDtoForStatistic> groupedList = new ArrayList<ResultDtoForStatistic>();
-        for (ResultDtoForStatistic r1 : list) {
+    public List<ResultWithUserDto> groupList(List<ResultWithUserDto> list) {
+        List<ResultWithUserDto> groupedList = new ArrayList<ResultWithUserDto>();
+        for (ResultWithUserDto r1 : list) {
             boolean t = true;
-            for (ResultDtoForStatistic r2 : groupedList) {
+            for (ResultWithUserDto r2 : groupedList) {
                 if (r1.getUserDto().getId() == r2.getUserDto().getId()) {
                     r2.setPoints(r2.getPoints() + r1.getPoints());
                     r2.setObtainedPoints(r2.getObtainedPoints() + r1.getObtainedPoints());
@@ -218,12 +218,12 @@ public class StatisticServiceImpl implements StatisticService {
         return groupedList;
     }
 
-    public List<ResultDtoForStatistic> getJustLastestAnswers(List<ResultDtoForStatistic> list) {
-        List<ResultDtoForStatistic> groupedList = new ArrayList<ResultDtoForStatistic>();
-        for (ResultDtoForStatistic r1 : list) {
+    public List<ResultWithUserDto> getJustLastestAnswers(List<ResultWithUserDto> list) {
+        List<ResultWithUserDto> groupedList = new ArrayList<ResultWithUserDto>();
+        for (ResultWithUserDto r1 : list) {
             boolean t = true;
             for (int i = 0; i < groupedList.size(); i++) {
-                ResultDtoForStatistic r2 = groupedList.get(i);
+                ResultWithUserDto r2 = groupedList.get(i);
                 if (r1.getUserDto().getId() == r2.getUserDto().getId()) {
                     if (r1.getDate() != null && r2.getDate() != null) {
                         SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT);
@@ -245,8 +245,6 @@ public class StatisticServiceImpl implements StatisticService {
                 groupedList.add(r1);
             
         }
-        for (ResultDtoForStatistic r2 : groupedList) 
-            System.out.println("=> " + r2.getDate());
         
         return groupedList;
     }

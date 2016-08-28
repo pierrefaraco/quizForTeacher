@@ -1,4 +1,4 @@
-package cnam.glg204.security;
+package cnam.glg204.quiz.server.security;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

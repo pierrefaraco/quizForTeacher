@@ -1,4 +1,4 @@
-package cnam.glg204.security;
+package cnam.glg204.quiz.server.security;
 
 public class Response {
 

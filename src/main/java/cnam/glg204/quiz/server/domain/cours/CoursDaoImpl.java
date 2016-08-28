@@ -23,22 +23,23 @@ public class CoursDaoImpl extends AbstractDataAccessObjectImpl<Cours, Long> impl
 	}
 
 	@Override
-	public List<Cours> getCoursProfessor(User user) {
+	public List<Cours>  findByProfessor(User user) {
 		Query query = em.createNamedQuery("findCoursByProfessor");
 		query.setParameter("userid", user.getId());
 		return query.getResultList();
 	}
 
 	@Override
-	public List<Cours> getCoursAuditor(User user) {
+	public List<Cours> findByAuditor(User user) {
 		Query query = em.createNamedQuery("findCoursByAuditor");
 		query.setParameter("user", user);
 		return query.getResultList();
 	}
 
 	@Override
-	public List<Cours> getActiveCours() {
+	public List<Cours> findActiveCours() {
 		return em.createNamedQuery("findAllActivesCours").getResultList();
 	}
+
 
 }

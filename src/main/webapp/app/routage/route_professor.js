@@ -3,32 +3,32 @@
 quizApp.config(["$routeProvider",function($routeProvider){
     $routeProvider.
             when("/",{
-                controller:"homeCtrl",
+                controller:"homeController",
                 templateUrl:"app/views/HomeUI.html"
             })
             .when("/CoursUI",{
-                controller:"coursCtrl",
-                templateUrl:"app/views/Cours.html"
+                controller:"coursController",
+                templateUrl:"app/views/CoursUI.html"
             }) 
              .when("/SubscribersUI",{
-                controller:"subscribersCtrl",
-                templateUrl:"app/views/Subscribers.html"
+                controller:"subscribersController",
+                templateUrl:"app/views/SubscribersUI.html"
             })
-            .when("/QuizUI",{
-                controller:"quizCtrl",
-                templateUrl:"app/views/Quiz.html"
+            .when("/QuestionUI",{
+                controller:"quizBuilderController",
+                templateUrl:"app/views/QuizBuilderUI.html"
             })
             .when("/SessionUI",{
-                controller:"sessionCtrl",
+                controller:"sessionController",
                 templateUrl:"app/views/SessionUI.html"
             })
             .when("/ProfilUI",{
-                controller:"profilCtrl",
+                controller:"profilController",
                 templateUrl:"app/views/ProfilUI.html"
             })
             .when("/StatisticsUI",{
-                controller:"statisticsCtrl",
-                templateUrl:"app/views/Statistics.html"
+                controller:"statisticsController",
+                templateUrl:"app/views/StatisticsUI.html"
             })
         
     ;

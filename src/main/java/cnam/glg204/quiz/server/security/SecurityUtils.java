@@ -1,4 +1,4 @@
-package cnam.glg204.security;
+package cnam.glg204.quiz.server.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;

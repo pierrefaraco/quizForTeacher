@@ -1,5 +1,5 @@
-quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$location", "$uibModal", "userRestClient", "coursRestClient", "AuthSharedService", "webSocketService", "statisticRestClient", "coursRestClient", "$cookies", "quizRestClient",
-    function ($scope, $rootScope, $q, $window, $location, $uibModal, userRestClient, coursRestClient, AuthSharedService, webSocketService, statisticRestClient, coursRestClient, $cookies, quizRestClient) {
+quizApp.controller('mainController', ["$scope", "$rootScope", "$q", "$window", "$location", "$uibModal", "userRestService", "coursRestService", "AuthSharedService", "webSocketService", "statisticRestService", "coursRestService", "$cookies", "quizRestService",
+    function ($scope, $rootScope, $q, $window, $location, $uibModal, userRestService, coursRestService, AuthSharedService, webSocketService, statisticRestService, coursRestService, $cookies, quizRestService) {
 
 
 
@@ -8,7 +8,7 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
         $rootScope.init = function () {
           
             if ($cookies.get("userId") != null && $cookies.get("userId") != "null") {
-                var userRestObject = userRestClient.getUserRestObject();
+                var userRestObject = userRestService.getUserRestObject();
                 userRestObject.get({userId: $cookies.get("userId")}, function (data) {
                     $rootScope.user = data;
                     if ($rootScope.user !== null)
@@ -18,7 +18,7 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
                 });
               
                 if ($cookies.get("selectedCours") != null && $cookies.get("selectedCours") != "null") {
-                    var freeCoursResource = coursRestClient.getFreeCoursResource();
+                    var freeCoursResource = coursRestService.getFreeCoursResource();
                     freeCoursResource.get({coursId: $cookies.get("selectedCours")}, function (cours) {
                         cours.status = $cookies.get("courStatus");
                         $rootScope.selectedCours = cours;
@@ -26,7 +26,7 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
                         $cookies.put("courStatus", $rootScope.selectedCours.status);
                         takeSlotOnPool();
 
-                    });
+                      });
                 }
             }
         };
@@ -57,7 +57,7 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
         ;
 
         function takeSlotOnPool() {
-            var websocketPoolNumberResource = coursRestClient.getWebsocketPoolNumberResource();
+            var websocketPoolNumberResource = coursRestService.getWebsocketPoolNumberResource();
             websocketPoolNumberResource.get({coursId: $rootScope.selectedCours.id, userId: $cookies.get("userId")}, function (params) {
                 $rootScope.poolNumber = params.poolNumber;
                 $cookies.put("poolNumber", params.poolNumber);
@@ -68,7 +68,7 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
 
         function freeSlotOnPool() {
             var deferred = $q.defer();
-            var websocketPoolNumberResource = coursRestClient.getWebsocketPoolNumberResource();
+            var websocketPoolNumberResource = coursRestService.getWebsocketPoolNumberResource();
             // -1 est considéré comme un unsubscribe 
             websocketPoolNumberResource.get({coursId: -1, userId: $cookies.get("userId")}, function () {
                 $cookies.put("poolNumber", null);
@@ -124,7 +124,7 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
                 if (proposition.isItTrue !== proposition.checked)
                     $scope.result.state = "Wrong";
             }
-            var sessionService = quizRestClient.getListSessionCoursResource();
+            //var sessionService = quizRestService.getListSessionCoursResource();
 
             var result = {
                 questionId: $scope.questionToAnswer.id,
@@ -139,8 +139,8 @@ quizApp.controller('mainCtrl', ["$scope", "$rootScope", "$q", "$window", "$locat
             };
 
 
-            var statisticRestService = statisticRestClient.getResultResource(result);
-            statisticRestService.save(result);
+            var resultResource = statisticRestService.getResultResource(result);
+            resultResource.save(result);
             $scope.displayResult();
         };
 

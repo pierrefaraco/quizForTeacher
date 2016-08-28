@@ -12,10 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import cnam.glg204.quiz.common.enums.AccountType;
-import cnam.glg204.security.RestAccessDeniedHandler;
-import cnam.glg204.security.RestAuthenticationFailureHandler;
-import cnam.glg204.security.RestAuthenticationSuccessHandler;
-import cnam.glg204.security.RestUnauthorizedEntryPoint;
+import cnam.glg204.quiz.server.security.RestAccessDeniedHandler;
+import cnam.glg204.quiz.server.security.RestAuthenticationFailureHandler;
+import cnam.glg204.quiz.server.security.RestAuthenticationSuccessHandler;
+import cnam.glg204.quiz.server.security.RestUnauthorizedEntryPoint;
 
 
 @Configuration

@@ -1,7 +1,7 @@
 'use strict';
-quizApp.controller('profilCtrl', ["$scope", "$rootScope", "userRestClient", "$cookies","$q","$location", 
+quizApp.controller('profilController', ["$scope", "$rootScope", "userRestService", "$cookies","$q","$location", 
     
-    function ($scope, $rootScope, userRestClient, $cookies,$q,$location) {
+    function ($scope, $rootScope, userRestService, $cookies,$q,$location) {
        refresh();
         
        function refresh (){
@@ -12,7 +12,7 @@ quizApp.controller('profilCtrl', ["$scope", "$rootScope", "userRestClient", "$co
         };
 
         $scope.updateUser = function () {
-            var userRestObject = userRestClient.getUserRestObject();
+            var userRestObject = userRestService.getUserRestObject();
             userRestObject.update({ } , $scope.user , function(res){
                
             },function(response){
@@ -21,7 +21,7 @@ quizApp.controller('profilCtrl', ["$scope", "$rootScope", "userRestClient", "$co
         };
 
         $scope.createUser = function () {
-            var unsecuredRestObject = userRestClient.getUnsecuredUserRestObject();
+            var unsecuredRestObject = userRestService.getUnsecuredUserRestObject();
             unsecuredRestObject.save({},$scope.user,function(){
                  $location.path('');
             },function(response){

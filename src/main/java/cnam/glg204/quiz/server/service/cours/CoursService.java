@@ -24,7 +24,7 @@ public interface CoursService {
 		
 		void deleteCours(long coursId);
 		
-		List <CoursDto>getAllProfessorCours(long professorId);
+		List <CoursDto>findCoursByProfessor(long professorId);
 		
 		List <CoursDto>getAllActiveCours();		
 			

@@ -75,7 +75,7 @@ public class TestQuestionDao  extends TestCase {
 		for (int i = 0;i<t;i++)
 			questionDao.save(EntitiesCreator.createRandomQuestion(topic,QuestionType.QUIZ));		
 		assertEquals( questionCount + t ,questionDao.findAll().size());			
-		List<Question> g = questionDao.findQuestionsByTopic(topic);
+		List<Question> g = questionDao.findByTopic(topic);
 		for (Question question : g )
 			assertEquals(topic.getId() , question.getTopic().getId());				
 	}
@@ -90,7 +90,7 @@ public class TestQuestionDao  extends TestCase {
 		for (int i = 0;i <10 ;i++)
 			questionDao.save(EntitiesCreator.createRandomQuestion(topic,QuestionType.QUIZ));	
 				
-		int questionCount = questionDao.findQuestionsByTopic(topic).size();				
+		int questionCount = questionDao.findByTopic(topic).size();				
 		assertEquals( questionCount , 10);				
 	}
 

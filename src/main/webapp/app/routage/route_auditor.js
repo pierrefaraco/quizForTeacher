@@ -3,19 +3,19 @@
 quizApp.config(["$routeProvider",function($routeProvider){
     $routeProvider.
             when("/",{
-                controller:"homeCtrl",
+                controller:"homeController",
                 templateUrl:"app/views/HomeUI.html"
             })
             .when("/CoursAuditorUI",{
-                controller:"coursAuditorCtrl",
-                templateUrl:"app/views/CoursAuditor.html"
+                controller:"coursController",
+                templateUrl:"app/views/CoursAuditorUI.html"
             }) 
             .when("/Statistics",{
-                controller:"statisticsAuditorCtrl",
-                templateUrl:"app/views/StatisticsAuditor.html"
+                controller:"statisticsController",
+                templateUrl:"app/views/StatisticsAuditorUI.html"
             })
             .when("/ProfilUI",{
-                controller:"profilCtrl",
+                controller:"profilController",
                 templateUrl:"app/views/ProfilUI.html"
             })
         

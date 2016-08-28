@@ -1,6 +1,6 @@
 
-quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cookies", "$uibModal",
-    function ($scope, $rootScope, quizRestClient, $cookies, $uibModal) {
+quizApp.controller('quizBuilderController', ["$scope", "$rootScope", "quizRestService", "$cookies", "$uibModal",
+    function ($scope, $rootScope, quizRestService, $cookies, $uibModal) {
  
        refresh();
        function refresh(){
@@ -9,12 +9,12 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         }
     
         function refreshTopic (){
-            var topicRestService = quizRestClient.getListTopicResource();
+            var topicRestService = quizRestService.getListTopicResource();
             $scope.listOfTopics = topicRestService .query({userId: $cookies.get("userId")});      
         };
                    
         $scope.createTopic = function (topic){
-            var topicRestService = quizRestClient.getTopicResource();
+            var topicRestService = quizRestService.getTopicResource();
             topicRestService.save({},topic, function(createdTopic){
                     refreshTopic();
                     $scope.selectedTopic = createdTopic;
@@ -25,7 +25,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         };
         
         $scope.editTopic= function (topic){ 
-            var topicRestService = quizRestClient.getTopicResource();
+            var topicRestService = quizRestService.getTopicResource();
             topicRestService.update({} ,topic , function(editedTopic){
                    refreshTopic();
                    $scope.selectedTopic = editedTopic;
@@ -35,7 +35,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         };
             
        $scope.deleteTopic= function (){
-            var topicRestService = quizRestClient.getTopicResource();           
+            var topicRestService = quizRestService.getTopicResource();           
             topicRestService.remove({topicId:$scope.selectedTopic.id}, function(){
                     refreshTopic();
                     $scope.selectedTopic = null;
@@ -63,12 +63,12 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         }; 
         
        function refreshSequence (){
-            var sequenceRestService = quizRestClient.getListSequenceResource();
+            var sequenceRestService = quizRestService.getListSequenceResource();
             $scope.listOfSequences = sequenceRestService.query({userId: $cookies.get("userId")});      
         };
         
        $scope.addToSequence =  function (question){
-           var sequenceRestService =   quizRestClient.addQuestionToSequenceResource();
+           var sequenceRestService =   quizRestService.addQuestionToSequenceResource();
            sequenceRestService.get({
                sequenceId: $scope.selectedSequence.id,
                questionId:question.id,
@@ -82,7 +82,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
        };
        
        $scope.removeFromSequence =  function (question){
-           var sequenceRestService =   quizRestClient.removeQuestionFromSequenceResource();
+           var sequenceRestService =   quizRestService.removeQuestionFromSequenceResource();
            sequenceRestService.get({
                sequenceId: $scope.selectedSequence.id,
                position:question.positionInSequence
@@ -99,7 +99,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
        
        $scope.chargeSelectedSequence = function (sequence){
             $scope.selectedSequence = sequence;
-            var sequenceRestService = quizRestClient.getSequenceResource();
+            var sequenceRestService = quizRestService.getSequenceResource();
             if ( $scope.selectedSequence != null)
                 sequenceRestService.get({sequenceId: $scope.selectedSequence.id }, function(sequence){
                         $scope.selectedSequence = sequence;
@@ -109,7 +109,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
        };
                    
         $scope.createSequence = function (sequence){
-            var sequenceRestService = quizRestClient.getSequenceResource();
+            var sequenceRestService = quizRestService.getSequenceResource();
             sequenceRestService.save({},sequence, function(createdSequence){
                     refreshSequence();
                     $scope.selectedSequence = createdSequence;
@@ -119,7 +119,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         };
         
         $scope.editSequence= function (sequence){ 
-            var sequenceRestService = quizRestClient.getSequenceResource();
+            var sequenceRestService = quizRestService.getSequenceResource();
             sequenceRestService.update({},sequence, function(editedSequence){
                     refreshSequence();
                     $scope.selectedSequence = editedSequence;
@@ -129,7 +129,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         };
             
        $scope.deleteSequence= function (){
-             var sequenceRestService = quizRestClient.getSequenceResource();
+             var sequenceRestService = quizRestService.getSequenceResource();
             sequenceRestService.remove({sequenceId:$scope.selectedSequence.id}, function(){
                     refreshSequence();
                     $scope.selectedSequence = null;
@@ -158,7 +158,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
              
         $scope.refreshQuestions = function (topic){
             $scope.selectedTopic = topic;          
-            var questioncRestService = quizRestClient.getListQuestionResource();
+            var questioncRestService = quizRestService.getListQuestionResource();
             $scope.listOfQuestions = questioncRestService .query({topicId:$scope.selectedTopic.id});   
             $scope.chargeSelectedSequence($scope.selectedSequence);
            
@@ -170,7 +170,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         
         
         $scope.createQuestion = function (question){
-            var questionRestService = quizRestClient.getQuestionResource();
+            var questionRestService = quizRestService.getQuestionResource();
             questionRestService.save({},question, function(createdQuestion){
                      $scope.refreshQuestions($scope.selectedTopic);
                      $scope.selectedQuestion = createdQuestion;
@@ -180,7 +180,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         };
         
         $scope.editQuestion= function (question){ 
-            var questionRestService = quizRestClient.getQuestionResource();
+            var questionRestService = quizRestService.getQuestionResource();
             questionRestService.update({},question, function(editedQuestion){
                    $scope.refreshQuestions($scope.selectedTopic);
                    $scope.selectedQuestion = editedQuestion ;
@@ -190,7 +190,7 @@ quizApp.controller('quizCtrl', ["$scope", "$rootScope", "quizRestClient", "$cook
         };
             
        $scope.deleteQuestion = function (){
-            var questionRestService = quizRestClient.getQuestionResource();
+            var questionRestService = quizRestService.getQuestionResource();
             questionRestService.remove({questionId : $scope.selectedQuestion.id},function(res){
                     $scope.refreshQuestions($scope.selectedTopic);
                     $scope.selectedQuestion = null ;

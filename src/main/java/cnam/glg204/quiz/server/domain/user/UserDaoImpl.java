@@ -36,7 +36,7 @@ public class UserDaoImpl extends AbstractDataAccessObjectImpl <User,Long>  imple
 	}
 
 	@Override
-	public User findUserByMail(String email) {
+	public User findByMail(String email) {
 		Query query = em.createNamedQuery("findUsersByEmail");
 		query.setParameter("email", email);
 		List<User> users = query.getResultList();

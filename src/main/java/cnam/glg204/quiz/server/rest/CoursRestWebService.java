@@ -1,4 +1,4 @@
-package cnam.glg204.quiz.server.restfull;
+package cnam.glg204.quiz.server.rest;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class CoursRestWebService {
 	
 	@RequestMapping(value = "/professor/user/{userid}/cours/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<CoursDto>> getAllProfessorCours(@PathVariable("userid") long userId) {
-		List<CoursDto> cours = coursService.getAllProfessorCours(userId);
+		List<CoursDto> cours = coursService.findCoursByProfessor(userId);
 		if (cours.isEmpty()) {
 			return new ResponseEntity<List<CoursDto>>(HttpStatus.NO_CONTENT);
 		}

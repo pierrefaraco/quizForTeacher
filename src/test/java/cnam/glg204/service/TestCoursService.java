@@ -138,9 +138,9 @@ public class TestCoursService {
 			if (j == c)
 				toDelete = coursDto.getId();
 		}
-		assertEquals(20, coursService.getAllProfessorCours(user.getId()).size());
+		assertEquals(20, coursService.findCoursByProfessor(user.getId()).size());
 		coursService.deleteCours(toDelete);
-		assertEquals(19, coursService.getAllProfessorCours(user.getId()).size());
+		assertEquals(19, coursService.findCoursByProfessor(user.getId()).size());
 	}
 	
 	

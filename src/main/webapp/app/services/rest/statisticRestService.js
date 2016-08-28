@@ -1,4 +1,4 @@
-quizApp.factory("statisticRestClient", ["$resource", "SERVER_URL",
+quizApp.factory("statisticRestService", ["$resource", "SERVER_URL",
     function ($resource, SERVER_URL) {
 
         return {

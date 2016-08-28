@@ -1,4 +1,4 @@
-package cnam.glg204.security;
+package cnam.glg204.quiz.server.security;
 
 
 
@@ -37,7 +37,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Transactional
     public UserDetails loadUserByUsername(final String login) {	
     	System.out.println(" + "  + login);
-        User user =  userDao.findUserByMail(login);
+        User user =  userDao.findByMail(login);
         if (user == null) {     
             throw new UsernameNotFoundException("User " + login + " was not found in the database");
         } 
