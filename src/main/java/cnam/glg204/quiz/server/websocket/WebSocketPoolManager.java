@@ -74,7 +74,7 @@ public class WebSocketPoolManager {
 	class WebSocketMethode {
 
 		long coursId = -1;
-		Set<Long> usersConnected = new HashSet();
+		Set <Long> usersConnected =   new HashSet();;
 
 
 		public long getCoursId() {

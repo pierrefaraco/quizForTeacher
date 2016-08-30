@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import cnam.glg204.quiz.common.dto.UserDto;
 import cnam.glg204.quiz.common.exceptions.CheckException;
 import cnam.glg204.quiz.common.exceptions.CreateException;
+import cnam.glg204.quiz.common.exceptions.UpdateException;
 import cnam.glg204.quiz.server.service.user.UserService;
 
 @RestController
@@ -40,7 +41,7 @@ public class UserRestWebService {
 
 	@RequestMapping(value = "/all/user/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity< UserDto > updateProfil(@RequestBody UserDto userDto,
-			UriComponentsBuilder ucBuilder) throws CheckException {
+			UriComponentsBuilder ucBuilder) throws CheckException, UpdateException{
 		userService.updateProfil(userDto);
 		UserDto user = userService.findUser(userDto.getId());
 		if (!userDto.equals(user))
@@ -48,7 +49,7 @@ public class UserRestWebService {
 		return new ResponseEntity< UserDto >(user, HttpStatus.ACCEPTED);
 	}
 	
-	@ExceptionHandler(CreateException.class)
+
 	@RequestMapping(value = "/unsecured/user/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto> createAccount(@RequestBody UserDto userDto ) throws CheckException, CreateException {
 		userService.createAccount(userDto);

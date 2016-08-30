@@ -59,6 +59,8 @@
 				<div class="alert alert-success"
 					ng-show="selectedCours.status == 'ACCEPTED'">{{selectedCours.name}}
 					selected and ready for receive questions !</div>
+                                <div class="alert alert-warning" ng-show="questionIsRunning ">
+                                    A question is answered, {{ compteur  }} seconds remaining </div>
 			</div>
 			<div class="col-sm-12">
 				<div class="alert alert-danger"

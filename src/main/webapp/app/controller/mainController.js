@@ -142,6 +142,7 @@ quizApp.controller('mainController', ["$scope", "$rootScope", "$q", "$window", "
             var resultResource = statisticRestService.getResultResource(result);
             resultResource.save(result);
             $scope.displayResult();
+            $rootScope.questionIsRunning = false;
         };
 
 
@@ -168,21 +169,27 @@ quizApp.controller('mainController', ["$scope", "$rootScope", "$q", "$window", "
     }]);
 
 
-quizApp.controller('questionPopUpCtrl', ["$scope", "$timeout", "$interval", "$uibModalInstance", "params", function ($scope, $timeout, $interval, $uibModalInstance, params) {
-
+quizApp.controller('questionPopUpCtrl', ["$scope", "$rootScope","$timeout", "$interval", "$uibModalInstance", "params", function ($scope,$rootScope, $timeout, $interval, $uibModalInstance, params) {
+        $rootScope.questionIsRunning = true;
+          
         var t1 = new Date();
         var t2 = -1;
 
         $scope.questionToAnswer.time = $scope.questionToAnswer.timeToAnswer;
+        $rootScope.compteur = $scope.questionToAnswer.timeToAnswer;
+        
+        
         for (var i in $scope.questionToAnswer.answers) {
             var proposition = $scope.questionToAnswer.answers[i];
             proposition.checked = false;
         }
+        
         var myVar = $interval(myTimer, 1000);
         $timeout(checkAnswer, ($scope.questionToAnswer.timeToAnswer) * 1000);
 
         function myTimer() {
             $scope.questionToAnswer.time -= 1;
+            $rootScope.compteur -= 1;
         }
         ;
 
@@ -198,7 +205,7 @@ quizApp.controller('questionPopUpCtrl', ["$scope", "$timeout", "$interval", "$ui
 
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
-            $interval.cancel(myVar);
+          //  $interval.cancel(myVar);
             t2 = new Date() - t1;
         };
 

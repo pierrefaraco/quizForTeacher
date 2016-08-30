@@ -14,6 +14,7 @@ import cnam.glg204.quiz.common.dto.UserDto;
 import cnam.glg204.quiz.common.enums.AccountType;
 import cnam.glg204.quiz.common.exceptions.CheckException;
 import cnam.glg204.quiz.common.exceptions.CreateException;
+import cnam.glg204.quiz.common.exceptions.UpdateException;
 import cnam.glg204.quiz.server.domain.user.User;
 import cnam.glg204.quiz.server.domain.user.UserDao;
 
@@ -37,10 +38,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createAccount(UserDto userDto) throws CheckException, CreateException {
-        System.out.println("create  " + userDto.getEmail() + " "
-                + userDto.getId() + " " + userDto.getBirthDay());
+      
+        
+        
         User user = new User();
-
         user.setAccountType(AccountType.AUDITOR);
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
@@ -70,11 +71,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateProfil(UserDto userDto) throws CheckException {
-        System.out.println("update  " + userDto.getEmail() + " "
-                + userDto.getId() + " " + userDto.getBirthDay());
+    public void updateProfil(UserDto userDto) throws CheckException , UpdateException{
+        
         User user = userDao.find(userDto.getId());
-
+        User user2 = userDao.findByMail(userDto.getEmail()) ;
+        
+        if ( user2!= null &&  !user.equals (user2 ) && user2.getEmail().equals(user2.getEmail() ) )  
+                throw new  UpdateException("An user with the  mail " + userDto.getEmail() + " already exist in the database");
+       
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         user.setFirstName(userDto.getFirstName());
@@ -89,8 +93,12 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
+    
         user.setPresentation(userDto.getPresentation());
         user.checkData();
+        
+    
+
         userDao.save(user);
     }
 

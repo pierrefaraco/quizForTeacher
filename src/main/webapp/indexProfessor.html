@@ -61,11 +61,14 @@
 		<header class="row" ng-show="user.connected">
 			<div class="col-sm-12">
 				<div class="alert alert-success" ng-show="selectedCours.active">{{selectedCours.name}}
-					selected and ready for publish questions !</div>
+					selected and ready for publish questions !  </div>
+                            
+                                <div class="alert alert-warning" ng-show="questionIsRunning ">
+                                    A question is answered, {{ compteur  }} seconds remaining </div>
 			</div>
 			<div class="col-sm-12">
 				<div class="alert alert-danger" ng-show="!selectedCours.active">
-					No active cours selected</div>
+					No active cours selected    </div>
 			</div>
 		</header>
 
