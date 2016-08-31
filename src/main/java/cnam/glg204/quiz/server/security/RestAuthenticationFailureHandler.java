@@ -17,6 +17,6 @@ public class RestAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 			HttpServletResponse response, AuthenticationException exception)
 			throws IOException, ServletException {
 		SecurityUtils.sendError(response, exception,
-				HttpServletResponse.SC_UNAUTHORIZED, "Authentication fafailed");
+				HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed");
 	}
 }

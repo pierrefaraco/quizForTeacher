@@ -43,7 +43,6 @@ public final class SecurityUtils {
         return userName;
     }
 
-
     public static void sendError(HttpServletResponse response, Exception exception, int status, String message) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(status);
@@ -53,7 +52,6 @@ public final class SecurityUtils {
         writer.flush();
         writer.close();
     }
-
 
     public static void sendResponse(HttpServletResponse response, int status, Object object) throws IOException {
         response.setContentType("application/json;charset=UTF-8");

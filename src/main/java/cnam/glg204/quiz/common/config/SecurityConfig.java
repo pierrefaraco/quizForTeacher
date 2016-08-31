@@ -60,9 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception {
 	  http
-	   	.headers().disable()
-	   	.csrf().disable()
-	   	.authorizeRequests()
+	    .headers().disable()
+	    .csrf().disable()
+	    .authorizeRequests()
 	    .antMatchers("/all/**").hasAnyAuthority(AccountType.AUDITOR.name(),AccountType.PROFESSOR.name()) 
 	    .antMatchers("/professor/**").hasAnyAuthority(AccountType.PROFESSOR.name()) 
 	    .antMatchers("/authenticate").permitAll()	

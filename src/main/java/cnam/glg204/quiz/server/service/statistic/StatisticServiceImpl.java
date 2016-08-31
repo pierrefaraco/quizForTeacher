@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import cnam.glg204.quiz.common.config.Config;
+import cnam.glg204.quiz.common.config.Constantes;
 import cnam.glg204.quiz.common.dto.ResultDto;
 import cnam.glg204.quiz.common.dto.ResultWithUserDto;
 import cnam.glg204.quiz.common.dto.UserDto;
@@ -153,7 +153,7 @@ public class StatisticServiceImpl implements StatisticService {
         }
         result.setQuestion(q);
         result.setAnswers(resultDto.getAnswers());
-        SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT);
+        SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT);
         if (resultDto.getDate() != null) {
             try {
                 result.setDate(formatter.parse(resultDto.getDate()));
@@ -177,7 +177,7 @@ public class StatisticServiceImpl implements StatisticService {
         resultDto.setQuestionId(result.getQuestionId());
         resultDto.setQuestion(result.getQuestion());
         resultDto.setAnswers(result.getAnswers());
-        SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT);
+        SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT);
         resultDto.setDate(formatter.format(result.getDate()));
         if (result.getSessionQuiz() != null) {
             resultDto.setSessionQuizId(result.getSessionQuiz().getId());
@@ -226,7 +226,7 @@ public class StatisticServiceImpl implements StatisticService {
                 ResultWithUserDto r2 = groupedList.get(i);
                 if (r1.getUserDto().getId() == r2.getUserDto().getId()) {
                     if (r1.getDate() != null && r2.getDate() != null) {
-                        SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT);
+                        SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT);
                         try {
                             Date d1 = formatter.parse(r1.getDate());
                             Date d2 = formatter.parse(r2.getDate());

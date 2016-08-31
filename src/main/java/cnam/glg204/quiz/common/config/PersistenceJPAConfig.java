@@ -52,14 +52,10 @@ public class PersistenceJPAConfig{
       return new PersistenceExceptionTranslationPostProcessor();
    }
    
-   /*
-   CREATE SCHEMA quiz_for_teacher CHARACTER SET latin1 COLLATE latin1_bin
-   DROP SCHEMA quiz_for_teacher;
-   */
  
    Properties additionalProperties() {
      Properties properties = new Properties();
-   //  properties.setProperty("hibernate.hbm2ddl.auto", "create");//create-drop update create
+   //properties.setProperty("hibernate.hbm2ddl.auto", "create");//create-drop update create
      properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
      return properties;
    }

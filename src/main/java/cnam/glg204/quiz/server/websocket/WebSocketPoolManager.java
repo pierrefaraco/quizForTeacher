@@ -5,11 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Component;
-
 import cnam.glg204.quiz.common.exceptions.NoWebSocketMethodToSubscribeException;
 
 @Component("webSocketPoolManager")

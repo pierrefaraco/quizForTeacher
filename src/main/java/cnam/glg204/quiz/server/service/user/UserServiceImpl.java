@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import cnam.glg204.quiz.common.config.Config;
+import cnam.glg204.quiz.common.config.Constantes;
 import cnam.glg204.quiz.common.dto.UserDto;
 import cnam.glg204.quiz.common.enums.AccountType;
 import cnam.glg204.quiz.common.exceptions.CheckException;
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
         user.setLastName(userDto.getLastName());
         if (userDto.getBirthDay() != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT2);
+            SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT2);
             try {
                 user.setBirthDay(formatter.parse(userDto.getBirthDay()));
             } catch (ParseException e) {
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         if (userDto.getBirthDay() != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT2);
+            SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT2);
             if (userDto.getBirthDay() != null) {
                 try {
                     user.setBirthDay(formatter.parse(userDto.getBirthDay()));
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
         userDto.setPassword(user.getPassword());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
-        SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT2);
+        SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT2);
         if (user.getBirthDay() != null) {
             userDto.setBirthDay(formatter.format(user.getBirthDay()));
         }
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userDto.getPassword());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        SimpleDateFormat formatter = new SimpleDateFormat(Config.DATE_FORMAT2);
+        SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT2);
         if (userDto.getBirthDay() != null) {
             if (userDto.getBirthDay() != null) {
                 try {

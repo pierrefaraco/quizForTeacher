@@ -2,7 +2,6 @@ package cnam.glg204.quiz.common.dto;
 
 import java.io.Serializable;
 import java.util.Map;
-
 import cnam.glg204.quiz.common.enums.SubscriberStatus;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
