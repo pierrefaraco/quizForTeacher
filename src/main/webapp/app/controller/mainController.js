@@ -7,25 +7,22 @@ quizApp.controller('mainController', ["$scope", "$rootScope", "$q", "$window", "
 
         $rootScope.init = function () {
           
-            if ($cookies.get("userId") != null && $cookies.get("userId") != "null") {
-                var userRestObject = userRestService.getUserRestObject();
-                userRestObject.get({userId: $cookies.get("userId")}, function (data) {
-                    $rootScope.user = data;
-                    if ($rootScope.user !== null)
-                        $rootScope.user.connected = true;
-                    else
-                        $rootScope.user.connected = false;
-                });
+                if ($cookies.get("userId") != null && $cookies.get("userId") != "null") {
+                    var userRestObject = userRestService.getUserRestObject();
+                    userRestObject.get({userId: $cookies.get("userId")}, function (data) {
+                        $rootScope.user = data;
+                        if ($rootScope.user !== null)
+                            $rootScope.user.connected = true;
+                        else
+                            $rootScope.user.connected = false;
+                    });
               
                 if ($cookies.get("selectedCours") != null && $cookies.get("selectedCours") != "null") {
                     var freeCoursResource = coursRestService.getFreeCoursResource();
-                    freeCoursResource.get({coursId: $cookies.get("selectedCours")}, function (cours) {
-                        cours.status = $cookies.get("courStatus");
+                    freeCoursResource.get({coursId: $cookies.get("selectedCours")}, function (cours) {  
                         $rootScope.selectedCours = cours;
                         $cookies.put("selectedCours", $rootScope.selectedCours.id);
-                        $cookies.put("courStatus", $rootScope.selectedCours.status);
                         takeSlotOnPool();
-
                       });
                 }
             }
@@ -42,16 +39,13 @@ quizApp.controller('mainController', ["$scope", "$rootScope", "$q", "$window", "
                 $rootScope.selectedCours = cours;
                 takeSlotOnPool()
                 $cookies.put("selectedCours", $rootScope.selectedCours.id);
-                $cookies.put("courStatus", $rootScope.selectedCours.status);
             }
         };
 
         $rootScope.unSelectCours = function() {
-            freeSlotOnPool().then(function () {       
+                freeSlotOnPool().then(function () {       
                 $rootScope.selectedCours = null;
-                $cookies.put("selectedCours", null);
-                $cookies.put("courStatus", null);
-     
+                $cookies.put("selectedCours", null); 
             });
         }
         ;

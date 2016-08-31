@@ -6,55 +6,59 @@ and open the template in the editor.
 -->
 
 <section>
-	<!-- -->
+    <!-- -->
 
-	<div class="row">
+    <div class="row">
+        <label> Refresh cours status => </label>
+        <button type="button" class="btn btn-info btn-sm"
+                ng-click="bigRefresh ()">
+           <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+        <!-- listes des questions du Topic  -->
 
-		<!-- listes des questions du Topic  -->
+        <section class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel-primary panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>name</th>
+                                            <th>description</th>
+                                            <th>status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="cours in listOfCours| orderBy : 'id'"
+                                            ng-click="selectCours(cours)"
+                                            ng-class="{success: cours.id == selectedCours.id}">
 
-		<section class="col-sm-12">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="panel-primary panel-default">
-						<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>name</th>
-											<th>description</th>
-											<th>status</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-repeat="cours in listOfCours| orderBy : 'id'"
-											ng-click="selectCours(cours)"
-											ng-class="{success: cours.id == selectedCours.id}">
+                                            <td>{{cours.name}}</td>
+                                            <td>{{cours.description}}</td>
 
-											<td>{{cours.name}}</td>
-											<td>{{cours.description}}</td>
+                                            <td>
+                                                <button class="btn btn-success btn-sm"
+                                                        ng-show="cours.status === null" ng-click="subscribe(cours)">
+                                                    subscribe</button>{{cours.status}}
 
-											<td>
-												<button class="btn btn-success btn-sm"
-													ng-show="cours.status === null" ng-click="subscribe(cours)">
-													subscribe</button>{{cours.status}}
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-warning btn-sm"
+                                                        ng-show="cours.status !== null"
+                                                        ng-click="unSubscribe(cours)">unsubscribe</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-											</td>
-											<td>
-												<button class="btn btn-warning btn-sm"
-													ng-show="cours.status !== null"
-													ng-click="unSubscribe(cours)">unsubscribe</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-	</div>
+    </div>
 </section>
 
