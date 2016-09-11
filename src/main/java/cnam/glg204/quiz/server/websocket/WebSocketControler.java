@@ -11,7 +11,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cnam.glg204.quiz.common.dto.QuestionDto;
 import cnam.glg204.quiz.server.service.quiz.QuizService;
-
+/**
+ * 
+ 	* Controller web sockets : 
+ 	* Contient 10 methodes sendQuestionForCoursXX, qui pemettent donc a 10  professeurs de diffuser simultanement 
+ 	* des questions qui portent sur les differents  cours qu'ils ont selectionné.
+ 	* Quand un professeur ou un auditeur selectionne un cours il s'abonne à la  méthode correspondant au cours.
+ 	* La gestion des liens entre les methodes de webscockets les cours et les utilisateurs  est faite par le Singleton WebSocketPoolManager
+ 	*  	
+ 	* @author Pierre Faraco  	
+*/
 @Controller
 @RequestMapping("/")
 public class WebSocketControler {

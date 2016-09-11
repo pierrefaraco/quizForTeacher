@@ -218,6 +218,22 @@ quizApp.controller('quizBuilderController', ["$scope", "$rootScope", "quizRestSe
                 }
             }); 
         }; 
+        
+        $scope.openQuestionPreviewModal = function (question) {
+            var params = {'action': 'Preview'};      
+            params.question = question ;             
+            $uibModal.open({
+                animation: false,
+                templateUrl: "questionPrewiewModal.html",
+                controller: "questionPreviewCtrl",   
+                scope: $scope,     
+                resolve: {
+                    params: function () {
+                        return params;
+                    }
+                }
+            });
+        };
   
     }]);
 
@@ -349,7 +365,8 @@ quizApp.controller('questionCtrl', ["$scope","$cookies", "$uibModalInstance","$u
     }]);
 
 
-quizApp.controller('questionPreviewCtrl', ["$scope", "$uibModalInstance", "params", function ($scope, $uibModalInstance, params) {     
+quizApp.controller('questionPreviewCtrl', ["$scope", "$uibModalInstance", "params", function ($scope, $uibModalInstance, params) { 
+        $scope.question  = params.question;
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };

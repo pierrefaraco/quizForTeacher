@@ -2,7 +2,6 @@ package cnam.glg204.quiz.common.config;
 
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,13 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
+/**
+ * 
+ * Configuration Spring de la partie JPA / Hibernate
+ * @see <a href="http://www.baeldung.com/2011/12/13/the-persistence-layer-with-spring-3-1-and-jpa/">spring JPA Hibernate tutorial</a>
+ *
+ * @author Pierre Faraco 
+*/
 @Configuration
 @EnableTransactionManagement
 public class PersistenceJPAConfig{

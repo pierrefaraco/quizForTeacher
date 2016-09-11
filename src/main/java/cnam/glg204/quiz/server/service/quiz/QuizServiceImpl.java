@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import cnam.glg204.quiz.common.config.Constantes;
+import cnam.glg204.quiz.common.config.Constants;
 import cnam.glg204.quiz.common.dto.QuestionDto;
 import cnam.glg204.quiz.common.dto.SequenceDto;
 import cnam.glg204.quiz.common.dto.SequenceWithQuestionsDto;
@@ -387,7 +387,7 @@ public class QuizServiceImpl implements  QuizService{
 		sessionQuizDto.setId(sessionQuiz.getId());
 		sessionQuizDto.setStatus(sessionQuiz.getStatus());
 		
-		SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT );
+		SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMAT );
 		sessionQuizDto.setStartDate(formatter.format (sessionQuiz.getStartDate()));
 	}
 
@@ -441,7 +441,7 @@ public class QuizServiceImpl implements  QuizService{
 		sessionQuiz.setCours(cours);
 		sessionQuiz.setSequence(sequence);
 		
-		SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT );
+		SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMAT );
 		if ( sessionQuizDto.getStartDate()!= null)
 			try {
 				sessionQuiz.setStartDate( formatter.parse(sessionQuizDto.getStartDate()));
@@ -465,7 +465,7 @@ public class QuizServiceImpl implements  QuizService{
 		sessionQuizDto.setId(sessionQuiz.getId());
 		sessionQuizDto.setCoursId( sessionQuiz.getCours().getId());
 		sessionQuizDto.setSequenceId(sessionQuiz.getSequence().getId());
-		SimpleDateFormat formatter = new SimpleDateFormat(Constantes.DATE_FORMAT );
+		SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMAT );
 		if (sessionQuiz.getStartDate() != null)
 			sessionQuizDto.setStartDate( formatter.format(sessionQuiz.getStartDate()));
 		if (sessionQuiz.getEndDate() != null)

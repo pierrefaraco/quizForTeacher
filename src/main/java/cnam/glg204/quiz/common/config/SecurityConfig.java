@@ -17,7 +17,13 @@ import cnam.glg204.quiz.server.security.RestAuthenticationFailureHandler;
 import cnam.glg204.quiz.server.security.RestAuthenticationSuccessHandler;
 import cnam.glg204.quiz.server.security.RestUnauthorizedEntryPoint;
 
-
+/**
+ * 
+ * Configuration de l'authentification et de l'attribution des droits.
+ * @see <a href="https://samerabdelkafi.wordpress.com/2016/01/25/secure-angularjs-application-with-spring-security/#id11">spring-security</a>
+ * @author Pierre Faraco 
+ * 
+*/
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -27,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public static final String REMEMBER_ME_KEY = "rememberme_key";
 	 	
 	 @Autowired
-         private UserDetailsService userDetailsService;
+     private UserDetailsService userDetailsService;
 	
 	 @Autowired
 	 private RestUnauthorizedEntryPoint restAuthenticationEntryPoint;
@@ -51,14 +57,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 auth.userDetailsService(userDetailsService);
 	 }
 	 
+	 /**
+	  * 
+	  * Configuraton de l'acces aux resourcese html
+	  * 
+	  */
+	 
 	 @Override
 	 public void configure(WebSecurity web) throws Exception {
 	        web.ignoring().antMatchers( "/index.html","/indexAuditor.html","/indexProfessor.html", "/app/**","/app/view/forms/**","/css/**",
-	                "/fonts/**", "/node_modules/**","/forms/**","/all/**","/messageModal.html");
+	                "/fonts/**", "/node_modules/**","/forms/**","/all/**","/messageModal.html","/sessionExpired.html");
 	 }
+	 
+	 /**
+	  * 
+	  * Configuraton de l'acces aux Web services en fonction des droits utilisateurs.</br>
+	  * Configuration du mechanisme qui permet de s'authentifier et de se délogger.</br>
+	  *
+	  */
 	 
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception {
+		
+		 
 	  http
 	    .headers().disable()
 	    .csrf().disable()
@@ -86,7 +107,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
 	    .deleteCookies("JSESSIONID")
 	    .permitAll()
-	    .and();
+	    .and()
+	    .sessionManagement()
+        .maximumSessions(200)
+        .expiredUrl("/sessionExpired.html")
+	;
+	  	
 	 }
 
 	}

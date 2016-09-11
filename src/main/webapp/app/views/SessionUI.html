@@ -32,10 +32,12 @@
 								<td>{{question.title}}</td>
 								<td>{{question.timeToAnswer}}</td>
 								<td>{{question.points}}</td>
-                                                                
-                                                                questionIsRunning 
+                                                                 <td>
+                                                                        <div ng-include src="'app/views/forms/Question_prewiew.html'"></div>
+                                                                        <button type="button" class="btn  pull-left btn-sm glyphicon glyphicon-zoom-in" ng-click="openQuestionPreviewModal (question )"></button>
+                                                                </td>
 								<td><button  ng-show="!questionIsRunning" id="addToSequence" name="addToSequence"
-										class="btn btn-success btn-sm pull-right glyphicon glyphicon-play"
+										class="btn btn-success btn-sm pull-right glyphicon glyphicon-star"
 										ng-click="runQuestion(question)" /></td>
 							</tr>
 						</tbody>

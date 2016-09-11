@@ -109,8 +109,12 @@ and open the template in the editor.
 										<td>{{question.title}}</td>
 										<td>{{question.timeToAnswer}}</td>
 										<td>{{question.points}}</td>
+                                                                                <td>
+                                                                                    <div ng-include src="'app/views/forms/Question_prewiew.html'"></div>
+                                                                                    <button type="button" class="btn  pull-left btn-sm glyphicon glyphicon-zoom-in" ng-click="openQuestionPreviewModal (question )"></button>
+                                                                                </td>
 										<td><button id="addToSequence" name="addToSequence"
-												class="btn btn-primary btn-sm pull-right glyphicon glyphicon-arrow-right"
+												class="btn btn-primary btn-sm pull-right glyphicon glyphicon glyphicon-hand-right"
 												ng-click="addToSequence(question)" /></td>
 									</tr>
 								</tbody>
@@ -143,6 +147,10 @@ and open the template in the editor.
 										<td>{{question.title}}</td>
 										<td>{{question.timeToAnswer}}</td>
 										<td>{{question.points}}</td>
+                                                                                <td>
+                                                                                    <div ng-include src="'app/views/forms/Question_prewiew.html'"></div>
+                                                                                    <button type="button" class="btn  pull-left btn-sm glyphicon glyphicon-zoom-in" ng-click="openQuestionPreviewModal (question )"></button>
+                                                                                </td>
 										<td><button id="addToSequence" name="addToSequence"
 												class="btn btn-danger btn-sm pull-right glyphicon glyphicon-remove"
 												ng-click="removeFromSequence(question)" /></td>

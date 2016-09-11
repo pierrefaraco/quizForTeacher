@@ -90,6 +90,22 @@ quizApp.controller('sessionController', ["$scope", "quizRestService", "$cookies"
                     });
 
         };
+        
+        $scope.openQuestionPreviewModal = function (question) {
+            var params = {'action': 'Preview'};      
+            params.question = question ;             
+            $uibModal.open({
+                animation: false,
+                templateUrl: "questionPrewiewModal.html",
+                controller: "questionPreviewCtrl",   
+                scope: $scope,     
+                resolve: {
+                    params: function () {
+                        return params;
+                    }
+                }
+            });
+        };
 
     }]);
 

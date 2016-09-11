@@ -1,5 +1,7 @@
 package cnam.glg204.quiz.common.config;
 
+
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,15 @@ import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+/**
+ * 
+ * Configuration Spring de la partie Web pour les services REST et les Web Sockets
+ * 
+ * @see <a href="http://websystique.com/springmvc/spring-mvc-4-angularjs-example/">spring-mvc-4 et angularjs tutorial</a>
+ * 
+ * @author Pierre Faraco 
+ * 
+*/
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages ="cnam.glg204")
@@ -51,7 +62,5 @@ public class MVCConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
       registry.addInterceptor(webContentInterceptor());
-    }
-
-	
+    }	
 }

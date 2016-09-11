@@ -21,7 +21,12 @@ import cnam.glg204.quiz.common.exceptions.CheckException;
 import cnam.glg204.quiz.common.exceptions.CreateException;
 import cnam.glg204.quiz.common.exceptions.UpdateException;
 import cnam.glg204.quiz.server.service.user.UserService;
-
+/**
+ * 
+ * Controlleur rest, donne un accés aux methodes qui permmettent de gérer les profils utilisateurs
+ * @author Pierre Faraco
+ *
+ */
 @RestController
 public class UserRestWebService {
 
@@ -29,6 +34,13 @@ public class UserRestWebService {
 	UserService userService;
 	
 
+	/**
+	 *
+	 * Renvois un objet user partir de son Id<br/>
+	 * @param userId id de l'utilisateur
+	 * @return Instance de l'utilisateur,  status HTTP
+	 * 
+	 */
 	@RequestMapping(value = "/all/user/{userid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto>  findUser(@PathVariable("userid") long id) {
 		UserDto userDto = userService.findUser(id);
@@ -37,8 +49,15 @@ public class UserRestWebService {
 		}
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
-
-
+	
+	/**
+	 *
+	 * Modifie un objet User à partir de son Id<br/>
+	 * @param userDto Objet qui represente un utilisateur,
+	 * @return Instance du cours modifé avec status HTTP
+	 * 	
+	 */
+	
 	@RequestMapping(value = "/all/user/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity< UserDto > updateProfil(@RequestBody UserDto userDto,
 			UriComponentsBuilder ucBuilder) throws CheckException, UpdateException{
@@ -49,6 +68,13 @@ public class UserRestWebService {
 		return new ResponseEntity< UserDto >(user, HttpStatus.ACCEPTED);
 	}
 	
+	/**
+	 *
+	 * Permet de creer un utilisateur <br/>
+	 * @param userDto Objet qui represente un utilisateur,
+	 * @return Instance de l'utilisateur créé avec en plus le paramètre Id auto-généré avec status HTTP
+	 * 	
+	 */
 
 	@RequestMapping(value = "/unsecured/user/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto> createAccount(@RequestBody UserDto userDto ) throws CheckException, CreateException {
@@ -58,6 +84,14 @@ public class UserRestWebService {
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
 
+	
+	/**
+	 *
+	 * Permet de supprimer un utilisateur <br/>
+	 * @param userId id de l'utilisateur
+	 * @return status HTTP
+	 * 	
+	 */
 
 	@RequestMapping(value = "/professor/user/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity deleteAccount(long id) {

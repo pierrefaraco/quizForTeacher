@@ -1667,9 +1667,9 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 551,
+											"left": 520,
 											"top": 216,
-											"width": 57.79541015625,
+											"width": 119.93896484375,
 											"height": 13,
 											"autoResize": false,
 											"alpha": 1.570795771239341,
@@ -1679,7 +1679,7 @@
 											},
 											"edgePosition": 1,
 											"underline": false,
-											"text": "4 : notify()",
+											"text": "4 : /all/socket/coursX",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -2431,9 +2431,9 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 796,
+											"left": 737,
 											"top": 232,
-											"width": 54.91357421875,
+											"width": 173.41162109375,
 											"height": 13,
 											"autoResize": false,
 											"alpha": 1.5707963267948966,
@@ -2443,7 +2443,7 @@
 											},
 											"edgePosition": 1,
 											"underline": false,
-											"text": "5 : push()",
+											"text": "5 : /all/socket/audtitors/coursX",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -5069,7 +5069,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFVIE2TkWriUt4="
 							},
-							"name": "notify()",
+							"name": "/all/socket/coursX",
 							"source": {
 								"$ref": "AAAAAAFVIFHfTGu9YIU="
 							},
@@ -5086,7 +5086,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFVIE2TkWriUt4="
 							},
-							"name": "push()",
+							"name": "/all/socket/audtitors/coursX",
 							"source": {
 								"$ref": "AAAAAAFVIFM1T2vgo34="
 							},

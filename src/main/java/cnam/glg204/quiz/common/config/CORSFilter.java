@@ -1,5 +1,6 @@
 package cnam.glg204.quiz.common.config;
 
+
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -8,7 +9,14 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
- 
+/**
+ * 
+ * Cette classe permet de paramettrer le filtre CORS
+ * @see <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">Wikipedia</a>  
+ * 
+ * @author Pierre Faraco 
+ * 
+*/
  
 public class CORSFilter implements Filter {
  

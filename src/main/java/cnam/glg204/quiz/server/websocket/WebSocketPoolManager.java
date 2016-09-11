@@ -8,7 +8,12 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import cnam.glg204.quiz.common.exceptions.NoWebSocketMethodToSubscribeException;
-
+/**
+ * Gestion des liens entre les methodes de webscockets les cours et les utilisateurs
+ * 
+ * @author Pierre Faraco 
+ *
+ */
 @Component("webSocketPoolManager")
 public class WebSocketPoolManager {
 	public static int POOLSIZE = 10;
@@ -21,25 +26,38 @@ public class WebSocketPoolManager {
 	}
 
 	
-	public void remove(long userId) {
+	private void remove(long userId) {
 		for (int i = 0; i < POOLSIZE; i++)
 			pool[i].remove(userId);
 	}
-
+	
+	/**
+	 * Deroulement de l'algorithme :<br/>
+	 * 1 enleve l'utilisateur de toutes les méthodes avant de le placer ailleur.<br/>
+	 * 2 test si une web socket methode est deja reservé pour ce cours et rajoute l'utilisateur dans sa liste le cas echeant.<br/>
+	 * 3 Si il n'y a pas de methode reservé pour le cours on en reserve une et on rajoute l'auditor. <br/>
+	 * @param coursId
+	 * 		C'est l' Id du cours auquel l'utilisateur veux s'abonner pour recevoir les questions, si sa valeur est à "-1" cela veux
+	 * dire que l'utilisateur se désabonne de tous les cours
+	 * 				
+	 * @param userId
+	 * 			Id de l'utilisateur qui veux s'abonner
+	 * 
+	 * @throws NoWebSocketMethodToSubscribeException
+	 * 			L'utilisateur n'a pas pu s'abonner au cours.
+	 * 		
+	 */
 	public int getWebSocketMethodeNumber(long coursId, long userId) throws NoWebSocketMethodToSubscribeException {
 		
 		// j'enleve l'utilisateur de toutes les méthodes avant de le placer ailleur.
 		remove(userId);
-		
-		
-		//la valeur du cours à  =-1   est considéré comme un  unsuscribe
-		
+				
+		//la valeur du cours à  =-1   est considéré comme un  unsuscribe		
 		if ( coursId == -1 )
 			return -1;
 		
 		// test si une web socket methode est deja reservé pour ce cours
 		// rajout de l'utilisateur le cas echeant
-
 		for (int i = 0; i < POOLSIZE; i++)
 			if (pool[i].getCoursId() == coursId) {
 				pool[i].add(userId);
@@ -48,7 +66,6 @@ public class WebSocketPoolManager {
 
 		// Si il n'y a pas de methode reservé pour le cours ,
 		// On en reserve une et on rajoute l'auditor
-
 		for (int i = 0; i < POOLSIZE; i++)
 			if (pool[i].getCoursId() == -1) {
 				pool[i].setCoursId(coursId);
@@ -56,10 +73,10 @@ public class WebSocketPoolManager {
 				return i;
 			}
 		
+		// Si on arrive la c'est que ça n'a pas marché.
 		throw new NoWebSocketMethodToSubscribeException("no methode  to suscribe for receive or push questions");
-		
-
 	}
+	
 	
 	public void print(){
 		for (int i = 0; i < POOLSIZE; i++)
