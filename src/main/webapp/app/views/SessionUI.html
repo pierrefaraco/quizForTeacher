@@ -1,76 +1,88 @@
 <!DOCTYPE html>
 <section>
-	<!-- -->
+    <!-- -->
 
-	<div class="row">
+    <div class="row">
 
-		<div class="col-sm-2">
-			<h6>Session Quiz:</h6>
-			<div ng-include src="'app/views/forms/Session_form.html'"></div>
-
-		</div>
-
-
-		<section class="col-sm-10">
-			<div class="col-sm-6">
+        <div class="col-sm-2">
+            <h6>Session Quiz:</h6>
+            <div ng-include src="'app/views/forms/Session_form.html'"></div>                       
+        </div>
 
 
-				<div class="panel-body">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>title</th>
-								<th>time</th>
-								<th>points</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr
-								ng-repeat="question in selectedSequence.questions| orderBy : 'positionInSequence'"
-								ng-click="selectQuestion(question)"
-								ng-class="{success: question.id == selectedQuestion.id}">
-								<td>{{question.title}}</td>
-								<td>{{question.timeToAnswer}}</td>
-								<td>{{question.points}}</td>
-                                                                 <td>
-                                                                        <div ng-include src="'app/views/forms/Question_prewiew.html'"></div>
-                                                                        <button type="button" class="btn  pull-left btn-sm glyphicon glyphicon-zoom-in" ng-click="openQuestionPreviewModal (question )"></button>
-                                                                </td>
-								<td><button  ng-show="!questionIsRunning" id="addToSequence" name="addToSequence"
-										class="btn btn-success btn-sm pull-right glyphicon glyphicon-star"
-										ng-click="runQuestion(question)" /></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="panel-body">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Auditor</th>
-								<th>answer Time (ms)</th>
-								<th>Obtained points</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr
-								ng-repeat="result in resultList|  orderBy: ['-obtainedPoints', 'answerTime'] "
-								ng-click=""
-								ng-class="{
-                                                    }">
-								<td>{{result.userDto.firstName}}
-									{{result.userDto.lastName}}</td>
-								<td>{{result.answerTime}}</td>
-								<td>{{result.obtainedPoints}} / {{result.points}}</td>
+        <section class="col-sm-10">
+            <div class="col-sm-6">
 
-								<td>{{result.date}}</td>
-								<!--    <td>{{result.date}} </td>    -->
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-	</div>
+
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>n°</th>
+                                <th>title</th>
+                                <th>time</th>
+                                <th>points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                ng-repeat="question in selectedSequence.questions| orderBy : 'positionInSequence'"
+                                ng-click="selectQuestion(question)"
+                                ng-class="{success: question.asked}">
+                                <td>{{question.positionInSequence}}</td>
+                                <td>{{question.title}}</td>
+                                <td>{{question.timeToAnswer}}</td>
+                                <td>{{question.points}}</td>
+                                <td>
+                                    <div ng-include src="'app/views/forms/Question_prewiew.html'"></div>
+                                    <button type="button" class="btn  pull-left btn-sm glyphicon glyphicon-zoom-in" ng-click="openQuestionPreviewModal(question)"></button>
+                                </td>
+                                <td><button  ng-show="!questionIsRunning" id="addToSequence" name="addToSequence"
+                                             class="btn btn-success btn-sm pull-right glyphicon glyphicon-star"
+                                             ng-click="runQuestion(question)" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h5>Get last results for the question n°{{lastAskedQuestion.positionInSequence}} : {{lastAskedQuestion.title}}</h5>
+                        </div> 
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-primary"
+                                        ng-click="getLastResultList()">
+                                    <span class="glyphicon glyphicon-refresh pull-right"></span>
+                          </button>
+                        </div>  
+                   </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Auditor</th>
+                                    <th>answer Time (ms)</th>
+                                    <th>Obtained points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    ng-repeat="result in resultList|  orderBy: ['-obtainedPoints', 'answerTime'] "
+                                    ng-click=""
+                                    ng-class="{
+                                                                                    }">
+                                    <td>{{result.userDto.firstName}}
+                                        {{result.userDto.lastName}}</td>
+                                    <td>{{result.answerTime}}</td>
+                                    <td>{{result.obtainedPoints}} / {{result.points}}</td>
+
+                                    <td>{{result.date}}</td>
+                                    <!--    <td>{{result.date}} </td>    -->
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+    </div>
 </section>

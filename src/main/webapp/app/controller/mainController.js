@@ -1,10 +1,6 @@
 quizApp.controller('mainController', ["$scope", "$rootScope", "$q", "$window", "$location", "$uibModal", "userRestService", "coursRestService", "AuthSharedService", "webSocketService", "statisticRestService", "coursRestService", "$cookies", "quizRestService",
     function ($scope, $rootScope, $q, $window, $location, $uibModal, userRestService, coursRestService, AuthSharedService, webSocketService, statisticRestService, coursRestService, $cookies, quizRestService) {
 
-
-
-
-
         $rootScope.init = function () {
           
                 if ($cookies.get("userId") != null && $cookies.get("userId") != "null") {
@@ -44,8 +40,8 @@ quizApp.controller('mainController', ["$scope", "$rootScope", "$q", "$window", "
 
         $rootScope.unSelectCours = function() {
                 freeSlotOnPool().then(function () {       
-                $rootScope.selectedCours = null;
-                $cookies.put("selectedCours", null); 
+                    $rootScope.selectedCours = null;
+                    $cookies.put("selectedCours", null); 
             });
         }
         ;

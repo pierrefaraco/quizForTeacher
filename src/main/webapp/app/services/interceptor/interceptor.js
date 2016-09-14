@@ -19,7 +19,7 @@ quizApp.factory('httpRequestInterceptor', ["$injector", "$q", function ($injecto
             });
         };//*/
         return {
-            //    alert("coucou");
+
             // optional method
             'request': function (config) {
 
@@ -41,7 +41,7 @@ quizApp.factory('httpRequestInterceptor', ["$injector", "$q", function ($injecto
             },
             // optional method
             'responseError': function (rejection) {
-             // alert(rejection.status + " "+rejection.statusText )
+
                 openMessage(rejection);
 
                 return $q.reject(rejection);
