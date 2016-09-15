@@ -1,0 +1,58 @@
+==Pour info==
+*Il y'a un utilisateur de demo avec les droits "professor" : 
+	login : demo@cnam.fr
+	password :demo
+*La javadoc se trouve dans le répertoire"quizForTeacher\target\site\apidocs
+*Le point d'entrée de l'apllication est http://[ipduserver]:8080/quizForTeacher/index.html
+
+==Assigner les droit professor à un compte==
+*Entrer dans le prompt mysql taper la commande:  mysql -u root -proot
+*Entrer la commande: UPDATE quiz_for_teacher.users SET account_type = '1' WHERE email ="[emailducompte]";
+
+==Créer la base de donnée ==
+
+* télécharger et installer mysql 	http://dev.mysql.com/downloads/ le couple login/mdp doit être root/root (mysql --version pouyr vérfier) 
+* Entrer dans le prompt mysql taper la commande:  mysql -u root -proot
+* creer la bdd quiz for teacher, taper la commande: CREATE SCHEMA quiz_for_teacher CHARACTER SET latin1 COLLATE latin1_bin 
+* importer un backup, aller dans le repertoire du backup "quiz_for_teacher.sql"
+* taper la commande: mysql -h localhost -u root -p quiz_for_teacher < quiz_for_teacher.sql
+
+==Faire fonctionner le projet sur netbean==
+
+*Clonner le projet sur github à partir de l'interface netbean.
+[[https://github.com/pierrefaraco/quizForTeacher.git]]
+
+==Faire fonctionner le projet à partir des sources==
+
+* télecharger et installer maven     https://maven.apache.org/download.cgi (mvn --version pouyr vérfier)
+* télécharger et installer nodejs    https://nodejs.org/en/download/   (node --version pour vérfier)
+* installer npm: taper la commande => npm install npm -g         (npm --version pour vérfier)
+* décompresser   le dossier quizForTeacher.rar
+* Download des dépendances Javascript: aller dans le dossier  "quizForTeacher\src\main\webapp" et taper  la commande => npm install
+* Copier le fichier "sockjs-0.3.4.min.js"  dans le repertoire   "quizForTeacher\src\main\webapp\node_modules\sockjs"
+* Download des dépendances Java et génération du war: taper la commande  "mvn clean install"
+* Le fichier généré  "quizForTeacher.war" se trouve dans le repertoire "quizForTeacher\target"
+
+==génréation de la javadoc==
+* Génération de la Javadoc:"mvn javadoc:javadoc"
+
+
+==Déployer le war directement avec une  commande Maven==
+
+*Configuré un l'utilisateur suivant dans le fichier tomcat-users.xml : 
+
+<tomcat-users>
+	<role rolename="admin"/>
+    	<role rolename="manager-script"/>
+     	<role rolename="manager-gui"/>
+     	<role rolename="manager-jmx"/>
+     	<user username="admin" password="admin" roles="manager-gui,admin,manager-jmx,manager-script" />
+</tomcat-users>
+
+*Taper la commande Maven: mvn tomcat7:deploy
+
+
+
+
+
+
